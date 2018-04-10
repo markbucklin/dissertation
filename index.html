@@ -1,0 +1,250 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title>reveal.js</title>
+
+	<link rel="stylesheet" href="css/reveal.css">
+	<link rel="stylesheet" href="css/theme/black.css">
+
+	<!-- Theme used for syntax highlighting of code -->
+	<link rel="stylesheet" href="lib/css/zenburn.css">
+
+	<!-- Printing and PDF exports -->
+	<script>
+		var link = document.createElement('link');
+		link.rel = 'stylesheet';
+		link.type = 'text/css';
+		link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+		document.getElementsByTagName('head')[0].appendChild(link);
+	</script>
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<section id="title">
+				<h1>Lab Meeting Presentation</h1>
+				<h3>Image Processing</h3>
+				<h4>December 12, 2017</h4>
+				<p>
+					<small>Mark Bucklin</small>
+				</p>
+			</section>
+			<section data-markdown id="outline">
+				<textarea data-template>
+					## Outline
+					1. Background
+					2. Image Processing
+					3. Effective and Efficient Code
+					4. Tutorial					
+				</textarea>
+			</section <!-- Background -->
+			<section>
+				<section data-markdown>
+					<textarea data-template>
+					## Background
+					* Microscopy and Functional Imaging
+					* Image Processing
+					* "Big Data"
+				</textarea>
+				</section>
+				<section data-markdown>
+					<textarea data-template>
+						## Microscopy and Functional Imaging
+						Two core innovations in available technology
+						1. Synthetic bio (i.e. GCaMP)
+						2. Cameras
+							* scientific CMOS
+							* inexpensive "machine vision" cameras
+					</textarea>
+				</section>
+				<section data-markdown>
+					<textarea data-template>
+						## Image Processing
+						1. Computing Power and Connectivity
+							* Remote Clusters (AWS)
+							* Graphics Processing Units (NVIDIA GTX)
+							* Embedded Units (NVIDIA Tegra X2)
+						2. Well developed libraries
+							* ImageJ (so so)
+							* OpenCV (uses OpenCL)
+							* GSreamer (much better)
+							* OpenGL -> Shader Language extensions (GLSL)
+							* CUDA (the best)						
+					</textarea>
+				</section>
+				<section data-markdown>
+					<textarea data-template>
+						## "Big Data"
+						* not exactly...
+						* disparate simple queries across massive databases
+						* but can be applied
+					</textarea>
+				</section>
+				<section data-markdown>
+					<textarea data-template>
+							## Map-Reduce -> Dataflow Processing
+							* Actors model
+							* Petri Nets
+							* **Graph** Processing
+							* i.e. Tensorflow
+						</textarea>
+				</section>
+			</section>
+
+
+			<!-- Image Processing -->
+			<section>
+				<section data-markdown>
+					<textarea data-template>
+						## Image Processing
+						* Motion Correction
+						* Image Enhancement
+						* Feature Extraction
+					</textarea>
+				</section>
+				<section data-markdown>
+					<textarea data-template>
+							## Motion Correction
+							Two approaches to find displacement
+							1. Spatialy Homogeneous 
+							* phase correlation, aka normalized cross correlation
+							2. Feature Matching
+								* Detect features (i.e. corners)
+								* Triangulate best match
+						</textarea>
+				</section>
+				<section data-markdown>
+					<textarea data-template>
+							## Image Enhancement
+							1. Contrast
+								* Linear Scaling
+								* Lookup Tables
+							2. Spatial and Temporal Filtering
+							3. "Feature" images
+								* Gradients
+								* Surface Curvature								
+						</textarea>
+				</section>
+				<section data-markdown>
+					<textarea data-template>
+							## Feature Extraction
+							1. "Feature" images (temporally independent)
+							* Gradients
+							* Surface Curvature							
+							2. Long Term Memory
+							* Statistics changes (single pixel)
+							* Mutual information changes (inter-pixel)
+						</textarea>
+				</section>
+			</section>
+
+			<!-- Efficient Code -->
+			<section>
+				<section data-markdown>
+					<textarea data-template>
+				## EfficientCode
+				* Scalable
+				* Reusable
+				** Make it MODULAR **
+			</textarea>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h2>Tutorial</h2>
+				</section>
+				<section>
+
+					<h3>Incremental Update of Statistics</h3>
+					<h4>(central moments)</h4>
+
+					<pre><code data-trim>
+					function [m1,m2,m3,m4,fmin,fmax] = updateStatistics(x,m1,m2,m3,m4))
+					n = n + 1;
+					
+					% GET PIXEL SAMPLE
+					f = F(rowIdx,colIdx,k);
+					
+					% PRECOMPUTE & CACHE SOME VALUES FOR SPEED
+					d = single(f) - m1;
+					dk = d/n;
+					dk2 = dk^2;
+					s = d*dk*(n-1);
+					
+					% UPDATE CENTRAL MOMENTS
+					m1 = m1 + dk;
+					m4 = m4 + s*dk2*(n.^2-3*n+3) + 6*dk2*m2 - 4*dk*m3;
+					m3 = m3 + s*dk*(n-2) - 3*dk*m2;
+					m2 = m2 + s;
+					
+					% UPDATE MIN & MAX
+					fmin = min(fmin, f);
+					fmax = max(fmax, f);
+			  end
+					</code></pre>
+
+				</section>
+				<section>
+
+					<h3>Incremental Update of Statistics</h3>
+					<h4>Extract Feature</h4>
+
+					<pre><code data-trim>
+					function [dm1,dm2,dm3,dm4] = getStatisticUpdate(x,m1,m2,m3,m4)
+					% COMPUTE DIFFERENTIAL UPDATE TO CENTRAL MOMENTS
+					dm1 = dk;
+					m1 = m1 + dm1;
+					dm4 = s*dk2*(n^2-3*n+3) + 6*dk2*m2 - 4*dk*m3;   
+					dm3 = s*dk*(n-2) - 3*dk*m2;
+					dm2 = s;
+					m2 = m2 + dm2;
+					% NORMALIZE BY VARIANCE & SAMPLE NUMBER -> CONVERSION TO dVar, dSkew, dKurt   
+					dm2 = dm2/max(1,n-1);
+					dm3 = dm3*sqrt(max(1,n))/(m2^1.5);
+					dm4 = dm4*n/(m2^2);					
+			  end
+					</code></pre>
+
+				</section>
+			</section>
+			<section>
+				<h2>Simple Processing on GPU</h2>
+				<pre><code data-trim>
+					[dm1,dm2,dm3,dm4] = arrayfun(@getStatisticUpdate(x,m1,m2,m3,m4)
+				
+				</code></pre>
+				<pre><code data-trim>
+				[dm1,dm2,dm3,dm4] = arrayfun(@getStatisticUpdate(rowidx,colidx)
+			</code></pre>
+			</section>
+			</section>
+
+
+
+		</div>
+	</div>
+
+	<script src="lib/js/head.min.js"></script>
+	<script src="js/reveal.js"></script>
+
+	<script>
+		// More info about config & dependencies:
+		// - https://github.com/hakimel/reveal.js#configuration
+		// - https://github.com/hakimel/reveal.js#dependencies
+		Reveal.initialize({
+			dependencies: [
+				{ src: 'plugin/markdown/marked.js' },
+				{ src: 'plugin/markdown/markdown.js' },
+				{ src: 'plugin/notes/notes.js', async: true },
+				{ src: 'plugin/highlight/highlight.js', async: true, callback: function () { hljs.initHighlightingOnLoad(); } }
+			]
+		});
+	</script>
+</body>
+
+</html>
