@@ -21,7 +21,7 @@
 - ImageJ (so so) 
 -
 OpenCV (uses OpenCL) 
-- GSreamer (much better) 
+- GStreamer (much better) 
 - OpenGL 
 - Shader
 
@@ -41,7 +41,7 @@ OpenCV (uses OpenCL)
 - Image Enhancement 
 
 ## Motion Correction Two approaches to find displacement
-###  Spatialy Homogeneousphase correlation
+###  Spatially Homogeneous phase correlation
 - aka normalized cross correlation - Feature Matching 
 - Detect features (i.e. corners) 
 ### Triangulate best

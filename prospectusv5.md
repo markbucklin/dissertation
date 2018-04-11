@@ -1,8 +1,8 @@
 # Procedures for real-time image processing, neural signal extraction,and application to closed-loop control using wide-field Ca2+ fluorescence with awake behaving animals*
 
 **Mark E Bucklin**
-========
-[Prospectus Committee:]{.underline}
+
+## Prospectus Committee ##
 
 Xue Han, PhD (Research Advisor, Chair)
 
@@ -12,7 +12,33 @@ Jason Ritt, PhD
 
 Ian Davison, PhD
 
-Contentsprospe
+- [Procedures for real-time image processing, neural signal extraction,and application to closed-loop control using wide-field Ca2+ fluorescence with awake behaving animals*](#procedures-for-real-time-image-processing-neural-signal-extractionand-application-to-closed-loop-control-using-wide-field-ca2-fluorescence-with-awake-behaving-animals)
+    - [Prospectus Committee](#prospectus-committee)
+- [Contents](#contents)
+- [Abstract](#abstract)
+- [Glossary](#glossary)
+- [Project Summary](#project-summary)
+    - [Aim 1: Build a library of adaptable software that enables neuroscientists to acquire, process, analyze, and visualize large volumes of fluorescence imaging data from awake behaving animals.](#aim-1-build-a-library-of-adaptable-software-that-enables-neuroscientists-to-acquire-process-analyze-and-visualize-large-volumes-of-fluorescence-imaging-data-from-awake-behaving-animals)
+    - [Aim 2: Extend the software for continuous real-time processing on a GPU.](#aim-2-extend-the-software-for-continuous-real-time-processing-on-a-gpu)
+    - [Aim 3: Detect motor states from extracted neural activity and apply to closed-loop neuromodulation.](#aim-3-detect-motor-states-from-extracted-neural-activity-and-apply-to-closed-loop-neuromodulation)
+- [Background & Significance of Proposed Research](#background-significance-of-proposed-research)
+    - [Aim 1: Build a library of adaptable software that enables neuroscientists to acquire, process, analyze, and visualize large volumes of fluorescence imaging data from awake behaving animals.](#aim-1-build-a-library-of-adaptable-software-that-enables-neuroscientists-to-acquire-process-analyze-and-visualize-large-volumes-of-fluorescence-imaging-data-from-awake-behaving-animals)
+    - [Aim 2: Extend the software for continuous real-time processing on a GPU. ](#aim-2-extend-the-software-for-continuous-real-time-processing-on-a-gpu)
+    - [Aim 3: Detect motor states from extracted neural activity and apply to closed-loop neuromodulation.](#aim-3-detect-motor-states-from-extracted-neural-activity-and-apply-to-closed-loop-neuromodulation)
+- [Methods & Approach](#methods-approach)
+    - [Aim 1: Build a library of adaptable software that enables neuroscientists to acquire, process, analyze, and visualize large volumes of fluorescence imaging data from awake behaving animals.](#aim-1-build-a-library-of-adaptable-software-that-enables-neuroscientists-to-acquire-process-analyze-and-visualize-large-volumes-of-fluorescence-imaging-data-from-awake-behaving-animals)
+    - [Aim 2: Extend the software for continuous real-time processing on a GPU.](#aim-2-extend-the-software-for-continuous-real-time-processing-on-a-gpu)
+    - [Aim 3: Detect motor states from extracted neural activity and apply to closed-loop neuromodulation.](#aim-3-detect-motor-states-from-extracted-neural-activity-and-apply-to-closed-loop-neuromodulation)
+- [Preliminary Results](#preliminary-results)
+    - [Aim 1: Build a library of adaptable software that enables neuroscientists to acquire, process, analyze, and visualize large volumes of fluorescence imaging data from awake behaving animals.](#aim-1-build-a-library-of-adaptable-software-that-enables-neuroscientists-to-acquire-process-analyze-and-visualize-large-volumes-of-fluorescence-imaging-data-from-awake-behaving-animals)
+    - [Aim 2: Extend the software for continuous real-time processing on a GPU.](#aim-2-extend-the-software-for-continuous-real-time-processing-on-a-gpu)
+    - [Aim 3: Detect motor states from extracted neural activity and apply to closed-loop neuromodulation.](#aim-3-detect-motor-states-from-extracted-neural-activity-and-apply-to-closed-loop-neuromodulation)
+- [References](#references)
+
+
+========
+
+Contents
 ========
 
 Abstract 1
@@ -433,8 +459,7 @@ one or both of two ways:
     field-of-view.
 
 Online streamed processing, as specified by Aim 2, addresses the issues
-of processing and storing large data-sets directly. This would make the
-longer procedures necessary for sufficient learning from large networks
+of processing and storingfvy for sufficient learning from large networks
 possible. Additionally, I propose a strategy in the Aim 3 methods
 section by which incorporating this online processing stream into
 stimulus-response-type experiments could help correct *limited sampling

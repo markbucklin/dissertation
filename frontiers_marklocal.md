@@ -1,8 +1,6 @@
-**High speed wide-field fluorescence imaging in awake behaving mice
-yields data from hundreds of individual neurons over millimeters of
-tissue with high temporal resolution. **
+# High speed wide-field fluorescence imaging in awake behaving mice yields data from hundreds of individual neurons over millimeters of tissue with high temporal resolution.  #
 
-**Keywords:** calcium imaging, GCaMP, in vivo, hippocampus, behavior
+## Keywords: ##  calcium imaging, GCaMP, in vivo, hippocampus, behavior
 
 Ali Ibrahim Ali Mohammed^1^, Howard J Gritton^1^, Hua-an Tseng^1^, Mark
 E Bucklin and Xue Han
@@ -10,9 +8,9 @@ E Bucklin and Xue Han
 *Boston University, Department of Biomedical Engineering, Boston, MA
 02215*
 
-**Scientific Reports:**
+## Scientific Reports: ## 
 
-**Cover letter**
+## Cover letter ## 
 
 All submissions must be accompanied by a cover letter.
 
@@ -20,7 +18,7 @@ Scientific Reports sections and ordering of manuscripts
 
 We recommend that your manuscript is structured as follows.
 
-**Title**
+## Title ## 
 
 The title must be no longer than 20 words.
 
@@ -28,7 +26,7 @@ Author list and affiliations
 
 The corresponding author should be identified with an asterisk.
 
-**Abstract (heading not used)**
+## Abstract (heading not used) ## 
 
 The abstract must be no longer than 200 words, and must not have a
 heading. The Abstract should serve both as a general introduction to the
@@ -36,7 +34,7 @@ topic and as a brief, non-technical summary of the main results and
 their implications. Abstracts must not contain references or
 subheadings.
 
-**Main body**
+## Main body ## 
 
 Scientific Reports has no explicit requirements for section
 organization. According to the authors\' preferences, the main body of
@@ -44,22 +42,22 @@ the text can be organized as best suits the research. In some cases, it
 may be appropriate to combine relevant sections. As a guideline, we
 recommend that your manuscript contains the following sections:
 
-**Introduction**
+## Introduction ## 
 
 The introduction section of the main text expands on the background of
 the work (some overlap with the Abstract is acceptable). The background
 should put your paper into context and must be clear so that readers are
 able to understand the aims, purpose and significance of your research.
 
-**Results**
+## Results ## 
 
 With topical subheadings
 
-**Discussion**
+## Discussion ## 
 
 The Discussion should be succinct and may not contain subheadings.
 
-**Methods**
+## Methods ## 
 
 Subheadings are recommended. We recommend that authors limit their
 Methods section to 1,500 words
@@ -67,7 +65,7 @@ Methods section to 1,500 words
 The recommended maximum length for the main body of your manuscript is
 4,500 words.
 
-**References**
+## References ## 
 
 We recommend that references are limited to 60. References should be
 numbered sequentially, first throughout the text, then in tables,
@@ -220,8 +218,7 @@ forward.
 Results
 =======
 
-**Design: wide-field Ca2+ imaging of hippocampal CA1 neural network in
-awake behaving mice **
+## Design: wide-field Ca2+ imaging of hippocampal CA1 neural network inawake behaving mice  ## 
 
 To demonstrate the feasibility of imaging a large neural network using a
 wide-field single-photon technique, we constructed a conventional
@@ -255,7 +252,7 @@ on the animals right eye. The CS is shown in black and consisted of a
 followed by a 250ms stimulus free trace interval, concluded with a 100ms
 air puff shown in red.
 
-**Implantation, imaging, and data storage **
+## Implantation, imaging, and data storage  ## 
 
 21-28 days prior to training, mice were surgically injected with
 AAV-synapsin-GCaMP6f virus into the CA1 pyramidal cell layer, and then
@@ -275,7 +272,7 @@ Imaging data was stored as multi-page tag image file format (mpTIFF's)
 and processed off line. All data presented below comes from the fourth
 day of training and performance is indicative of a well-trained animal.
 
-**Image processing: Movement Correction and ROI characterization**
+## Image processing: Movement Correction and ROI characterization ## 
 
 We performed a series of image pre-processing steps -- namely contrast
 enhancement and motion correction -- followed by an automated process
@@ -325,8 +322,7 @@ spatial patterns of activity even amongst neighboring neurons as has
 been previously reported in electrophysiology studies [Redish, Battaglia
 et al. 2001](#_ENREF_31)()
 
-**Ca2+ signals in the hippocampus during eyeblink conditioning represent
-task related behavior**
+## Ca2+ signals in the hippocampus during eyeblink conditioning representtask related behavior ## 
 
 Data from an animal at asymptotic performance (Day 4 of training, see
 methods) was analyzed to determine if calcium responses in the
@@ -419,9 +415,9 @@ that careful consideration of analysis windows is necessary. In this
 case, a large number of task relevant signals emerged from a window that
 could be deemed task inconsequential.
 
-**Hippocampal neurons that respond to task-relevant stimuli have a
+## Hippocampal neurons that respond to task-relevant stimuli have a
 global distribution throughout the CA1 region and are not co-localized
-**
+## 
 
 One of the benefits of using wide-field imaging is the ability to sample
 over very large areas. In this data set we measured hippocampal activity
@@ -596,13 +592,13 @@ Institutional Animal Care and Use Committee and conducted in
 laboratories and facilities accredited by the Association for Assessment
 and Accreditation of Laboratory Animal Care (AAALAC). 
 
-**Viral vector:**
+## Viral vector: ## 
 
 AAV9-Syn-GCaMP6f.WPRE.SV40 virus was obtained from the University of
 Pennsylvania Vector Core (V3862TI-R(37.5); Titer 6.56e12 (GC/ml), Yield
 1.312e12 (GC)).
 
-**Cannula Preparation:**
+## Cannula Preparation: ## 
 
 Sterile custom-made cannula were made in house prior to surgery. Cannula
 consisted of a stainless steel tube (OD: 0.317 mm, ID: 2.36; height, 2
@@ -658,14 +654,13 @@ Metabond, Edgewood,NY). Finally, a custom made aluminum headplate was
 attached to the skull and screw posts anterior to the imaging cannula.
 
 Following both surgeries, animals were given post-operative analgesics
-for 48 hours post-surgery buprenorphine (0.05 mg/kg; [ ]{.underline}
-Reckitt Benckiser Pharmaceuticals Inc., Richmond, VA) and allowed
+for 48 hours post-surgery buprenorphine (0.05 mg/kg; [ ]###Reckitt Benckiser Pharmaceuticals Inc., Richmond, VA) and allowed
 animals to recover from surgery for 4 weeks prior to animal training or
 imaging.
 
-**Animal Behavior:**
+## Animal Behavior: ## 
 
-*[Trial Configuration:]{.underline}*
+### Trial Configuration ###
 
 Individual trials consisted of a 350ms 9500Hz pure tone (CS) digitized
 at 100kHz with a 5ms cosine ramp delivered at 80dB SPL. The tone was
@@ -675,7 +670,7 @@ followed by a 250 ms trace interval and then a 100ms long 5psi air puff
 right eye. Trials occurred randomly with an inter-trial interval of
 30-40 seconds.
 
-*[Animal training:]{.underline}*
+### Animal training ###
 
 Mice were trained to criterion on a conditioned trace eyeblink task.
 Training was modified slightly from other previously published paradigms
@@ -714,7 +709,7 @@ approximately 0.5 meters away. Using this configuration, eye lid area
 can be recorded as an increase in reflection that occurs as the eyelid
 closes impinging on the defined eye ROI.
 
-*[Behavioral Analysis: ]{.underline}*
+### Behavioral Analysis: ]###
 
 Correct trials were characterized as those with changes in reflection
 that surpassed a significance threshold defined by that trials baseline
@@ -731,7 +726,7 @@ Trials were characterized then as correct or incorrect using this
 criterion and that standard was applied in separating ROIs based on
 behavioral outcome.
 
-**Microscope, Camera, and** Hippocampal Imaging:
+## Microscope, Camera, and ##  Hippocampal Imaging:
 
 Image acquisition was performed via a scientific CMOS (sCMOS) camera
 (ORCA-Flash4.0 LT Digital CMOS camera C11440-42U; Hamamatsu , Boston,
@@ -750,8 +745,7 @@ Image Processing:
 After image acquisition, we processed the data with a MatLab toolkit
 developed in our lab.
 
-*[Image Pre-processing: Contrast Enhancement, Motion Correction and Data
-Storage:]{.underline}*
+### Image Pre-processing: Contrast Enhancement, Motion Correction and Data Storage ###
 
 Image contrast enhancement was performed in the log domain because of
 the multiplicative nature of light. We enhanced the contrast by removing
@@ -764,7 +758,7 @@ correction process. The motion-corrected images were then saved as a new
 video file with 8 bit dynamic range to reduce the file size, with the
 top 1% intensity saturated at 255 and the bottom 1% set at 0.
 
-*[Region of Interest (ROI) software detection:]{.underline}*
+### Region of Interest (ROI) software detection ###
 
 The ROI detection process started with using a dynamic threshold to
 identify the "hot" pixels within each frame. The initial threshold was
@@ -778,7 +772,7 @@ eccentricity is less than 0.93) was discarded. To generate the ROI data
 set of all frames, we then clustered and merged the single-frame ROIs
 from all frames together if their centroid is less than 10 pixels away.
 
-*[Regions of Interest Selection for Analysis:]{.underline}*
+### Regions of Interest Selection for Analysis ###
 
 Following ROI detection described above, we next limited our data set
 only to ROIs with minimal overlapping areas. ROIs were selected based
@@ -792,12 +786,11 @@ $\Delta f = \ \frac{\left( f - f_{\text{avg}} \right)}{f_{\text{avg}}}$
 Where f~avg~ is the averaged value of the trace. The ∆f was than
 rescaled so that the maximal value of the trace equals to 100%.
 
-**Figure Legends:\
-**
+## Figure Legends: ## 
 
-**Figure 1: **
+## Figure 1:  ## 
 
-**Figure 2:**
+## Figure 2: ## 
 
 Imaging view of recording area and individual ROIs: (Ai) 1343x1343 μm^2^
 area representing the first frame of a standard imaging session. (Aii)
@@ -820,7 +813,7 @@ iv represent periods of no activity with ii representing a first level
 of activity and iii representing presumably summed activity that reach
 maximal measured intensity (100%).
 
-**Figure 3:**
+## Figure 3: ## 
 
 []{#_ENREF_1 .anchor}
 
@@ -903,106 +896,66 @@ maximal measured intensity (100%).
 []{#_ENREF_40 .anchor}
 
 Andermann, M. L., A. M. Kerlin, et al. (2010). \"Chronic cellular
-imaging of mouse visual cortex during operant behavior and passive
-viewing.\" [Front Cell Neurosci]{.underline} **4**: 3.Barnes, C. A., B.
+imaging of mouse visual cortex during operant behavior and passiveviewing.\" [Front Cell Neurosci]### ## 4 ## : 3.Barnes, C. A., B.
 L. McNaughton, et al. (1983). \"Loss of place specificity in hippocampal
-complex spike cells of senescent rat.\" [Neurobiol Aging]{.underline}
-**4**(2): 113-119.Berger, T. W., P. C. Rinaldi, et al. (1983).
+complex spike cells of senescent rat.\" [Neurobiol Aging]##### 4 ## (2): 113-119.Berger, T. W., P. C. Rinaldi, et al. (1983).
 \"Single-unit analysis of different hippocampal cell types during
-classical conditioning of rabbit nictitating membrane response.\" [J
-Neurophysiol]{.underline} **50**(5): 1197-1219.Chen, T. W., T. J.
-Wardill, et al. (2013). \"Ultrasensitive fluorescent proteins for
-imaging neuronal activity.\" [Nature]{.underline} **499**(7458):
+classical conditioning of rabbit nictitating membrane response.\" [JNeurophysiol]### ## 50 ## (5): 1197-1219.Chen, T. W., T. J.
+Wardill, et al. (2013). \"Ultrasensitive fluorescent proteins forimaging neuronal activity.\" [Nature]### ## 499 ## (7458):
 295-300.Dombeck, D. A., C. D. Harvey, et al. (2010). \"Functional
-imaging of hippocampal place cells at cellular resolution during virtual
-navigation.\" [Nat Neurosci]{.underline} **13**(11):
+imaging of hippocampal place cells at cellular resolution during virtualnavigation.\" [Nat Neurosci]### ## 13 ## (11):
 1433-1440.Eichenbaum, H., S. I. Wiener, et al. (1989). \"The
-organization of spatial coding in the hippocampus: a study of neural
-ensemble activity.\" [J Neurosci]{.underline} **9**(8):
-2764-2775.Gallese, V., L. Fadiga, et al. (1996). \"Action recognition in
-the premotor cortex.\" [Brain]{.underline} **119 ( Pt 2)**:
+organization of spatial coding in the hippocampus: a study of neuralensemble activity.\" [J Neurosci]### ## 9 ## (8):
+2764-2775.Gallese, V., L. Fadiga, et al. (1996). \"Action recognition inthe premotor cortex.\" [Brain]### ## 119 ( Pt 2) ## :
 593-609.Ghosh, K. K., L. D. Burns, et al. (2011). \"Miniaturized
-integration of a fluorescence microscope.\" [Nat Methods]{.underline}
-**8**(10): 871-878.Glickfeld, L. L., M. L. Andermann, et al. (2013).
-\"Cortico-cortical projections in mouse visual cortex are functionally
-target specific.\" [Nat Neurosci]{.underline} **16**(2): 219-226.Green,
+integration of a fluorescence microscope.\" [Nat Methods]##### 8 ## (10): 871-878.Glickfeld, L. L., M. L. Andermann, et al. (2013).
+\"Cortico-cortical projections in mouse visual cortex are functionallytarget specific.\" [Nat Neurosci]### ## 16 ## (2): 219-226.Green,
 J. T. and J. D. Arenos (2007). \"Hippocampal and cerebellar single-unit
-activity during delay and trace eyeblink conditioning in the rat.\"
-[Neurobiol Learn Mem]{.underline} **87**(2): 269-284.Grinvald, A., E.
+activity during delay and trace eyeblink conditioning in the rat.\"[Neurobiol Learn Mem]### ## 87 ## (2): 269-284.Grinvald, A., E.
 Lieke, et al. (1986). \"Functional architecture of cortex revealed by
-optical imaging of intrinsic signals.\" [Nature]{.underline}
-**324**(6095): 361-364.Gruart, A., M. D. Munoz, et al. (2006).
-\"Involvement of the CA3-CA1 synapse in the acquisition of associative
-learning in behaving mice.\" [J Neurosci]{.underline} **26**(4):
+optical imaging of intrinsic signals.\" [Nature]##### 324 ## (6095): 361-364.Gruart, A., M. D. Munoz, et al. (2006).
+\"Involvement of the CA3-CA1 synapse in the acquisition of associativelearning in behaving mice.\" [J Neurosci]### ## 26 ## (4):
 1077-1087.Hafting, T., M. Fyhn, et al. (2005). \"Microstructure of a
-spatial map in the entorhinal cortex.\" [Nature]{.underline}
-**436**(7052): 801-806.Hamel, E. J., B. F. Grewe, et al. (2015).
-\"Cellular Level Brain Imaging in Behaving Mammals: An Engineering
-Approach.\" [Neuron]{.underline} **86**(1): 140-159.Hattori, S., L.
+spatial map in the entorhinal cortex.\" [Nature]##### 436 ## (7052): 801-806.Hamel, E. J., B. F. Grewe, et al. (2015).
+\"Cellular Level Brain Imaging in Behaving Mammals: An EngineeringApproach.\" [Neuron]### ## 86 ## (1): 140-159.Hattori, S., L.
 Chen, et al. (2015). \"Robust hippocampal responsivity during retrieval
-of consolidated associative memory.\" [Hippocampus]{.underline}
-**25**(5): 655-669.Hopt, A. and E. Neher (2001). \"Highly nonlinear
-photodamage in two-photon fluorescence microscopy.\" [Biophys
-J]{.underline} **80**(4): 2029-2036.Huber, D., D. A. Gutnisky, et al.
-(2012). \"Multiple dynamic representations in the motor cortex during
-sensorimotor learning.\" [Nature]{.underline} **484**(7395):
+of consolidated associative memory.\" [Hippocampus]##### 25 ## (5): 655-669.Hopt, A. and E. Neher (2001). \"Highly nonlinear
+photodamage in two-photon fluorescence microscopy.\" [BiophysJ]### ## 80 ## (4): 2029-2036.Huber, D., D. A. Gutnisky, et al.
+(2012). \"Multiple dynamic representations in the motor cortex duringsensorimotor learning.\" [Nature]### ## 484 ## (7395):
 473-478.Kishimoto, Y., K. Nakazawa, et al. (2006). \"Hippocampal CA3
-NMDA receptors are crucial for adaptive timing of trace eyeblink
-conditioned response.\" [J Neurosci]{.underline} **26**(5):
+NMDA receptors are crucial for adaptive timing of trace eyeblinkconditioned response.\" [J Neurosci]### ## 26 ## (5):
 1562-1570.Levy, W. B., A. Sanyal, et al. (2005). \"The formation of
 neural codes in the hippocampus: trace conditioning as a prototypical
-paradigm for studying the random recoding hypothesis.\" [Biol
-Cybern]{.underline} **92**(6): 409-426.MacDonald, C. J., S. Carrow, et
-al. (2013). \"Distinct hippocampal time cell sequences represent odor
-memories in immobilized rats.\" [J Neurosci]{.underline} **33**(36):
+paradigm for studying the random recoding hypothesis.\" [BiolCybern]### ## 92 ## (6): 409-426.MacDonald, C. J., S. Carrow, et
+al. (2013). \"Distinct hippocampal time cell sequences represent odormemories in immobilized rats.\" [J Neurosci]### ## 33 ## (36):
 14607-14616.McEchron, M. D. and J. F. Disterhoft (1997). \"Sequence of
 single neuron changes in CA1 hippocampus of rabbits during acquisition
-of trace eyeblink conditioned responses.\" [J Neurophysiol]{.underline}
-**78**(2): 1030-1044.McEchron, M. D. and J. F. Disterhoft (1999).
-\"Hippocampal encoding of non-spatial trace conditioning.\"
-[Hippocampus]{.underline} **9**(4): 385-396.McEchron, M. D., A. P.
+of trace eyeblink conditioned responses.\" [J Neurophysiol]##### 78 ## (2): 1030-1044.McEchron, M. D. and J. F. Disterhoft (1999).
+\"Hippocampal encoding of non-spatial trace conditioning.\"[Hippocampus]### ## 9 ## (4): 385-396.McEchron, M. D., A. P.
 Weible, et al. (2001). \"Aging and learning-specific changes in
-single-neuron activity in CA1 hippocampus during rabbit trace eyeblink
-conditioning.\" [J Neurophysiol]{.underline} **86**(4): 1839-1857.Modi,
+single-neuron activity in CA1 hippocampus during rabbit trace eyeblinkconditioning.\" [J Neurophysiol]### ## 86 ## (4): 1839-1857.Modi,
 M. N., A. K. Dhawale, et al. (2014). \"CA1 cell activity sequences
-emerge after reorganization of network correlation structure during
-associative learning.\" [Elife]{.underline} **3**: e01982.Moyer, J. R.,
+emerge after reorganization of network correlation structure duringassociative learning.\" [Elife]### ## 3 ## : e01982.Moyer, J. R.,
 Jr., R. A. Deyo, et al. (1990). \"Hippocampectomy disrupts trace
-eye-blink conditioning in rabbits.\" [Behav Neurosci]{.underline}
-**104**(2): 243-252.Munera, A., A. Gruart, et al. (2001). \"Hippocampal
+eye-blink conditioning in rabbits.\" [Behav Neurosci]##### 104 ## (2): 243-252.Munera, A., A. Gruart, et al. (2001). \"Hippocampal
 pyramidal cell activity encodes conditioned stimulus predictive value
-during classical conditioning in alert cats.\" [J
-Neurophysiol]{.underline} **86**(5): 2571-2582.O\'Keefe, J. (1979). \"A
-review of the hippocampal place cells.\" [Prog Neurobiol]{.underline}
-**13**(4): 419-439.O\'Keefe, J. and J. Dostrovsky (1971). \"The
-hippocampus as a spatial map. Preliminary evidence from unit activity in
-the freely-moving rat.\" [Brain Res]{.underline} **34**(1):
-171-175.Patterson, G. H. and D. W. Piston (2000). \"Photobleaching in
-two-photon excitation microscopy.\" [Biophys J]{.underline} **78**(4):
+during classical conditioning in alert cats.\" [JNeurophysiol]### ## 86 ## (5): 2571-2582.O\'Keefe, J. (1979). \"A
+review of the hippocampal place cells.\" [Prog Neurobiol]##### 13 ## (4): 419-439.O\'Keefe, J. and J. Dostrovsky (1971). \"The
+hippocampus as a spatial map. Preliminary evidence from unit activity inthe freely-moving rat.\" [Brain Res]### ## 34 ## (1):
+171-175.Patterson, G. H. and D. W. Piston (2000). \"Photobleaching intwo-photon excitation microscopy.\" [Biophys J]### ## 78 ## (4):
 2159-2162.Petreanu, L., D. A. Gutnisky, et al. (2012). \"Activity in
-motor-sensory projections reveals distributed coding in
-somatosensation.\" [Nature]{.underline} **489**(7415): 299-303.Redish,
+motor-sensory projections reveals distributed coding insomatosensation.\" [Nature]### ## 489 ## (7415): 299-303.Redish,
 A. D., F. P. Battaglia, et al. (2001). \"Independence of firing
-correlates of anatomically proximate hippocampal pyramidal cells.\" [J
-Neurosci]{.underline} **21**(5): RC134.Sakamoto, T., K. Takatsuki, et
-al. (2005). \"Role of hippocampal NMDA receptors in trace eyeblink
-conditioning.\" [Brain Res]{.underline} **1039**(1-2): 130-136.Schultz,
-W., P. Dayan, et al. (1997). \"A neural substrate of prediction and
-reward.\" [Science]{.underline} **275**(5306): 1593-1599.Solomon, P. R.,
+correlates of anatomically proximate hippocampal pyramidal cells.\" [JNeurosci]### ## 21 ## (5): RC134.Sakamoto, T., K. Takatsuki, et
+al. (2005). \"Role of hippocampal NMDA receptors in trace eyeblinkconditioning.\" [Brain Res]### ## 1039 ## (1-2): 130-136.Schultz,
+W., P. Dayan, et al. (1997). \"A neural substrate of prediction andreward.\" [Science]### ## 275 ## (5306): 1593-1599.Solomon, P. R.,
 E. R. Vander Schaaf, et al. (1986). \"Hippocampus and trace conditioning
-of the rabbit\'s classically conditioned nictitating membrane
-response.\" [Behav Neurosci]{.underline} **100**(5): 729-744.St-Pierre,
+of the rabbit\'s classically conditioned nictitating membraneresponse.\" [Behav Neurosci]### ## 100 ## (5): 729-744.St-Pierre,
 F., J. D. Marshall, et al. (2014). \"High-fidelity optical reporting of
-neuronal electrical activity with an ultrafast fluorescent voltage
-sensor.\" [Nat Neurosci]{.underline} **17**(6): 884-889.Sun, X. R., A.
-Badura, et al. (2013). \"Fast GCaMPs for improved tracking of neuronal
-activity.\" [Nat Commun]{.underline} **4**: 2170.Tseng, W., R. Guan, et
-al. (2004). \"Trace eyeblink conditioning is hippocampally dependent in
-mice.\" [Hippocampus]{.underline} **14**(1): 58-65.Weiss, C., M. A.
+neuronal electrical activity with an ultrafast fluorescent voltagesensor.\" [Nat Neurosci]### ## 17 ## (6): 884-889.Sun, X. R., A.
+Badura, et al. (2013). \"Fast GCaMPs for improved tracking of neuronalactivity.\" [Nat Commun]### ## 4 ## : 2170.Tseng, W., R. Guan, et
+al. (2004). \"Trace eyeblink conditioning is hippocampally dependent inmice.\" [Hippocampus]### ## 14 ## (1): 58-65.Weiss, C., M. A.
 Kronforst-Collins, et al. (1996). \"Activity of hippocampal pyramidal
-neurons during trace eyeblink conditioning.\" [Hippocampus]{.underline}
-**6**(2): 192-209.Xu, N. L., M. T. Harnett, et al. (2012). \"Nonlinear
-dendritic integration of sensory and motor input during an active
-sensing task.\" [Nature]{.underline} **492**(7428): 247-251.Ziv, Y., L.
-D. Burns, et al. (2013). \"Long-term dynamics of CA1 hippocampal place
-codes.\" [Nat Neurosci]{.underline} **16**(3): 264-266.
+neurons during trace eyeblink conditioning.\" [Hippocampus]##### 6 ## (2): 192-209.Xu, N. L., M. T. Harnett, et al. (2012). \"Nonlinear
+dendritic integration of sensory and motor input during an activesensing task.\" [Nature]### ## 492 ## (7428): 247-251.Ziv, Y., L.
+D. Burns, et al. (2013). \"Long-term dynamics of CA1 hippocampal placecodes.\" [Nat Neurosci]### ## 16 ## (3): 264-266.
