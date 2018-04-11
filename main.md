@@ -1,5 +1,4 @@
-
-## Forward
+# Forward
 I have structured this document to roughly coincide with a chronological account of 6 years spent in a neuro-oriented biomedical engineering lab. My role in the lab was centered around exploratory device design and development, mostly targeting application in neuroscience research, with intended users being neuroscientist colleagues. One of the lab's most remarkable assets is the breadth and diversity of its constituents in terms of their skills and experience, both within and between the engineering/development and the science/medical sides of the lab. All efforts stood to benefit from the close proximity to skilled colleagues, most notably for the complementary guide and provide roles that assisted the development process of new devices and the experiments they were intended for.
 
 ~~of guiding and providing new tools. offering broad coverage of problem solving capabilities, expanded availability of tools, and rapid feedback when)   stimulating continuous awareness of the fast-paced changes~~
@@ -11,6 +10,34 @@ I then went to the Das Lab where I developed macroscopic imaging systems used fo
 As a MD/PhD student, I attempt to maintain a potential to adapt the end-products of each development for clinical applicability.
 
 The story presented here is rather unusual in that success precedes failure. The volume of tangible presentable results is greatest toward the beginning stages of the work described here. This unusual inversion is what make this story worth hearing, however. Thank you for taking the time to read this. I hope that at least the technical information provided herein, if not the procedural insight, is valuable in your current or future endeavors.
+
+# Body
+<!-- TOC -->
+
+- [Forward](#forward)
+- [Body](#body)
+      - [Background](#background)
+            - [Image Processing](#image-processing)
+            - [Effective and Efficient Code](#effective-and-efficient-code)
+      - [Microscopy and Functional Imaging Two core innovations in available](#microscopy-and-functional-imaging-two-core-innovations-in-available)
+      - [Image Processing 1. Computing Power and Connectivity](#image-processing-1-computing-power-and-connectivity)
+      - [Big Data](#big-data)
+      - [Map-Reduce](#map-reduce)
+      - [Image Processing](#image-processing)
+      - [Motion Correction Two approaches to find displacement](#motion-correction-two-approaches-to-find-displacement)
+            - [Spatially Homogeneous phase correlation](#spatially-homogeneous-phase-correlation)
+            - [Triangulate best](#triangulate-best)
+      - [Image Enhancement](#image-enhancement)
+      - [Feature Extraction](#feature-extraction)
+      - [EfficientCode](#efficientcode)
+      - [Tutorial](#tutorial)
+            - [Incremental Update of Statistics](#incremental-update-of-statistics)
+                  - [central moments](#central-moments)
+                  - [Extract Features](#extract-features)
+      - [DataFLow Architectures](#dataflow-architectures)
+            - ["Globally Asynchronous Locally Synchronous"](#globally-asynchronous-locally-synchronous)
+
+<!-- /TOC -->
 
 ## Background 
 
@@ -30,8 +57,7 @@ The story presented here is rather unusual in that success precedes failure. The
 - Graphics Processing Units (NVIDIA GTX) 
 - Embedded Units (NVIDIA Tegra X2) 2. Well developed libraries 
 - ImageJ (so so) 
--
-OpenCV (uses OpenCL) 
+- OpenCV (uses OpenCL) 
 - GStreamer (much better) 
 - OpenGL 
 - Shader
