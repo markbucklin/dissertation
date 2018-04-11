@@ -1,8 +1,8 @@
-# Procedures for real-time image processing, neural feature extraction,and application to closed-loop control using a wide-field Ca2+ fluorescence with awake behaving animals
+# Procedures for real-time image processing, neural signal extraction,and application to closed-loop control using wide-field Ca2+ fluorescence with awake behaving animals*
 
 **Mark E Bucklin**
-========
-[Prospectus Committee:]{.underline}
+
+## Prospectus Committee ##
 
 Xue Han, PhD (Research Advisor, Chair)
 
@@ -11,6 +11,32 @@ Jerome Mertz, PhD
 Jason Ritt, PhD
 
 Ian Davison, PhD
+
+- [Procedures for real-time image processing, neural signal extraction,and application to closed-loop control using wide-field Ca2+ fluorescence with awake behaving animals*](#procedures-for-real-time-image-processing-neural-signal-extractionand-application-to-closed-loop-control-using-wide-field-ca2-fluorescence-with-awake-behaving-animals)
+    - [Prospectus Committee](#prospectus-committee)
+- [Contents](#contents)
+- [Abstract](#abstract)
+- [Glossary](#glossary)
+- [Project Summary](#project-summary)
+    - [Aim 1: Build a library of adaptable software that enables neuroscientists to acquire, process, analyze, and visualize large volumes of fluorescence imaging data from awake behaving animals.](#aim-1-build-a-library-of-adaptable-software-that-enables-neuroscientists-to-acquire-process-analyze-and-visualize-large-volumes-of-fluorescence-imaging-data-from-awake-behaving-animals)
+    - [Aim 2: Extend the software for continuous real-time processing on a GPU.](#aim-2-extend-the-software-for-continuous-real-time-processing-on-a-gpu)
+    - [Aim 3: Detect motor states from extracted neural activity and apply to closed-loop neuromodulation.](#aim-3-detect-motor-states-from-extracted-neural-activity-and-apply-to-closed-loop-neuromodulation)
+- [Background & Significance of Proposed Research](#background-significance-of-proposed-research)
+    - [Aim 1: Build a library of adaptable software that enables neuroscientists to acquire, process, analyze, and visualize large volumes of fluorescence imaging data from awake behaving animals.](#aim-1-build-a-library-of-adaptable-software-that-enables-neuroscientists-to-acquire-process-analyze-and-visualize-large-volumes-of-fluorescence-imaging-data-from-awake-behaving-animals)
+    - [Aim 2: Extend the software for continuous real-time processing on a GPU. ](#aim-2-extend-the-software-for-continuous-real-time-processing-on-a-gpu)
+    - [Aim 3: Detect motor states from extracted neural activity and apply to closed-loop neuromodulation.](#aim-3-detect-motor-states-from-extracted-neural-activity-and-apply-to-closed-loop-neuromodulation)
+- [Methods & Approach](#methods-approach)
+    - [Aim 1: Build a library of adaptable software that enables neuroscientists to acquire, process, analyze, and visualize large volumes of fluorescence imaging data from awake behaving animals.](#aim-1-build-a-library-of-adaptable-software-that-enables-neuroscientists-to-acquire-process-analyze-and-visualize-large-volumes-of-fluorescence-imaging-data-from-awake-behaving-animals)
+    - [Aim 2: Extend the software for continuous real-time processing on a GPU.](#aim-2-extend-the-software-for-continuous-real-time-processing-on-a-gpu)
+    - [Aim 3: Detect motor states from extracted neural activity and apply to closed-loop neuromodulation.](#aim-3-detect-motor-states-from-extracted-neural-activity-and-apply-to-closed-loop-neuromodulation)
+- [Preliminary Results](#preliminary-results)
+    - [Aim 1: Build a library of adaptable software that enables neuroscientists to acquire, process, analyze, and visualize large volumes of fluorescence imaging data from awake behaving animals.](#aim-1-build-a-library-of-adaptable-software-that-enables-neuroscientists-to-acquire-process-analyze-and-visualize-large-volumes-of-fluorescence-imaging-data-from-awake-behaving-animals)
+    - [Aim 2: Extend the software for continuous real-time processing on a GPU.](#aim-2-extend-the-software-for-continuous-real-time-processing-on-a-gpu)
+    - [Aim 3: Detect motor states from extracted neural activity and apply to closed-loop neuromodulation.](#aim-3-detect-motor-states-from-extracted-neural-activity-and-apply-to-closed-loop-neuromodulation)
+- [References](#references)
+
+
+========
 
 Contents
 ========
@@ -69,19 +95,20 @@ motor control of the other mouse using optogenetics.
 Glossary
 ========
 
-**GECI**
+**GECI -- Geneticall Encoded Calcium Indicator**
 
-**GEVI**
+**GCaMP -- Fusion protein combining Green Fluorescent Protein with
+Calmodulin**
 
-**GCaMP **
+**sCMOS -- Scientific Complementatry Metal Oxide**
 
-**sCMOS**
+**GPU -- Graphics Processing Unit**
 
-**GPU**
+**SPMD -- Single-Program Multiple Data**
 
-**SPMD**
+**SIMD -- Single-Instruction Multiple Data**
 
-**SIMD**
+**PD -- Parkinson's Disease**
 
 **\
 **
@@ -432,12 +459,12 @@ one or both of two ways:
     field-of-view.
 
 Online streamed processing, as specified by Aim 2, addresses the issues
-of processing and storing large data-sets directly. This would make the
-longer procedures necessary for sufficient learning from large networks
+of processing and storingfvy for sufficient learning from large networks
 possible. Additionally, I propose a strategy in the Aim 3 methods
 section by which incorporating this online processing stream into
 stimulus-response-type experiments could help correct *limited sampling
-bias*, enabling neural coding analysis in large populations of neurons.
+bias*, enabling neural coding analysis in large populations of neurons
+(Ince 2009).
 
 Overall, however, the third goal of this project will focus on the
 ability to use the expanded information made available by the first two
@@ -709,7 +736,7 @@ four central moments, which are easily converted to the mean, variance,
 skewness, and kurtosis. The formulas for making these calculations are
 given below, and are performed in a highly efficient manner as data are
 kept local to each processing core, and repeat computations are
-minimized.
+minimized \[32\].
 
 n = n + 1;
 
@@ -898,92 +925,811 @@ Preliminary Results
 Aim 1: Build a library of adaptable software that enables neuroscientists to acquire, process, analyze, and visualize large volumes of fluorescence imaging data from awake behaving animals.
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-**Image Processing:**
+![](media/image1.png){width="8.2125in" height="4.208333333333333in"}A
+basic flow-chart showing the procedure for offline processing is show in
+**figure 1**:
 
-**Region of Interest (ROI) detection:**
-
-**Visualization**
-
-**Assessing Network Activity**
-
-Joint probability and cross correlation.
-
-Linear vs non-linear measures
-
-Transfer entropy
-
-**Activation State**
-
-Linear least-squares fitting with variable window size to find slope of
-line surrounding each point. Skewness and Kurtosis of finite windows
-surrounding each data point. Gaussian mixture model employing all
-measures to infer periods of reliable distinct activation of neurons.
-
-**Parallel Processing**
+**Figure 2** shows the output for interactive visualization of
+Regions-Of-Interest (ROIs):
+![C:\\Users\\markbucklin\\Desktop\\ScreenShots\\Screenshot\_20150424203557.png](media/image11.png){width="3.173912948381452in"
+height="1.9385061242344708in"}
 
 Aim 2: Extend the software for continuous real-time processing on a GPU.
 ------------------------------------------------------------------------
 
-**Benchmarking & General Performance**
+Shown below are screenshots from the real-time procedure as it runs,
+showing processing times for each aspect of the procedure, along with
+maps showing the non-stationarity measurements described above, where
+red indicates a normalized increase in the differential kurtosis of
+signal intensity, and blue indicates normalized increase in the skewness
+of the temporal derivative of signal intensity.
 
-**Buffered Operations**
+![Z:\\Files\\ScreenShots\\Screenshot\_20160126143232.png](media/image12.png){width="2.5066371391076117in"
+height="4.470148731408574in"}![C:\\Users\\markbucklin\\Desktop\\ScreenShots\\Screenshot\_20151117002858.png](media/image13.png){width="3.8731342957130357in"
+height="3.922794181977253in"}
 
-**Image Pre-Processing & Motion Correction**
+**Figure 3 --** Real-time processing and genereation of differential
+moments (measures of non-stationarity).
 
-**Sequential Statistics**
+![Z:\\Files\\ScreenShots\\Screenshot\_20160129210619.png](media/image14.png){width="3.797765748031496in"
+height="3.782182852143482in"}
 
-**Non-Stationarity & Differential Moments**
+**Figure 4** -- activity can be reliably localized using sensitive
+measures of instantaneous change in distribution of the temporal
+derivative of each pixel (BLUE) or the signal intensity (RED). Typically
+changes in the signal intensity follow changes in the derivative, and
+blue signals are more indicative of cell activity, while the red signal
+intensity measure is indiciative of accumulated calcium from past
+activity.
 
-**Surface Classification: Peaks, Edges, Curvature**
+![C:\\Users\\markbucklin\\Desktop\\ScreenShots\\Screenshot\_20150808154924.png](media/image15.png){width="6.5in"
+height="3.969955161854768in"}
 
-**Online Cell Segmentation & Tracking**
+**Figure 5 --** Trace mean, maximum and minimum intensities can be taken
+extracted and displayed. However one must typically select a subset of
+ROIs randomly in order to see the details in any one trace.
+
+![C:\\Users\\markbucklin\\Desktop\\ScreenShots\\Screenshot\_20150810170649.png](media/image16.png){width="6.5in"
+height="3.969955161854768in"}
+
+![](media/image17.png){width="6.166272965879265in"
+height="2.1631944444444446in"}**Figure 6 --** A smaller subset of ROI
+traces.
+
+**Figure 7 --** Labeled overlays of activity zoomed in around a
+cholinergic neuron
+
+-   s
+
+as
+
+FigureFi
 
 Aim 3: Detect motor states from extracted neural activity and apply to closed-loop neuromodulation.
 ---------------------------------------------------------------------------------------------------
 
-**Transfer Entropy**
+![Z:\\Files\\ScreenShots\\Screenshot\_20160131092553.png](media/image23.png){width="6.5in"
+height="3.9695614610673666in"}
 
-**Hub-Maps**
+**Figure 8** - Output from the spherical treadmill showing forward
+velocity on the y-axis (blue) and rotational velocity of the ball on the
+x axis (red) over time.
 
-**Virtual Navigation System**
+References
+==========
 
-**Animal Tracking**
+1.  Ahrens, Misha B, and Florian Engert. "Large-Scale Imaging in Small
+    Brains." *Current Opinion in Neurobiology* 32 (June 2015): 78--86.
+    doi:10.1016/j.conb.2015.01.007.
 
-Appendix
-========
+2.  Ahrens, Misha Benjamin, Kuo-Hua Huang, Sujatha Narayan, Brett D.
+    Mensh, and Florian Engert. "Two-Photon Calcium Imaging during
+    Fictive Navigation in Virtual Environments." *Frontiers in Neural
+    Circuits* 7 (2013): 104. doi:10.3389/fncir.2013.00104.
 
-  Software Name             
-  ---------------- -- -- -- --
-  ImageJ                    
-  MATLAB IPT                
-  Sci-Kits Image            
-  Thunder                   
-  CellProfiler              
-  VTK                       
-                            
-                            
-  Mosaic                    
-  Ilastik                   
+3.  Akemann, Walther, Mari Sasaki, Hiroki Mutoh, Takeshi Imamura, Naoki
+    Honkura, and Thomas Knöpfel. "Two-Photon Voltage Imaging Using a
+    Genetically Encoded Voltage Indicator." *Scientific Reports* 3 (July
+    19, 2013). doi:10.1038/srep02231.
 
-Standard programs include ImageJ, the built-in routines in MATLAB's
-Image Processing Toolbox, Mosaic from Inscopix, which is merely a
-compiled version of MATLAB routines which uses the MATLAB engine,
-Sci-Kits Image for Python, and a remarkable diversity of other
-applications. MATLAB is a commercial software development platform which
-is geared toward fast production and prototyping of data processing
-routines in a high-level programming language. It implements several
-core libraries (LINPACK, BLAS, etc.) that make multithreaded operations
-on matrix type data highly efficient. While MATLAB has traditionally
-been a considered the standard across neuroscience research labs, it was
-also well recognized that its performance was lacking for routines that
-aren't "vectorized", when compared to applications developed using
-lower-level languages like FORTRAN, C, and C++. Nevertheless, it
-remained in common use, and recent releases have added features that can
-drastically mitigate its performance issues, particularly through the
-development of a "Just-In-Time" compiler that automatically optimizes
-the deployment of computation accelerator resources for standard MATLAB
-functions. This feature enables code that performs repeated operations
-using for-loops or while-loops nearly as fast as equivalent code written
-in C. Additionally, code can be compiled into executable format using
-the Matlab Compiler toolbox, or used to generate equivalent C or C++
-code using Matlab Coder.
+4.  Akerboom, Jasper, Tsai-Wen Chen, Trevor J. Wardill, Lin Tian,
+    Jonathan S. Marvin, Sevinç Mutlu, Nicole Carreras Calderón, et al.
+    "Optimization of a GCaMP Calcium Indicator for Neural Activity
+    Imaging." *The Journal of Neuroscience* 32, no. 40 (October 3,
+    2012): 13819--40. doi:10.1523/JNEUROSCI.2601-12.2012.
+
+5.  Amat, Fernando, William Lemon, Daniel P. Mossing, Katie McDole,
+    Yinan Wan, Kristin Branson, Eugene W. Myers, and Philipp J. Keller.
+    "Fast, Accurate Reconstruction of Cell Lineages from Large-Scale
+    Fluorescence Microscopy Data." *Nature Methods* 11, no. 9 (September
+    2014): 951--58. doi:10.1038/nmeth.3036.
+
+6.  ---------. "Fast, Accurate Reconstruction of Cell Lineages from
+    Large-Scale Fluorescence Microscopy Data." *Nature Methods* 11, no.
+    9 (September 2014): 951--58. doi:10.1038/nmeth.3036.
+
+7.  "arXiv:nlin/0001042v1 \[nlin.CD\] 19 Jan 2000 - 0001042.pdf."
+    Accessed March 26, 2015.
+    http://arxiv.org/pdf/nlin/0001042.pdf?origin=publication\_detail.
+
+8.  Assini, Robert, Yevgeniy B. Sirotin, and Diego A. Laplagne. "Rapid
+    Triggering of Vocalizations Following Social Interactions." *Current
+    Biology* 23, no. 22 (November 18, 2013): R996--97.
+    doi:10.1016/j.cub.2013.10.007.
+
+9.  "A Threshold Selection Method from Gray-Level Histograms." *IEEE
+    Transactions on Systems, Man and Cybernetics* 9, no. 1 (January
+    1979): 62--66. doi:10.1109/TSMC.1979.4310076.
+
+10. Bagdasaryan, Juliana, and Michel LE VAN QUYEN. "Experiencing Your
+    Brain: Neurofeedback as a New Bridge between Neuroscience and
+    Phenomenology." *Frontiers in Human Neuroscience* 7 (2013): 680.
+    doi:10.3389/fnhum.2013.00680.
+
+11. Bale, Michael R., Robin A. A. Ince, Greta Santagata, and Rasmus S.
+    Petersen. "Efficient Population Coding of Naturalistic Whisker
+    Motion in the Ventro-Posterior Medial Thalamus Based on Precise
+    Spike Timing." *Frontiers in Neural Circuits*, 2015, 50.
+    doi:10.3389/fncir.2015.00050.
+
+12. Bayati, Mehdi, Alireza Valizadeh, Abdolhossein Abbassian, and Sen
+    Cheng. "Self-Organization of Synchronous Activity Propagation in
+    Neuronal Networks Driven by Local Excitation." *Frontiers in
+    Computational Neuroscience* 9 (2015): 69.
+    doi:10.3389/fncom.2015.00069.
+
+13. Bell, A. J., and T. J. Sejnowski. "An Information-Maximization
+    Approach to Blind Separation and Blind Deconvolution." *Neural
+    Computation* 7, no. 6 (November 1995): 1129--59.
+
+14. Bezanson, Jeff, Stefan Karpinski, Viral B. Shah, and Alan Edelman.
+    "Julia: A Fast Dynamic Language for Technical Computing."
+    *arXiv:1209.5145 \[cs\]*, September 23, 2012.
+    http://arxiv.org/abs/1209.5145.
+
+15. Boba, Patrick, Dominik Bollmann, Daniel Schoepe, Nora Wester, Jan
+    Wiesel, and Kay Hamacher. "Efficient Computation and Statistical
+    Assessment of Transfer Entropy." *Computational Physics* 3
+    (2015): 10. doi:10.3389/fphy.2015.00010.
+
+16. ---------. "Efficient Computation and Statistical Assessment of
+    Transfer Entropy." *Computational Physics* 3 (2015): 10.
+    doi:10.3389/fphy.2015.00010.
+
+17. "Brain Temperature and Hippocampal Function - Andersen - 2004 -
+    Hippocampus - Wiley Online Library." Accessed December 21, 2015.
+    http://onlinelibrary.wiley.com/doi/10.1002/hipo.450050602/abstract;jsessionid=F6A7C4C6A6BDE7A6315EEB47B80F0B38.f01t01.
+
+18. Broxton, Michael, Logan Grosenick, Samuel Yang, Noy Cohen, Aaron
+    Andalman, Karl Deisseroth, and Marc Levoy. "Wave Optics Theory and
+    3-D Deconvolution for the Light Field Microscope." *Optics Express*
+    21, no. 21 (October 21, 2013): 25418. doi:10.1364/OE.21.025418.
+
+19. Carhart-Harris, Robin Lester, Robert Leech, Peter John Hellyer,
+    Murray Shanahan, Amanda Feilding, Enzo Tagliazucchi, Dante R.
+    Chialvo, and David Nutt. "The Entropic Brain: A Theory of Conscious
+    States Informed by Neuroimaging Research with Psychedelic Drugs."
+    *Frontiers in Human Neuroscience* 8 (2014): 20.
+    doi:10.3389/fnhum.2014.00020.
+
+20. Carignan, Charles S, and Yukako Yagi. "Optical Endomicroscopy and
+    the Road to Real-Time, in Vivo Pathology: Present and Future."
+    *Diagnostic Pathology* 7 (2012): 98. doi:10.1186/1746-1596-7-98.
+
+21. Center for History and New Media. "Zotero Quick Start Guide," n.d.
+    http://zotero.org/support/quick\_start\_guide.
+
+22. Chakrapani, Lakshmi N., Bilge E. S. Akgul, Suresh Cheemalavagu,
+    Pinar Korkmaz, Krishna V. Palem, and Balasubramanian Seshasayee.
+    "Ultra-Efficient (Embedded) SOC Architectures Based on Probabilistic
+    CMOS (PCMOS) Technology." In *Proceedings of the Conference on
+    Design, Automation and Test in Europe: Proceedings*, 1110--15. DATE
+    '06. 3001 Leuven, Belgium, Belgium: European Design and Automation
+    Association, 2006.
+    http://dl.acm.org/citation.cfm?id=1131481.1131790.
+
+23. Chalfoun, Joe, Michael Majurski, Alden Dima, Christina Stuelten,
+    Adele Peskin, and Mary Brady. "FogBank: A Single Cell Segmentation
+    across Multiple Cell Lines and Image Modalities." *BMC
+    Bioinformatics* 15 (2014): 431. doi:10.1186/s12859-014-0431-x.
+
+24. Chandra, S., and W.W. Hsu. "Lossless Medical Image Compression in a
+    Block-Based Storage System." In *Data Compression Conference (DCC),
+    2014*, 400--400, 2014. doi:10.1109/DCC.2014.70.
+
+25. Chan, Lawrence Wing Chi, Bin Pang, Chi-Ren Shyu, Tao Chan, and
+    Pek-Lan Khong. "Genetic Algorithm Supported by Graphical Processing
+    Unit Improves the Exploration of Effective Connectivity in
+    Functional Brain Imaging." *Frontiers in Computational Neuroscience*
+    9 (2015): 50. doi:10.3389/fncom.2015.00050.
+
+26. Chan, T. F., G. H. Golub, and R. J. LeVeque. "Updating Formulae and
+    a Pairwise Algorithm for Computing Sample Variances." In *COMPSTAT
+    1982 5th Symposium Held at Toulouse 1982*, edited by H.
+    Caussinus, P. Ettinger, and R. Tomassone, 30--41. Physica-Verlag
+    HD, 1982.
+    http://link.springer.com/chapter/10.1007/978-3-642-51461-6\_3.
+
+27. Chan, Tony F., Gene H. Golub, and Randall J. LeVeque. "Algorithms
+    for Computing the Sample Variance: Analysis and Recommendations."
+    *The American Statistician* 37, no. 3 (1983): 242--47.
+    doi:10.2307/2683386.
+
+28. Chen, Tsai-Wen, Trevor J. Wardill, Yi Sun, Stefan R. Pulver,
+    Sabine L. Renninger, Amy Baohan, Eric R. Schreiter, et al.
+    "Ultrasensitive Fluorescent Proteins for Imaging Neuronal Activity."
+    *Nature* 499, no. 7458 (July 18, 2013): 295--300.
+    doi:10.1038/nature12354.
+
+29. ---------. "Ultrasensitive Fluorescent Proteins for Imaging Neuronal
+    Activity." *Nature* 499, no. 7458 (July 18, 2013): 295--300.
+    doi:10.1038/nature12354.
+
+30. Coelho, Luis. "Mahotas: Open Source Software for Scriptable Computer
+    Vision." *Journal of Open Research Software* 1, no. 1 (July 29,
+    2013). doi:10.5334/jors.ac.
+
+31. Cohen, Lior, Noa Koffman, Hanoch Meiri, Yosef Yarom, Ilan Lampl, and
+    Adi Mizrahi. "Time-Lapse Electrical Recordings of Single Neurons
+    from the Mouse Neocortex." *Proceedings of the National Academy of
+    Sciences* 110, no. 14 (April 2, 2013): 5665--70.
+    doi:10.1073/pnas.1214434110.
+
+32. "Computing Higher-Order Moments Online." Accessed December 5, 2015.
+    https://people.xiph.org/\~tterribe/notes/homs.html.
+
+33. Deisseroth, Karl, and Mark J. Schnitzer. "Engineering Approaches to
+    Illuminating Brain Structure and Dynamics." *Neuron* 80, no. 3
+    (October 30, 2013): 568--77. doi:10.1016/j.neuron.2013.10.032.
+
+34. Diavatopoulos, Dean, James S. Doran, Andy Fodor, and David R.
+    Peterson. "The Information Content of Implied Skewness and Kurtosis
+    Changes Prior to Earnings Announcements for Stock and Option
+    Returns," December 1, 2008. doi:10.2139/ssrn.1309613.
+
+35. Drew, Patrick J., Andy Y. Shih, Jonathan D. Driscoll, Per Magne
+    Knutsen, Pablo Blinder, Dimitrios Davalos, Katerina Akassoglou,
+    Philbert S. Tsai, and David Kleinfeld. "Chronic Optical Access
+    through a Polished and Reinforced Thinned Skull." *Nature Methods*
+    7, no. 12 (December 2010): 981--84. doi:10.1038/nmeth.1530.
+
+36. Engert, Florian. "The Big Data Problem: Turning Maps into
+    Knowledge." *Neuron* 83, no. 6 (September 17, 2014): 1246--48.
+    doi:10.1016/j.neuron.2014.09.008.
+
+37. Fischer, Jörg, Tomislav Milekovic, Gerhard Schneider, and Carsten
+    Mehring. "Low-Latency Multi-Threaded Processing of Neuronal Signals
+    for Brain-Computer Interfaces." *Frontiers in Neuroengineering* 7
+    (2014): 1. doi:10.3389/fneng.2014.00001.
+
+38. Ganguly, Karunesh, and Jose M. Carmena. "Emergence of a Stable
+    Cortical Map for Neuroprosthetic Control." *PLoS Biol* 7, no. 7
+    (July 21, 2009): e1000153. doi:10.1371/journal.pbio.1000153.
+
+39. Garcia, Samuel, Domenico Guarino, Florent Jaillet, Todd R. Jennings,
+    Robert Pröpper, Philipp L. Rautenberg, Chris Rodgers, et al. "Neo:
+    An Object Model for Handling Electrophysiology Data in Multiple
+    Formats." *Frontiers in Neuroinformatics* 8 (2014): 10.
+    doi:10.3389/fninf.2014.00010.
+
+40. Glickfeld, Lindsey L., Mark L. Andermann, Vincent Bonin, and R. Clay
+    Reid. "Cortico-Cortical Projections in Mouse Visual Cortex Are
+    Functionally Target Specific." *Nature Neuroscience* 16, no. 2
+    (February 2013): 219--26. doi:10.1038/nn.3300.
+
+41. Gray Roncal, William R., Dean Mark Kleissas, Joshua T. Vogelstein,
+    Priya Manavalan, Kunal Lillaney, Michael Pekala, Randal Burns, et
+    al. "An Automated Images-to-Graphs Framework for High Resolution
+    Connectomics." *Frontiers in Neuroinformatics*, 2015, 20.
+    doi:10.3389/fninf.2015.00020.
+
+42. Grewe, Jan, Thomas Wachtler, and Jan Benda. "A Bottom-up Approach to
+    Data Annotation in Neurophysiology." *Frontiers in Neuroinformatics*
+    5 (2011): 16. doi:10.3389/fninf.2011.00016.
+
+43. Grynkiewicz, G., M. Poenie, and R. Y. Tsien. "A New Generation of
+    Ca2+ Indicators with Greatly Improved Fluorescence Properties."
+    *Journal of Biological Chemistry* 260, no. 6 (March 25, 1985):
+    3440--50.
+
+44. Guizar-Sicairos, Manuel, Samuel T. Thurman, and James R. Fienup.
+    "Efficient Subpixel Image Registration Algorithms." *Optics Letters*
+    33, no. 2 (January 15, 2008): 156. doi:10.1364/OL.33.000156.
+
+45. ---------. "Efficient Subpixel Image Registration Algorithms."
+    *Optics Letters* 33, no. 2 (January 15, 2008): 156.
+    doi:10.1364/OL.33.000156.
+
+46. Hampson, Robert E., Greg A. Gerhardt, Vasilis Marmarelis, Dong Song,
+    Ioan Opris, Lucas Santos, Theodore W. Berger, and Sam A. Deadwyler.
+    "Facilitation and Restoration of Cognitive Function in Primate
+    Prefrontal Cortex by a Neuroprosthesis That Utilizes
+    Minicolumn-Specific Neural Firing." *Journal of Neural Engineering*
+    9, no. 5 (October 1, 2012): 056012.
+    doi:10.1088/1741-2560/9/5/056012.
+
+47. Hanke, Michael, and Yaroslav O. Halchenko. "Neuroscience Runs on
+    GNU/Linux." *Frontiers in Neuroinformatics*, 2011, 8.
+    doi:10.3389/fninf.2011.00008.
+
+48. Hanke, Michael, Yaroslav O. Halchenko, James V. Haxby, and Stefan
+    Pollmann. "Statistical Learning Analysis in Neuroscience: Aiming for
+    Transparency." *Frontiers in Neuroscience* 4 (2010): 10.
+    doi:10.3389/neuro.01.007.2010.
+
+49. Hodneland, Erlend, Tanja Kögel, Dominik Michael Frei, Hans-Hermann
+    Gerdes, and Arvid Lundervold. "CellSegm - a MATLAB Toolbox for
+    High-Throughput 3D Cell Segmentation." *Source Code for Biology and
+    Medicine* 8 (2013): 16. doi:10.1186/1751-0473-8-16.
+
+50. Holtmaat, Anthony, Tobias Bonhoeffer, David K. Chow, Jyoti
+    Chuckowree, Vincenzo De Paola, Sonja B. Hofer, Mark Hübener, et al.
+    "Long-Term, High-Resolution Imaging in the Mouse Neocortex through a
+    Chronic Cranial Window." *Nature Protocols* 4, no. 8 (July 2009):
+    1128--44. doi:10.1038/nprot.2009.89.
+
+51. "Ilastik/pgmlink." *GitHub*. Accessed January 24, 2016.
+    https://github.com/ilastik/pgmlink.
+
+52. Ince, Robin A. A., Alberto Mazzoni, Andreas Bartels, Nikos K.
+    Logothetis, and Stefano Panzeri. "A Novel Test to Determine the
+    Significance of Neural Selectivity to Single and Multiple
+    Potentially Correlated Stimulus Features." *Journal of Neuroscience
+    Methods*, Special Issue on Computational Neuroscience, 210, no. 1
+    (September 15, 2012): 49--65. doi:10.1016/j.jneumeth.2011.11.013.
+
+53. Ince, Robin A. A., Alberto Mazzoni, Rasmus S. Petersen, and Stefano
+    Panzeri. "Open Source Tools for the Information Theoretic Analysis
+    of Neural Data." *Frontiers in Neuroscience* 4 (2010): 10.
+    doi:10.3389/neuro.01.011.2010.
+
+54. ---------. "Open Source Tools for the Information Theoretic Analysis
+    of Neural Data." *Frontiers in Neuroscience* 4 (2010): 10.
+    doi:10.3389/neuro.01.011.2010.
+
+55. Ince, Robin A. A., Stefano Panzeri, and Christoph Kayser. "Neural
+    Codes Formed by Small and Temporally Precise Populations in Auditory
+    Cortex." *The Journal of Neuroscience* 33, no. 46 (November 13,
+    2013): 18277--87. doi:10.1523/JNEUROSCI.2631-13.2013.
+
+56. Ince, Robin A. A., Stefano Panzeri, and Simon R. Schultz. "Summary
+    of Information Theoretic Quantities." *arXiv:1501.01854 \[q-Bio\]*,
+    2014, 1--6. doi:10.1007/978-1-4614-7320-6\_306-1.
+
+57. Ince, Robin A. A., Rasmus S. Petersen, Daniel C. Swan, Stefano
+    Panzeri, Robin A. A. Ince, Rasmus S. Petersen, Daniel C. Swan, and
+    Stefano Panzeri. "Python for Information Theoretic Analysis of
+    Neural Data." *Frontiers in Neuroinformatics* 3 (2009): 4.
+    doi:10.3389/neuro.11.004.2009.
+
+58. Ince, Robin A. A., Simon R. Schultz, and Stefano Panzeri.
+    "Estimating Information-Theoretic Quantities." *arXiv:1501.01863
+    \[q-Bio\]*, 2014, 1--13. doi:10.1007/978-1-4614-7320-6\_140-1.
+
+59. Ince, Robin A. A., Nicola J. van Rijsbergen, Gregor Thut,
+    Guillaume A. Rousselet, Joachim Gross, Stefano Panzeri, and
+    Philippe G. Schyns. "Tracing the Flow of Perceptual Features in an
+    Algorithmic Brain Network." *Scientific Reports* 5 (December 4,
+    2015): 17681. doi:10.1038/srep17681.
+
+60. Ito, Shinya, Michael E. Hansen, Randy Heiland, Andrew Lumsdaine,
+    Alan M. Litke, and John M. Beggs. "Extending Transfer Entropy
+    Improves Identification of Effective Connectivity in a Spiking
+    Cortical Network Model." Edited by Michal Zochowski. *PLoS ONE* 6,
+    no. 11 (November 15, 2011): e27431.
+    doi:10.1371/journal.pone.0027431.
+
+61. Jabbour, Joey M., Meagan A. Saldua, Joel N. Bixler, and Kristen C.
+    Maitland. "Confocal Endomicroscopy: Instrumentation and Medical
+    Applications." *Annals of Biomedical Engineering* 40, no. 2
+    (February 1, 2012): 378--97. doi:10.1007/s10439-011-0426-y.
+
+62. Kaifosh, Patrick, Jeffrey D. Zaremba, Nathan B. Danielson, and
+    Attila Losonczy. "SIMA: Python Software for Analysis of Dynamic
+    Fluorescence Imaging Data." *Frontiers in Neuroinformatics* 8
+    (2014): 80. doi:10.3389/fninf.2014.00080.
+
+63. Keller, Philipp J, Misha B Ahrens, and Jeremy Freeman. "Light-Sheet
+    Imaging for Systems Neuroscience." *Nature Methods* 12, no. 1
+    (December 30, 2014): 27--29. doi:10.1038/nmeth.3214.
+
+64. Kemere, Caleb, Gopal Santhanam, Byron M. Yu, Afsheen Afshar,
+    Stephen I. Ryu, Teresa H. Meng, and Krishna V. Shenoy. "Detecting
+    Neural-State Transitions Using Hidden Markov Models for Motor
+    Cortical Prostheses." *Journal of Neurophysiology* 100, no. 4
+    (October 1, 2008): 2441--52. doi:10.1152/jn.00924.2007.
+
+65. Kerr, Jason N. D., David Greenberg, and Fritjof Helmchen. "Imaging
+    Input and Output of Neocortical Networks in Vivo." *Proceedings of
+    the National Academy of Sciences of the United States of America*
+    102, no. 39 (September 27, 2005): 14063--68.
+    doi:10.1073/pnas.0506029102.
+
+66. Koucky, Michael H., and Mark C. Pierce. "Axial Response of
+    High-Resolution Microendoscopy in Scattering Media." *Biomedical
+    Optics Express* 4, no. 10 (September 25, 2013): 2247--56.
+    doi:10.1364/BOE.4.002247.
+
+67. Krawinkel, Lutz A., Andreas K. Engel, and Friedhelm C. Hummel.
+    "Modulating Pathological Oscillations by Rhythmic Non-Invasive Brain
+    Stimulation---a Therapeutic Concept?" *Frontiers in Systems
+    Neuroscience*, 2015, 33. doi:10.3389/fnsys.2015.00033.
+
+68. Langer, Dominik, Marcel van 't Hoff, Andreas J. Keller, Chetan
+    Nagaraja, Oliver A. Pfäffli, Maurice Göldi, Hansjörg Kasper, and
+    Fritjof Helmchen. "HelioScan: A Software Framework for Controlling
+    in Vivo Microscopy Setups with High Hardware Flexibility, Functional
+    Diversity and Extendibility." *Journal of Neuroscience Methods* 215,
+    no. 1 (April 30, 2013): 38--52. doi:10.1016/j.jneumeth.2013.02.006.
+
+69. Lasso, Andras, Shachar Avni, and Gabor Fichtinger. "Targeting Error
+    Simulator for Image-Guided Prostate Needle Placement." *Conference
+    Proceedings : \... Annual International Conference of the IEEE
+    Engineering in Medicine and Biology Society. IEEE Engineering in
+    Medicine and Biology Society. Conference* 2010 (2010): 5424--27.
+    doi:10.1109/IEMBS.2010.5626494.
+
+70. Lillis, Kyle P., Alfred Eng, John A. White, and Jerome Mertz.
+    "Two-Photon Imaging of Spatially Extended Neuronal Network Dynamics
+    with High Temporal Resolution." *Journal of Neuroscience Methods*
+    172, no. 2 (July 30, 2008): 178--84.
+    doi:10.1016/j.jneumeth.2008.04.024.
+
+71. ---------. "Two-Photon Imaging of Spatially Extended Neuronal
+    Network Dynamics with High Temporal Resolution." *Journal of
+    Neuroscience Methods* 172, no. 2 (July 30, 2008): 178--84.
+    doi:10.1016/j.jneumeth.2008.04.024.
+
+72. Li, Nuo, Tsai-Wen Chen, Zengcai V. Guo, Charles R. Gerfen, and Karel
+    Svoboda. "A Motor Cortex Circuit for Motor Planning and Movement."
+    *Nature* 519, no. 7541 (March 5, 2015): 51--56.
+    doi:10.1038/nature14178.
+
+73. Liston, Adrian, Anselm Enders, and Owen M. Siggs. "Unravelling the
+    Association of Partial T-Cell Immunodeficiency and Immune
+    Dysregulation." *Nature Reviews Immunology* 8, no. 7 (July 2008):
+    545--58. doi:10.1038/nri2336.
+
+74. Looger, Loren L, and Oliver Griesbeck. "Genetically Encoded Neural
+    Activity Indicators." *Current Opinion in Neurobiology*,
+    Neurotechnology, 22, no. 1 (February 2012): 18--23.
+    doi:10.1016/j.conb.2011.10.024.
+
+75. ---------. "Genetically Encoded Neural Activity Indicators."
+    *Current Opinion in Neurobiology*, Neurotechnology, 22, no. 1
+    (February 2012): 18--23. doi:10.1016/j.conb.2011.10.024.
+
+76. Ludwig, George D. "The Velocity of Sound through Tissues and the
+    Acoustic Impedance of Tissues." *The Journal of the Acoustical
+    Society of America* 22, no. 6 (November 1, 1950): 862--66.
+    doi:10.1121/1.1906706.
+
+77. Lütcke, Henry, David J. Margolis, and Fritjof Helmchen. "Steady or
+    Changing? Long-Term Monitoring of Neuronal Population Activity."
+    *Trends in Neurosciences* 36, no. 7 (July 2013): 375--84.
+    doi:10.1016/j.tins.2013.03.008.
+
+78. Luyten, Laura, Natalie Schroyens, Dirk Hermans, and Tom Beckers.
+    "Parameter Optimization for Automated Behavior Assessment:
+    Plug-and-Play or Trial-and-Error?" *Frontiers in Behavioral
+    Neuroscience* 8 (2014): 28. doi:10.3389/fnbeh.2014.00028.
+
+79. Machado, Juliano, and Alexandre Balbinot. "Executed Movement Using
+    EEG Signals through a Naive Bayes Classifier." *Micromachines* 5,
+    no. 4 (November 13, 2014): 1082--1105. doi:10.3390/mi5041082.
+
+80. Malagarriga, Daniel, Mariano Alberto García-Vellisca, Alessandro E.
+    P. Villa, Javier Martín Buldú, Jordi García-Ojalvo, and Antonio
+    Javier Pons. "Synchronization-Based Computation through Networks of
+    Coupled Oscillators." *Frontiers in Computational Neuroscience*,
+    2015, 97. doi:10.3389/fncom.2015.00097.
+
+81. McAlinden, Niall, Erdan Gu, Martin D. Dawson, Shuzo Sakata, and
+    Keith Mathieson. "Optogenetic Activation of Neocortical Neurons in
+    Vivo with a Sapphire-Based Micro-Scale LED Probe." *Frontiers in
+    Neural Circuits*, 2015, 25. doi:10.3389/fncir.2015.00025.
+
+82. McDonnell, Mark D., and Lawrence M. Ward. "The Benefits of Noise in
+    Neural Systems: Bridging Theory and Experiment." *Nature Reviews
+    Neuroscience* 12, no. 7 (July 2011): 415--26. doi:10.1038/nrn3061.
+
+83. Modat, Marc, Gerard R. Ridgway, Pankaj Daga, M. J. Cardoso, David J.
+    Hawkes, John Ashburner, and Sébastien Ourselin. "Log-Euclidean
+    Free-Form Deformation," 7962:79621Q -- 79621Q -- 6, 2011.
+    doi:10.1117/12.878189.
+
+84. Modi, M. N., A. K. Dhawale, and U. S. Bhalla. "CA1 Cell Activity
+    Sequences Emerge after Reorganization of Network Correlation
+    Structure during Associative Learning." *eLife* 3, no. 0 (March 25,
+    2014): e01982--e01982. doi:10.7554/eLife.01982.
+
+85. Monteforte, Michael, and Fred Wolf. "Dynamical Entropy Production in
+    Spiking Neuron Networks in the Balanced State." *Physical Review
+    Letters* 105, no. 26 (December 30, 2010): 268104.
+    doi:10.1103/PhysRevLett.105.268104.
+
+86. Muir, Dylan Richard, and Björn Kampa. "FocusStack and StimServer: A
+    New Open Source MATLAB Toolchain for Visual Stimulation and Analysis
+    of Two-Photon Calcium Neuronal Imaging Data." *Frontiers in
+    Neuroinformatics* 8 (2015): 85. doi:10.3389/fninf.2014.00085.
+
+87. ---------. "FocusStack and StimServer: A New Open Source MATLAB
+    Toolchain for Visual Stimulation and Analysis of Two-Photon Calcium
+    Neuronal Imaging Data." *Frontiers in Neuroinformatics* 8
+    (2015): 85. doi:10.3389/fninf.2014.00085.
+
+88. Mukamel, Eran A., Axel Nimmerjahn, and Mark J. Schnitzer. "Automated
+    Analysis of Cellular Signals from Large-Scale Calcium Imaging Data."
+    *Neuron* 63, no. 6 (September 2009): 747--60.
+    doi:10.1016/j.neuron.2009.08.009.
+
+89. ---------. "Automated Analysis of Cellular Signals from Large-Scale
+    Calcium Imaging Data." *Neuron* 63, no. 6 (September 24, 2009):
+    747--60. doi:10.1016/j.neuron.2009.08.009.
+
+90. ---------. "Automated Analysis of Cellular Signals from Large-Scale
+    Calcium Imaging Data." *Neuron* 63, no. 6 (September 24, 2009):
+    747--60. doi:10.1016/j.neuron.2009.08.009.
+
+91. Nan, Hao, Kevin C. Boyle, Nikhil Apte, Miaad S. Aliroteh, Anshuman
+    Bhuyan, Amin Nikoozadeh, Butrus T. Khuri-Yakub, and Amin Arbabian.
+    "Non-Contact Thermoacoustic Detection of Embedded Targets Using
+    Airborne-Capacitive Micromachined Ultrasonic Transducers." *Applied
+    Physics Letters* 106, no. 8 (February 23, 2015): 084101.
+    doi:10.1063/1.4909508.
+
+92. "New Tab." Accessed December 5, 2015. about:newtab.
+
+93. O'Connor, Daniel H., Daniel Huber, and Karel Svoboda. "Reverse
+    Engineering the Mouse Brain." *Nature* 461, no. 7266 (October 15,
+    2009): 923--29. doi:10.1038/nature08539.
+
+94. Oñativia, Jon, Simon R. Schultz, and Pier Luigi Dragotti. "A Finite
+    Rate of Innovation Algorithm for Fast and Accurate Spike Detection
+    from Two-Photon Calcium Imaging." *Journal of Neural Engineering*
+    10, no. 4 (August 1, 2013): 046017.
+    doi:10.1088/1741-2560/10/4/046017.
+
+95. "Online Skewness Kurtosis." Accessed December 5, 2015.
+    http://www.johndcook.com/blog/skewness\_kurtosis/.
+
+96. Packer, Adam M., Lloyd E. Russell, Henry W. P. Dalgleish, and
+    Michael Häusser. "Simultaneous All-Optical Manipulation and
+    Recording of Neural Circuit Activity with Cellular Resolution in
+    Vivo." *Nature Methods* 12, no. 2 (February 2015): 140--46.
+    doi:10.1038/nmeth.3217.
+
+97. ---------. "Simultaneous All-Optical Manipulation and Recording of
+    Neural Circuit Activity with Cellular Resolution in Vivo." *Nature
+    Methods* 12, no. 2 (February 2015): 140--46. doi:10.1038/nmeth.3217.
+
+98. Palmer, Tim. "Modelling: Build Imprecise Supercomputers." *Nature*
+    526, no. 7571 (September 29, 2015): 32--33. doi:10.1038/526032a.
+
+99. Palmer, Tim N., and Michael O'Shea. "Solving Difficult Problems
+    Creatively: A Role for Energy Optimised Deterministic/stochastic
+    Hybrid Computing." *Frontiers in Computational Neuroscience*,
+    2015, 124. doi:10.3389/fncom.2015.00124.
+
+100. Panzeri, Stefano, Riccardo Senatore, Marcelo A. Montemurro, and
+    Rasmus S. Petersen. "Correcting for the Sampling Bias Problem in
+    Spike Train Information Measures." *Journal of Neurophysiology* 98,
+    no. 3 (September 1, 2007): 1064--72. doi:10.1152/jn.00559.2007.
+
+101. Patel, Tapan P., Karen Man, Bonnie L. Firestein, and David F.
+    Meaney. "Automated Quantification of Neuronal Networks and
+    Single-Cell Calcium Dynamics Using Calcium Imaging." *Journal of
+    Neuroscience Methods* 243 (March 30, 2015): 26--38.
+    doi:10.1016/j.jneumeth.2015.01.020.
+
+102. Pierce, Mark, Dihua Yu, and Rebecca Richards-Kortum.
+    "High-Resolution Fiber-Optic Microendoscopy for &lt;em&gt;in
+    Situ&lt;/em&gt; Cellular Imaging." *Journal of Visualized
+    Experiments*, no. 47 (January 11, 2011). doi:10.3791/2306.
+
+103. Pnevmatikakis, Eftychios A., Yuanjun Gao, Daniel Soudry, David
+    Pfau, Clay Lacefield, Kira Poskanzer, Randy Bruno, Rafael Yuste, and
+    Liam Paninski. "A Structured Matrix Factorization Framework for
+    Large Scale Calcium Imaging Data Analysis." *arXiv:1409.2903
+    \[q-Bio, Stat\]*, September 9, 2014. http://arxiv.org/abs/1409.2903.
+
+104. Poline, Jean-Baptiste, Janis L. Breeze, Satrajit S. Ghosh,
+    Krzysztof Gorgolewski, Yaroslav O. Halchenko, Michael Hanke, Karl G.
+    Helmer, et al. "Data Sharing in Neuroimaging Research." *Frontiers
+    in Neuroinformatics* 6 (2012): 9. doi:10.3389/fninf.2012.00009.
+
+105. Reimann, Michael W., James G. King, Eilif B. Muller, Srikanth
+    Ramaswamy, and Henry Markram. "An Algorithm to Predict the
+    Connectome of Neural Microcircuits." *Frontiers in Computational
+    Neuroscience*, 2015, 120. doi:10.3389/fncom.2015.00120.
+
+106. Rolston, John D., Robert E. Gross, Steve M. Potter, John D.
+    Rolston, Robert E. Gross, and Steve M. Potter. "A Low-Cost
+    Multielectrode System for Data Acquisition Enabling Real-Time
+    Closed-Loop Processing with Rapid Recovery from Stimulation
+    Artifacts." *Frontiers in Neuroengineering* 2 (2009): 12.
+    doi:10.3389/neuro.16.012.2009.
+
+107. Ross, James D., D. Kacy Cullen, James Patrick Harris, Michelle C.
+    Ph D. LaPlaca, and Stephen P. DeWeerth. "A Three-Dimensional Image
+    Processing Program for Accurate, Rapid, and Semi-Automated
+    Segmentation of Neuronal Somata with Dense Neurite Outgrowth."
+    *Frontiers in Neuroanatomy* 9 (2015): 87.
+    doi:10.3389/fnana.2015.00087.
+
+108. ---------. "A Three-Dimensional Image Processing Program for
+    Accurate, Rapid, and Semi-Automated Segmentation of Neuronal Somata
+    with Dense Neurite Outgrowth." *Frontiers in Neuroanatomy* 9
+    (2015): 87. doi:10.3389/fnana.2015.00087.
+
+109. Ros, Tomas, Bernard J. Baars, Ruth A. Lanius, and Patrik
+    Vuilleumier. "Tuning Pathological Brain Oscillations with
+    Neurofeedback: A Systems Neuroscience Framework." *Frontiers in
+    Human Neuroscience* 8 (2014): 1008. doi:10.3389/fnhum.2014.01008.
+
+110. Rupprecht, P. T. R. "Beyond Correlation Analysis: Transfer
+    Entropy." *A Blog about Neurophysiology*. Accessed March 26, 2015.
+    https://ptrrupprecht.wordpress.com/2014/03/19/beyond-correlation-analysis-transfer-entropy/.
+
+111. Rutishauser, Ueli, Andreas Kotowicz, and Gilles Laurent. "A Method
+    for Closed-Loop Presentation of Sensory Stimuli Conditional on the
+    Internal Brain-State of Awake Animals." *Journal of Neuroscience
+    Methods* 215, no. 1 (April 30, 2013): 139--55.
+    doi:10.1016/j.jneumeth.2013.02.020.
+
+112. Sacan, Ahmet, Hakan Ferhatosmanoglu, and Huseyin Coskun.
+    "CellTrack: An Open-Source Software for Cell Tracking and Motility
+    Analysis." *Bioinformatics* 24, no. 14 (July 15, 2008): 1647--49.
+    doi:10.1093/bioinformatics/btn247.
+
+113. ---------. "CellTrack: An Open-Source Software for Cell Tracking
+    and Motility Analysis." *Bioinformatics* 24, no. 14 (July 15, 2008):
+    1647--49. doi:10.1093/bioinformatics/btn247.
+
+114. Schultz, Simon R., Robin A. A. Ince, and Stefano Panzeri.
+    "Applications of Information Theory to Analysis of Neural Data."
+    *arXiv:1501.01860 \[q-Bio\]*, 2014, 1--6.
+    doi:10.1007/978-1-4614-7320-6\_280-1.
+
+115. Schwarzkopf, D. Samuel. "We Should Have Seen This Coming."
+    *Frontiers in Human Neuroscience* 8 (2014): 332.
+    doi:10.3389/fnhum.2014.00332.
+
+116. Science, Armed with. "Remote Control of Brain Activity Using
+    Ultrasound." *Armed with Science*. Accessed December 21, 2015.
+    http://science.dodlive.mil/2010/09/01/remote-control-of-brain-activity-using-ultrasound/.
+
+117. Senkov, Oleg, Andrey Mironov, and Alexander Dityatev. "A Novel
+    Versatile Hybrid Infusion-Multielectrode Recording (HIME) System for
+    Acute Drug Delivery and Multisite Acquisition of Neuronal Activity
+    in Freely Moving Mice." *Neural Technology*, 2015, 425.
+    doi:10.3389/fnins.2015.00425.
+
+118. Shi, J., and J. Malik. "Normalized Cuts and Image Segmentation."
+    *IEEE Transactions on Pattern Analysis and Machine Intelligence* 22,
+    no. 8 (August 2000): 888--905. doi:10.1109/34.868688.
+
+119. Sieu, Lim-Anna, Antoine Bergel, Elodie Tiran, Thomas Deffieux,
+    Mathieu Pernot, Jean-Luc Gennisson, Mickaël Tanter, and Ivan Cohen.
+    "EEG and Functional Ultrasound Imaging in Mobile Rats." *Nature
+    Methods* advance online publication (August 3, 2015).
+    doi:10.1038/nmeth.3506.
+
+120. Singh, Abhinav, and Nicholas A. Lesica. "Incremental Mutual
+    Information: A New Method for Characterizing the Strength and
+    Dynamics of Connections in Neuronal Circuits." *PLoS Comput Biol* 6,
+    no. 12 (December 9, 2010): e1001035.
+    doi:10.1371/journal.pcbi.1001035.
+
+121. "Software \| Scanbox." Accessed August 5, 2014.
+    http://scanbox.wordpress.com/category/software/.
+
+122. Soriano, Miguel C., Daniel Brunner, Miguel Escalona-Morán,
+    Claudio R. Mirasso, and Ingo Fischer. "Minimal Approach to
+    Neuro-Inspired Information Processing." *Frontiers in Computational
+    Neuroscience* 9 (2015): 68. doi:10.3389/fncom.2015.00068.
+
+123. Stegmaier, Johannes, Fernando Amat, William C. Lemon, Katie McDole,
+    Yinan Wan, George Teodoro, Ralf Mikut, and Philipp J. Keller.
+    "Real-Time Three-Dimensional Cell Segmentation in Large-Scale
+    Microscopy Data of Developing Embryos." *Developmental Cell* 36, no.
+    2 (January 25, 2016): 225--40. doi:10.1016/j.devcel.2015.12.028.
+
+124. Stein, Erich W., Konstantin Maslov, and Lihong V. Wang.
+    "Noninvasive, in Vivo Imaging of the Mouse Brain Using Photoacoustic
+    Microscopy." *Journal of Applied Physics* 105, no. 10 (May 15,
+    2009). doi:10.1063/1.3116134.
+
+125. Stroh, Albrecht, Helmuth Adelsberger, Alexander Groh, Charlotta
+    Rühlmann, Sebastian Fischer, Anja Schierloh, Karl Deisseroth, and
+    Arthur Konnerth. "Making Waves: Initiation and Propagation of
+    Corticothalamic Ca2+ Waves In Vivo." *Neuron* 77, no. 6 (March 20,
+    2013): 1136--50. doi:10.1016/j.neuron.2013.01.031.
+
+126. Sullivan, Megan R., Axel Nimmerjahn, Dmitry V. Sarkisov, Fritjof
+    Helmchen, and Samuel S.-H. Wang. "In Vivo Calcium Imaging of Circuit
+    Activity in Cerebellar Cortex." *Journal of Neurophysiology* 94, no.
+    2 (August 1, 2005): 1636--44. doi:10.1152/jn.01013.2004.
+
+127. Szabo, Vivien, Cathie Ventalon, Vincent De Sars, Jonathan Bradley,
+    and Valentina Emiliani. "Spatially Selective Holographic
+    Photoactivation and Functional Fluorescence Imaging in Freely
+    Behaving Mice with a Fiberscope." *Neuron* 84, no. 6 (December 17,
+    2014): 1157--69. doi:10.1016/j.neuron.2014.11.005.
+
+128. Tokuda, Junichi, Gregory S. Fischer, Xenophon Papademetris, Ziv
+    Yaniv, Luis Ibanez, Patrick Cheng, Haiying Liu, et al. "OpenIGTLink:
+    An Open Network Protocol for Image-Guided Therapy Environment." *The
+    International Journal of Medical Robotics + Computer Assisted
+    Surgery : MRCAS* 5, no. 4 (December 2009): 423--34.
+    doi:10.1002/rcs.274.
+
+129. Tye, Kay M., and Karl Deisseroth. "Optogenetic Investigation of
+    Neural Circuits Underlying Brain Disease in Animal Models." *Nature
+    Reviews Neuroscience* 13, no. 4 (April 2012): 251--66.
+    doi:10.1038/nrn3171.
+
+130. "Updating Formulae and a Pairwise Algorithm for Computing Sample
+    Variances - IP.com." Accessed December 5, 2015.
+    http://priorart.ip.com/IPCOM/000150677.
+
+131. Victor, Jonathan D. "Approaches to Information-Theoretic Analysis
+    of Neural Activity." *Biological Theory* 1, no. 3 (2006): 302--16.
+
+132. Vogelstein, Joshua T., Adam M. Packer, Timothy A. Machado, Tanya
+    Sippy, Baktash Babadi, Rafael Yuste, and Liam Paninski. "Fast
+    Nonnegative Deconvolution for Spike Train Inference From Population
+    Calcium Imaging." *Journal of Neurophysiology* 104, no. 6 (December
+    1, 2010): 3691--3704. doi:10.1152/jn.01073.2009.
+
+133. Vogt, Nina. "Neuroscience: Injectable Meshes for Neural
+    Recordings." *Nature Methods* 12, no. 8 (August 2015): 702--3.
+    doi:10.1038/nmeth.3511.
+
+134. Wählby, C., I.-M. Sintorn, F. Erlandsson, G. Borgefors, and E.
+    Bengtsson. "Combining Intensity, Edge and Shape Information for 2D
+    and 3D Segmentation of Cell Nuclei in Tissue Sections." *Journal of
+    Microscopy* 215, no. 1 (July 1, 2004): 67--76.
+    doi:10.1111/j.0022-2720.2004.01338.x.
+
+135. ---------. "Combining Intensity, Edge and Shape Information for 2D
+    and 3D Segmentation of Cell Nuclei in Tissue Sections." *Journal of
+    Microscopy* 215, no. 1 (July 1, 2004): 67--76.
+    doi:10.1111/j.0022-2720.2004.01338.x.
+
+136. Warden, Melissa R., Jessica A. Cardin, and Karl Deisseroth.
+    "Optical Neural Interfaces." *Annual Review of Biomedical
+    Engineering* 16, no. 1 (2014): 103--29.
+    doi:10.1146/annurev-bioeng-071813-104733.
+
+137. Wickham, Hadley. "A Layered Grammar of Graphics." *Journal of
+    Computational and Graphical Statistics* 19, no. 1 (January 2010):
+    3--28. doi:10.1198/jcgs.2009.07098.
+
+138. Wilson, J. Adam, Justin C. Williams, J. Adam Wilson, and Justin C.
+    Williams. "Massively Parallel Signal Processing Using the Graphics
+    Processing Unit for Real-Time Brain--computer Interface Feature
+    Extraction." *Frontiers in Neuroengineering* 2 (2009): 11.
+    doi:10.3389/neuro.16.011.2009.
+
+139. ---------. "Massively Parallel Signal Processing Using the Graphics
+    Processing Unit for Real-Time Brain--computer Interface Feature
+    Extraction." *Frontiers in Neuroengineering* 2 (2009): 11.
+    doi:10.3389/neuro.16.011.2009.
+
+140. Wood, Dylan, Margaret King, Drew Landis, William Courtney, Runtang
+    Wang, Ross Kelly, Jessica A. Turner, and Vince D. Calhoun.
+    "Harnessing Modern Web Application Technology to Create Intuitive
+    and Efficient Data Visualization and Sharing Tools." *Frontiers in
+    Neuroinformatics* 8 (2014): 71. doi:10.3389/fninf.2014.00071.
+
+141. Wu, Fan, Eran Stark, Pei-Cheng Ku, Kensall D. Wise, György Buzsáki,
+    and Euisik Yoon. "Monolithically Integrated μLEDs on Silicon Neural
+    Probes for High-Resolution Optogenetic Studies in Behaving Animals."
+    *Neuron* 88, no. 6 (December 16, 2015): 1136--48.
+    doi:10.1016/j.neuron.2015.10.032.
+
+142. W&\#xe4, Carolina Hlby, Joakim Lindblad, Mikael Vondrus, Ewert
+    Bengtsson, Bj&\#xf6, and Lennart Rkesten. "Algorithms for Cytoplasm
+    Segmentation of Fluorescence Labelled Cells." *Analytical Cellular
+    Pathology* 24, no. 2--3 (2002): 101--11. doi:10.1155/2002/821782.
+
+143. Xu, Ning-long, Mark T. Harnett, Stephen R. Williams, Daniel Huber,
+    Daniel H. O'Connor, Karel Svoboda, and Jeffrey C. Magee. "Nonlinear
+    Dendritic Integration of Sensory and Motor Input during an Active
+    Sensing Task." *Nature* 492, no. 7428 (December 13, 2012): 247--51.
+    doi:10.1038/nature11601.
+
+144. Yaroslavsky, L. P. "Compression, Restoration, Resampling,
+    'compressive Sensing': Fast Transforms in Digital Imaging." *Journal
+    of Optics* 17, no. 7 (July 1, 2015): 073001.
+    doi:10.1088/2040-8978/17/7/073001.
+
+145. Zhang, H. X., D. Massoubre, J. McKendry, Z. Gong, B. Guilhabert, C.
+    Griffin, E. Gu, P. E. Jessop, J. M. Girkin, and M. D. Dawson.
+    "Individually-Addressable Flip-Chip AlInGaN Micropixelated Light
+    Emitting Diode Arrays with High Continuous and Nanosecond Output
+    Power." *Optics Express* 16, no. 13 (June 23, 2008): 9918.
+    doi:10.1364/OE.16.009918.
+
+146. Accessed July 15, 2015. about:blank.
