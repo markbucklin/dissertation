@@ -1,9 +1,8 @@
+# Happy successes and Sad-Face Failures:
 
-## Happy successes and Sad-Face Failures: 
+##  What to expect when trying to process all that data your undergrad has been collecting, and the IT guys are anxiously emailing you about because you just crashed their server, and you won't have more space until friday, but you undergrad is recording TODAY!! wtf will you do? I don't know But here's a few suggestions:   Procedures for real-time image processing, neural signal extraction, and application to closed-loop control using wide-field Ca2+ fluorescence with awake behaving animals ##
 
-###  What to expect when trying to process all that data your undergrad has been collecting, and the IT guys are anxiously emailing you about because you just crashed their server, and you won't have more space until friday, but you undergrad is recording TODAY!! wtf will you do? I don't know But here's a few suggestions:   Procedures for real-time image processing, neural signal extraction, and application to closed-loop control using wide-field Ca2+ fluorescence with awake behaving animals
-
-### Mark E Bucklin
+### Mark E Bucklin ###
 
 The latest generation of genetically encoded sensors to emerge from molecular engineering labs are highly sensitive.
 These - combined with equally critical advances in the performance of affordable image sensor – have been put to use in labs conducting research neuroscience research to enable high-throughput detection of neural activity in behaving animals using both multi-photon and traditional wide-field fluorescence microscopy. Unfortunately, expanded sensing capability can generate a flow of data in proportions that challenge the standard procedures used to process, analyze, and store captured video. The torrent can easily overwhelm and debilitate, even when applying the latest and greatest from our ever-expanding arsenal of cluster computing resources. Sensing capabilities available to scientists, physicians and engineers will continue to grow exponentially, while traditional raw data storage and batch-processing routines will impose the same limits on throughput utilization.
