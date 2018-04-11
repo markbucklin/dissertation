@@ -1,23 +1,21 @@
-# Forward
-I have structured this document to roughly coincide with a chronological account of 6 years spent in a neuro-oriented biomedical engineering lab. My role in the lab was centered around exploratory device design and development, mostly targeting application in neuroscience research, with intended users being neuroscientist colleagues. One of the lab's most remarkable assets is the breadth and diversity of its constituents in terms of their skills and experience, both within and between the engineering/development and the science/medical sides of the lab. All efforts stood to benefit from the close proximity to skilled colleagues, most notably for the complementary guide and provide roles that assisted the development process of new devices and the experiments they were intended for.
 
-~~of guiding and providing new tools. offering broad coverage of problem solving capabilities, expanded availability of tools, and rapid feedback when)   stimulating continuous awareness of the fast-paced changes~~
 
-My initial experience in optoelectronic device development was as an undergrad at Columbia University where I was advised by Elizabeth Hillman, and developed a device that combined thermography and near-infrared spectroscopy in a portable and inexpensive device intended to provide early detection of adverse neoplastic changes through at-home daily monitoring, particularly targeting use by patients with high-risk for breast cancer.
 
-I then went to the Das Lab where I developed macroscopic imaging systems used for intrinsic imaging in the visual cortex of awake primates.
-
-As a MD/PhD student, I attempt to maintain a potential to adapt the end-products of each development for clinical applicability.
-
-The story presented here is rather unusual in that success precedes failure. The volume of tangible presentable results is greatest toward the beginning stages of the work described here. This unusual inversion is what make this story worth hearing, however. Thank you for taking the time to read this. I hope that at least the technical information provided herein, if not the procedural insight, is valuable in your current or future endeavors.
-
-# Body
 <!-- TOC -->
 
-- [Forward](#forward)
-- [Body](#body)
+- [Chapter - Microscopy](#chapter---microscopy)
+      - [DIY Widefield](#diy-widefield)
+            - [Cameras](#cameras)
+                  - [Scientific CMOS (sCMOS)](#scientific-cmos-scmos)
+            - [Filters](#filters)
+            - [Lenses](#lenses)
+            - [Mechanics](#mechanics)
+- [Chapter - Telemetry & Control](#chapter---telemetry-control)
+      - [SCADA on the Cheap](#scada-on-the-cheap)
+      - [Development boards](#development-boards)
+      - [Development Environment](#development-environment)
+- [Chapter - Contemporary Video Processing](#chapter---contemporary-video-processing)
       - [Background](#background)
-            - [Image Processing](#image-processing)
             - [Effective and Efficient Code](#effective-and-efficient-code)
       - [Microscopy and Functional Imaging Two core innovations in available](#microscopy-and-functional-imaging-two-core-innovations-in-available)
       - [Image Processing 1. Computing Power and Connectivity](#image-processing-1-computing-power-and-connectivity)
@@ -29,19 +27,62 @@ The story presented here is rather unusual in that success precedes failure. The
             - [Triangulate best](#triangulate-best)
       - [Image Enhancement](#image-enhancement)
       - [Feature Extraction](#feature-extraction)
-      - [EfficientCode](#efficientcode)
+- [Chapter - Acceleration and Optimization Procedures for Online Video Processing](#chapter---acceleration-and-optimization-procedures-for-online-video-processing)
       - [Tutorial](#tutorial)
             - [Incremental Update of Statistics](#incremental-update-of-statistics)
                   - [central moments](#central-moments)
                   - [Extract Features](#extract-features)
-      - [DataFLow Architectures](#dataflow-architectures)
-            - ["Globally Asynchronous Locally Synchronous"](#globally-asynchronous-locally-synchronous)
+- [Chapter - Evaluation of Approach](#chapter---evaluation-of-approach)
+      - [Choice of Implementation](#choice-of-implementation)
+            - [Language: Is MATLAB the best tool for this job?](#language-is-matlab-the-best-tool-for-this-job)
+                  - [Alternatives Languages](#alternatives-languages)
+                  - [Alternative Libraries](#alternative-libraries)
+      - [Choice of Interface](#choice-of-interface)
+            - [Procedural Framework: Pipes, Streams, & Graphs](#procedural-framework-pipes-streams-graphs)
+                  - [Concurrency: Parallel = Performance?](#concurrency-parallel-performance)
+                  - [Scheduling](#scheduling)
+                  - [Adaptive](#adaptive)
+      - [Choice of Operations](#choice-of-operations)
+            - [Motion Correction](#motion-correction)
+                  - [Motion Estimation](#motion-estimation)
+                  - [Motion Compensation & Interpolation](#motion-compensation-interpolation)
+- [Chapter - Survey of Alternative Strategies](#chapter---survey-of-alternative-strategies)
+      - [Implementation](#implementation)
+            - [EfficientCode](#efficientcode)
+            - [Operation](#operation)
+- [Chapter - Compression: as a Tool, a Goal, as an Explanation](#chapter---compression-as-a-tool-a-goal-as-an-explanation)
 
 <!-- /TOC -->
 
-## Background 
+# Chapter - Microscopy
 
-### Image Processing 
+## DIY Widefield
+
+### Cameras
+
+#### Scientific CMOS (sCMOS)
+- Correlated double sampling
+- HDR
+- On-sensor Fusion
+- Commercial availability
+- 
+
+### Filters
+
+### Lenses
+
+### Mechanics
+
+# Chapter - Telemetry & Control
+## SCADA on the Cheap
+
+## Development boards
+
+## Development Environment
+
+# Chapter - Contemporary Video Processing
+
+## Background 
 
 ### Effective and Efficient Code
 - Background - Microscopy and Functional Imaging - Image Processing
@@ -95,11 +136,9 @@ The story presented here is rather unusual in that success precedes failure. The
       - changes (single pixel) 
 - Mutual information changes (inter-pixel)
 
-## EfficientCode 
-- Scalable - Reusable - Make it MODULAR 
+# Chapter - Acceleration and Optimization Procedures for Online Video Processing 
 
 ## Tutorial
-
 
 ### Incremental Update of Statistics
 #### central moments
@@ -153,7 +192,92 @@ Simple Processing on GPU
 ```       
 
 
+# Chapter - Evaluation of Approach 
+Video Processing Strategy Thus Far
 
-## DataFLow Architectures
+## Choice of Implementation
 
-### "Globally Asynchronous Locally Synchronous"
+### Language: Is MATLAB the best tool for this job?
+- Standard language in many engineering programs
+- Proprietary
+- Performance
+- Compatibility
+- Need for a "SandBox"
+- Lacks modularity
+- 
+
+#### Alternatives Languages
+- Python
+- C/C++
+- Java/Scala
+- Javascript/Node
+- GO, Haskell
+
+#### Alternative Libraries
+- [NVIDIA Performance Primitives](https://developer.nvidia.com/npp)
+- [OpenCV](https://developer.nvidia.com/opencv)
+- [VLFeat](http://www.vlfeat.org/)
+- OpenGL
+- OpenCL
+- OpenVX
+- CLosedDoesNotExist (...?)
+- Shader Languages
+   - GLSL
+   - HLSL
+   - WebGL
+   - Halide
+   - 
+- FFmpeg
+- GStreamer
+
+## Choice of Interface
+### Procedural Framework: Pipes, Streams, & Graphs
+
+#### Concurrency: Parallel = Performance?
+Not always, no. While concurrent processing of independent tasks or sequentially arriving data elements will almost always increase performance, this is not always the case. At a lower instruction-level than we typically program, synchronous operations can often be optimized in ways that asynchronous operations cannot, typically through strategic register allocation, or by taking cache-hit performance).
+"Globally Asynchronous Locally Synchronous"
+
+#### Scheduling
+
+#### Adaptive 
+
+## Choice of Operations
+- What is the goal?
+- Is it effective?
+  - Is the computation cost worth the result?
+- Are there side-effects or artifacts?
+  - Can they be reliably controlled or accounted for?
+
+### Motion Correction
+In our application, the goal of a motion correction operation is to artificially suppress translation of the brain tissue parallel to the image plane. *Phase-Correlation* (also referred to as *normalized cross-correlation*) has consistent performance across a range of image sources with varying spatial noise characteristics. However, a large non-uniform change from reference frames - such as occurs when cells with low baseline fluourescence are first activated - can cause drastic errors that must be recognized and corrected by a supervisory procedure. This can induce an undesirable, unpredicatable, and specifically inopportune latency Unfortunately in all the whole pipeline.
+
+Unfortunately, 
+"Globally Asynchronous Locally Synchronous"
+
+as it's In some experimental setups, 
+
+The phase correlation method of 
+#### Motion Estimation
+- cost: 2-10 ms/frame
+- Frequently unstable (depending on video content)
+
+#### Motion Compensation & Interpolation
+- cost: 400-800 us/frame
+- Requires infill with nearby or prior pixel values if frame size is to be maintained
+
+
+
+# Chapter - Survey of Alternative Strategies
+
+## Implementation
+
+### EfficientCode 
+- Scalable - Reusable - Make it MODULAR 
+- 
+
+### Operation
+
+
+# Chapter - Compression: as a Tool, a Goal, as an Explanation
+
+
