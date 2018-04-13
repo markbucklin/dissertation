@@ -5,6 +5,8 @@
 - mermaidjs
   -[github](https://mermaidjs.github.io/)
   - example
+  
+---
 ```mermaid
 graph TD;
     A-->B;
@@ -17,7 +19,7 @@ graph TD;
     B->>fungusfeet: are you ok?
     fungusfeet-->A
 ```
-
+---
 
 ## Charts and Figures
 Vegajs - 'a visualization grammar'
