@@ -44,7 +44,7 @@ April 13, 2017
 				      
 
 #### Microscope and Mouse Securing Apparatus (headplate holder)
-
+![Widefield Microscope](widefield_microscope_diagram.png)
 ---
 
 #### Image Processing
@@ -236,4 +236,3 @@ The support and patience I have received from my committee has gone far beyond w
 * Tom Bifano, Ph.D.
 * David Boas, Ph.D.
  
----
