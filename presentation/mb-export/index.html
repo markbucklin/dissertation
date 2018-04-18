@@ -1,45 +1,53 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>RevealJS : z:\People\Mark\dissertation\presentation\mb.md</title>
-        <link rel="stylesheet" href="css/reveal.css">
-        <link rel="stylesheet" href="css/theme/night.css" id="theme">
-        
-       
-        <!-- For syntax highlighting -->
-        <link rel="stylesheet" href="lib/css/Zenburn.css">
 
-        
+<head>
+  <meta charset="utf-8">
+  <title>RevealJS : z:\People\Mark\dissertation\presentation\mb.md</title>
+  <link rel="stylesheet" href="css/reveal.css">
+  <link rel="stylesheet" href="css/theme/night.css" id="theme">
 
-        <!-- If the query includes 'print-pdf', use the PDF print sheet -->
-        <script>
-          document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
-        </script>
 
-        <style type="text/css">
-            @page {    
-              margin: 0;
-              size: auto; 
-            }
-        </style>
+  <!-- For syntax highlighting -->
+  <link rel="stylesheet" href="lib/css/Zenburn.css">
 
-        <script>
-         if(window.location.search.match( /print-pdf-now/gi )) {
-           window.print();
-         }
-      </script>
 
-    </head>
-    <body>
 
-        <div class="reveal">
-            <div class="slides"><section  data-markdown><script type="text/template">
+  <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+  <script>
+    document.write('<link rel="stylesheet" href="css/print/' + (window.location.search.match(/print-pdf/gi) ? 'pdf' : 'paper') + '.css" type="text/css" media="print">');
+  </script>
+
+  <style type="text/css">
+    @page {
+      margin: 0;
+      size: auto;
+    }
+  </style>
+
+  <script>
+    if (window.location.search.match(/print-pdf-now/gi)) {
+      window.print();
+    }
+  </script>
+
+</head>
+
+<body>
+
+  <div class="reveal">
+    <div class="slides">
+      <section data-markdown>
+        <script type="text/template">
 ### Development & Application of a Closed-Loop Continuous Optical Neural Interface 
 ###### Procedures for real-time image processing, neural signal extraction, and application to closed-loop control using wide-field Ca2+ fluorescence with awake behaving animals 
 April 13, 2017 
 ##### Mark Bucklin
-</script></section><section  data-markdown><script type="text/template">
+
+</script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
 
 #### Lab Contributions
 * Behavior Box for spatial discrimination study
@@ -48,13 +56,21 @@ April 13, 2017
 * Microscopes for fluourescence imaging
 * Image acquisition software
 * Video processing software
-</script></section><section  data-markdown><script type="text/template">
+
+</script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
 #### Outline
 * Using Wide-field Fluourescence Microscopy to image brain activity
 * Video processing: *Batch* processing *Pipeline*
 * Storage issue: *Stream* processing *Graph*
 * Coding for the **Future**
-</script></section><section  data-markdown><script type="text/template">
+
+</script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
 
 #### Imaging Brain Activity in Mice with a Wide-field Fluourescence Microscope
 * Sensor: GCaMP
@@ -66,11 +82,19 @@ April 13, 2017
 * Optical Filters
   * excitation filter + dichroic mirror + emission filter
 * scientific-CMOS Camera
-</script></section><section  data-markdown><script type="text/template">
+
+</script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
 				      
 
 #### Microscope and Mouse Securing Apparatus (headplate holder)
-![Widefield Microscope](widefield_microscope_diagram.png)</script></section><section  data-markdown><script type="text/template">
+![Widefield Microscope](widefield_microscope_diagram.png)<!-- {_class="reveal stretch"} -->
+</script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
 
 #### Image Processing
 * Noise filtering
@@ -78,7 +102,11 @@ April 13, 2017
 * Motion Correction
 * Cell Segmentation
   * Cell signal extraction: in manageable size
-</script></section><section  data-markdown><script type="text/template">
+
+</script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
       
 #### Motion Correction
 * approaches to find displacement
@@ -87,21 +115,37 @@ April 13, 2017
 * Feature Matching
     * Detect features (i.e. corners)
     * Triangulate best match
-</script></section><section  data-markdown><script type="text/template">
+
+</script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
 
 #### Cell Segmentation
 * Adaptive thresholding
 * Morphological condensation
 * Temporal clustering with reduced feature descriptor of cells
-</script></section><section  data-markdown><script type="text/template">
+
+</script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
 
 #### Functional connectivity network behavior and behavioral relevance
 * Connections across source
 * Connections across time
-</script></section><section  data-markdown><script type="text/template">
+
+</script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
 
 ### 3 Reasons we need to consider the future NOW
-</script></section><section  data-markdown><script type="text/template">
+
+</script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
 
 #### 1. Storage CRISIS: Data Volume
 * Traditional in science labs to store raw data
@@ -109,7 +153,11 @@ April 13, 2017
 * current capitalization 2 MB/s (16 mb/s)
 * Storage capacity is fixed
   * cumulative
-</script></section><section  data-markdown><script type="text/template">
+
+</script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
 
 #### 2. Information Loss: Opportunites to use expanded perspectives rather than reduced form
   * Contrast
@@ -119,7 +167,11 @@ April 13, 2017
   * "Feature" images
     * Gradients
     * Surface Curvature
-</script></section><section  data-markdown><script type="text/template">
+
+</script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
 
 #### 3. Trend Sensor Performance and Ubiquity are **Exploding**
 Two core innovations in available technology
@@ -129,7 +181,11 @@ Two core innovations in available technology
   * scientific CMOS
   * inexpensive "machine vision" cameras
 * (so is software)
-</script></section><section  data-markdown><script type="text/template">
+
+</script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
 
 #### Feature Extraction is fast
 * "Feature" images (temporally independent)
@@ -139,14 +195,22 @@ Two core innovations in available technology
     * Statistics changes (single pixel)
     * Mutual information changes (inter-pixel)
 * Continuity
-</script></section><section  data-markdown><script type="text/template">
+
+</script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
 
 #### Graphs identifying network connectivity can be built/updated online
 * Think
     * Facebook
     * Google
     * Netflix
-</script></section><section  data-markdown><script type="text/template">
+
+</script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
       
 #### Computing Power and Open Software
 * Computing Power and Connectivity
@@ -161,20 +225,36 @@ Two core innovations in available technology
   * CUDA
 * Scalable Computing frameworks
 
-</script></section><section  data-markdown><script type="text/template">
+
+</script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
 
 #### What is the way forward
 ##### DataFlow processing model
 * Tensorflow
-</script></section><section  data-markdown><script type="text/template">
+
+</script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
 
 #### Standard graphics solutions
 * FFmpeg
 * GStreamer
-</script></section><section  data-markdown><script type="text/template">
+
+</script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
 
 #### Compression is everything
-  - Consciousness</script></section><section  data-markdown><script type="text/template">
+  - Consciousness
+</script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
       
 #### Map-Reduce -> Dataflow Processing
 * Actors model
@@ -182,7 +262,11 @@ Two core innovations in available technology
 * **Graph** Processing
 * i.e. Tensorflow
 
-</script></section><section  data-markdown><script type="text/template">
+
+</script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
 
 #### (for my parents who may wish to know what MATLAB looks like)          
 ##### Incremental Update of Statistics
@@ -210,7 +294,11 @@ Two core innovations in available technology
   fmax = max(fmax, f);
 end
 ```					
-</script></section><section  data-markdown><script type="text/template">
+
+</script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
 
 #### Incremental Update of Statistics
 ##### Extract Feature
@@ -234,7 +322,11 @@ end
   
   [dm1,dm2,dm3,dm4] = arrayfun(@getStatisticUpdate(rowidx,colidx)
 ```
-</script></section><section  data-markdown><script type="text/template">
+
+</script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
 
 #### Acknowledgements
 The support and patience I have received from my committee has gone far beyond what should be expected of anyone. I can't thank you enough.
@@ -243,91 +335,95 @@ The support and patience I have received from my committee has gone far beyond w
 * Ian Davis, Ph.D.
 * Tom Bifano, Ph.D.
 * David Boas, Ph.D.
- 
----</script></section></div>
-        </div>
+ </script>
+      </section>
+    </div>
+  </div>
 
-        <script src="lib/js/head.min.js"></script>
-        <script src="js/reveal.js"></script>
+  <script src="lib/js/head.min.js"></script>
+  <script src="js/reveal.js"></script>
 
-        <script>
-            function extend() {
-              var target = {};
-              for (var i = 0; i < arguments.length; i++) {
-                var source = arguments[i];
-                for (var key in source) {
-                  if (source.hasOwnProperty(key)) {
-                    target[key] = source[key];
-                  }
-                }
-              }
-              return target;
-            }
-            // Optional libraries used to extend on reveal.js
-            var deps = [
-              { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
-              { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector('[data-markdown]'); } },
-              { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector('[data-markdown]'); } },
-              { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-              { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
-              { src: 'plugin/math/math.js', async: true }
-            ];
-            // default options to init reveal.js
-            var defaultOptions = {
-              controls: true,
-              progress: true,
-              history: true,
-              center: true,
-              transition: 'default',
-              dependencies: deps
-            };
-            // options from URL query string
-            var queryOptions = Reveal.getQueryHash() || {};
-            var options = {
-  "notesSeparator": "note:",
-  "separator": "^[\r\n?|\n]---[\r\n?|\n]$",
-  "verticalSeparator": "^[\r\n?|\n]--[\r\n?|\n]$",
-  "theme": "night",
-  "highlightTheme": "Zenburn",
-  "controls": true,
-  "progress": true,
-  "slideNumber": false,
-  "history": true,
-  "keyboard": true,
-  "overview": true,
-  "center": true,
-  "touch": true,
-  "loop": false,
-  "rtl": false,
-  "shuffle": false,
-  "fragments": true,
-  "embedded": false,
-  "help": true,
-  "showNotes": false,
-  "autoSlide": 0,
-  "autoSlideStoppable": true,
-  "mouseWheel": false,
-  "hideAddressBar": true,
-  "previewLinks": false,
-  "transition": "default",
-  "transitionSpeed": "default",
-  "backgroundTransition": "default",
-  "viewDistance": 3,
-  "parallaxBackgroundImage": "",
-  "parallaxBackgroundSize": "",
-  "parallaxBackgroundHorizontal": null,
-  "parallaxBackgroundVertical": null,
-  "slideExplorerEnabled": true,
-  "browserPath": null,
-  "author": "Mark Bucklin",
-  "title": "Development & Application of a Closed-Loop Continuous Optical Neural Interface",
-  "date": "April 13, 2017",
-  "attributes": ""
-};
-            options = extend(defaultOptions, options, queryOptions);
-            Reveal.initialize(options);
+  <script>
+    function extend() {
+      var target = {};
+      for (var i = 0; i < arguments.length; i++) {
+        var source = arguments[i];
+        for (var key in source) {
+          if (source.hasOwnProperty(key)) {
+            target[key] = source[key];
+          }
+        }
+      }
+      return target;
+    }
+    // Optional libraries used to extend on reveal.js
+    var deps = [
+      { src: 'lib/js/classList.js', condition: function () { return !document.body.classList; } },
+      { src: 'plugin/markdown/marked.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+      { src: 'plugin/markdown/markdown.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+      { src: 'plugin/highlight/highlight.js', async: true, callback: function () { hljs.initHighlightingOnLoad(); } },
+      { src: 'plugin/notes/notes.js', async: true, condition: function () { return !!document.body.classList; } },
+      { src: 'plugin/math/math.js', async: true }
+    ];
+    // default options to init reveal.js
+    var defaultOptions = {
+      controls: true,
+      progress: true,
+      history: true,
+      center: true,
+      transition: 'default',
+      dependencies: deps
+    };
+    // options from URL query string
+    var queryOptions = Reveal.getQueryHash() || {};
+    var options = {
+      "width": 1920,
+      "height": 1080,
+      "notesSeparator": "note:",
+      "separator": "^[\r\n?|\n]---[\r\n?|\n]$",
+      "verticalSeparator": "^[\r\n?|\n]--[\r\n?|\n]$",
+      "theme": "night",
+      "highlightTheme": "Zenburn",
+      "controls": true,
+      "progress": true,
+      "slideNumber": false,
+      "history": true,
+      "keyboard": true,
+      "overview": true,
+      "center": true,
+      "touch": true,
+      "loop": false,
+      "rtl": false,
+      "shuffle": false,
+      "fragments": true,
+      "embedded": false,
+      "help": true,
+      "showNotes": false,
+      "autoSlide": 0,
+      "autoSlideStoppable": true,
+      "mouseWheel": false,
+      "hideAddressBar": true,
+      "previewLinks": false,
+      "transition": "default",
+      "transitionSpeed": "default",
+      "backgroundTransition": "default",
+      "viewDistance": 3,
+      "parallaxBackgroundImage": "",
+      "parallaxBackgroundSize": "",
+      "parallaxBackgroundHorizontal": null,
+      "parallaxBackgroundVertical": null,
+      "slideExplorerEnabled": true,
+      "browserPath": null,
+      "author": "Mark Bucklin",
+      "title": "Development & Application of a Closed-Loop Continuous Optical Neural Interface",
+      "date": "April 13, 2017",
+      "attributes": ""
+    };
+    options = extend(defaultOptions, options, queryOptions);
+    Reveal.initialize(options);
 
-        </script>
-        
-    </body>
+  </script>
+
+</body>
+
 </html>

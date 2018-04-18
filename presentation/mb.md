@@ -44,7 +44,7 @@ April 13, 2017
 				      
 
 #### Microscope and Mouse Securing Apparatus (headplate holder)
-![Widefield Microscope](widefield_microscope_diagram.png)
+![Widefield Microscope](widefield_microscope_diagram.png)<!-- {_class="reveal stretch"} -->
 ---
 
 #### Image Processing
