@@ -1,14 +1,17 @@
 ﻿# Software Manifest & Management Tools
 ## Sources
-* Version-Control/Code Repositories
+* Version-Control
     * Github
     * Bitbucket
     * Gitlab
+    * Sourceforge
+    * 
+    * [Comparison on Wikipedia](https://en.wikipedia.org/wiki/Comparison_of_source_code_hosting_facilities)
+* Code Repositories
     * Matlab File Exchange
     * stack overflow
-    * (Google Code)[code.google.com]
+    * ~~(Google Code)[code.google.com]~~
 * Package Management & Binary Distribution Sites
-    * Sourceforge
     * Bintools/JFrog
     * Conan.io
     * NPM
@@ -225,6 +228,32 @@ Install Reason  : Explicitly installed
 Install Script  : Yes
 Validated By    : Signature
 ```
+### OpenEyes format
+
+```c++
+class Plugin
+{
+    UUID id                     // unique identifier
+
+    String namespace            // plugin namespace e.g. "uk.org.openeyes"
+    String pluginId             // computable plugin name e.g. "strabismus"
+    String fullyQualifiedName() { return namespace + "." + pluginId }
+
+    LocalizedValue name         // name
+    LocalizedValue description  // description
+    PluginAuthor author         // who created this plugin
+    Version version             // version
+
+    Manifest getManifest()      // returns the manifest of the JAR file
+    String getManifestAttribute(String attributeName)
+
+    String categoryPath         // category e.g. "clinical.ophthalmology.strabismus"
+    List<String> tags           // English tags for the plugin
+}
+```
+### Location in Java source packages which are packaged into JAR files
+    src/main/resources/META-INF/MANIFEST.MF
+
 
 ## Interesting MATLAB usage
 ```matlab
@@ -258,3 +287,30 @@ prodinfo = arrayfun(@get, prod);
 getProdInfo = @(name) com.mathworks.product.util.ProductIdentifier.get(name)
 ```
 
+### Java Archive (JAR) Manifest
+from [openeyes wiki](https://github.com/openeyes/architecture/wiki/Application-architecture)
+```java
+public static String getManifestAttribute(String attributeName) {
+    Enumeration resEnum;
+    try {
+        resEnum = Thread.currentThread().getContextClassLoader().getResources(JarFile.MANIFEST_NAME);
+        while (resEnum.hasMoreElements()) {
+            try {
+                URL url = (URL)resEnum.nextElement();
+                InputStream is = url.openStream();
+                if (is != null) {
+                    Manifest manifest = new Manifest(is);
+                    Attributes mainAttribs = manifest.getMainAttributes();
+                    return mainAttribs.getValue(attributeName);
+                }
+            }
+            catch (Exception e) {
+                // Silently ignore wrong manifests on classpath?
+            }
+        }
+    } catch (IOException e1) {
+        // Silently ignore wrong manifests on classpath?
+    }
+    return null; 
+}
+```
