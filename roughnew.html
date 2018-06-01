@@ -1,0 +1,978 @@
+<h1 id="forward">Forward</h1>
+<p>I have structured this document to roughly coincide with a chronological account of 6 years spent in a neuro-oriented biomedical engineering lab. My role in the lab was centered around exploratory device design and development, mostly targeting application in neuroscience research, with intended users being neuroscientist colleagues. One of the lab's most remarkable assets is the breadth and diversity of its constituents in terms of their skills and experience, both within and between the engineering/development and the science/medical sides of the lab. All efforts stood to benefit from the close proximity to skilled colleagues, most notably for the complementary guide and provide roles that assisted the development process of new devices and the experiments they were intended for.</p>
+<p><del>of guiding and providing new tools. offering broad coverage of problem solving capabilities, expanded availability of tools, and rapid feedback when) stimulating continuous awareness of the fast-paced changes</del></p>
+<p>My initial experience in optoelectronic device development was as an undergrad at Columbia University where I was advised by Elizabeth Hillman, and developed a device that combined thermography and near-infrared spectroscopy in a portable and inexpensive device intended to provide early detection of adverse neoplastic changes through at-home daily monitoring, particularly targeting use by patients with high-risk for breast cancer.</p>
+<p>I then went to the Das Lab where I developed macroscopic imaging systems used for intrinsic imaging in the visual cortex of awake primates.</p>
+<p>As a MD/PhD student, I attempt to maintain a potential to adapt the end-products of each development for clinical applicability.</p>
+<p>The story presented here is rather unusual in that success precedes failure. The volume of tangible presentable results is greatest toward the beginning stages of the work described here. This unusual inversion is what make this story worth hearing, however. Thank you for taking the time to read this. I hope that at least the technical information provided herein, if not the procedural insight, is valuable in your current or future endeavors.</p>
+<h3 id="filters">Filters</h3>
+<h3 id="lenses">Lenses</h3>
+<h3 id="mechanics">Mechanics</h3>
+<h1 id="chapter---telemetry-control">Chapter - Telemetry &amp; Control</h1>
+<h2 id="scada-on-the-cheap">SCADA on the Cheap</h2>
+<h2 id="development-boards">Development boards</h2>
+<h2 id="development-environment">Development Environment</h2>
+<h1 id="chapter---contemporary-video-processing">Chapter - Contemporary Video Processing</h1>
+<h2 id="background">Background</h2>
+<h3 id="effective-and-efficient-code">Effective and Efficient Code</h3>
+<ul>
+<li>Background - Microscopy and Functional Imaging - Image Processing</li>
+</ul>
+<h2 id="microscopy-and-functional-imaging-two-core-innovations-in-available">Microscopy and Functional Imaging Two core innovations in available</h2>
+<ul>
+<li>technology
+<ol style="list-style-type: decimal">
+<li>Synthetic bio (i.e. GCaMP)</li>
+<li>Cameras</li>
+</ol></li>
+<li>scientific CMOS</li>
+</ul>
+<h2 id="image-processing-1.-computing-power-and-connectivity">Image Processing 1. Computing Power and Connectivity</h2>
+<ul>
+<li>Remote Clusters (AWS)</li>
+<li>Graphics Processing Units (NVIDIA GTX)</li>
+<li>Embedded Units (NVIDIA Tegra X2) 2. Well developed libraries</li>
+<li>ImageJ (so so)</li>
+<li>OpenCV (uses OpenCL)</li>
+<li>GStreamer (much better)</li>
+<li>OpenGL</li>
+<li><p>Shader</p></li>
+<li><p>Shader</p></li>
+</ul>
+<h2 id="big-data">Big Data</h2>
+<ul>
+<li>not exactly...</li>
+<li>disparate simple queries across</li>
+</ul>
+<h2 id="map-reduce">Map-Reduce</h2>
+<ul>
+<li>Dataflow Processing</li>
+<li>Actors model</li>
+<li>Petri Nets</li>
+<li>Graph Processing
+<ul>
+<li>i.e. Tensorflow</li>
+</ul></li>
+</ul>
+<h2 id="image-processing">Image Processing</h2>
+<ul>
+<li>Motion Correction</li>
+<li>Image Enhancement</li>
+</ul>
+<h2 id="motion-correction-two-approaches-to-find-displacement">Motion Correction Two approaches to find displacement</h2>
+<h3 id="spatially-homogeneous-phase-correlation">Spatially Homogeneous phase correlation</h3>
+<ul>
+<li>aka normalized cross correlation - Feature Matching</li>
+<li>Detect features (i.e. corners) ### Triangulate best</li>
+</ul>
+<h2 id="image-enhancement">Image Enhancement</h2>
+<ol style="list-style-type: decimal">
+<li>Contrast - Linear Scaling - Lookup Tables</li>
+<li>Spatial and Temporal Filtering</li>
+<li>Feature images - Gradients</li>
+</ol>
+<h2 id="feature-extraction">Feature Extraction</h2>
+<ol style="list-style-type: decimal">
+<li>Feature images (temporally independent)</li>
+</ol>
+<ul>
+<li>Gradients - Surface Curvature 2. Long Term Memory - Statistics
+<ul>
+<li>changes (single pixel)</li>
+</ul></li>
+<li>Mutual information changes (inter-pixel)</li>
+</ul>
+<h1 id="chapter---acceleration-and-optimization-procedures-for-online-video-processing">Chapter - Acceleration and Optimization Procedures for Online Video Processing</h1>
+<h2 id="tutorial">Tutorial</h2>
+<h3 id="incremental-update-of-statistics">Incremental Update of Statistics</h3>
+<h4 id="central-moments">central moments</h4>
+<div class="sourceCode"><pre class="sourceCode matlab"><code class="sourceCode matlab">      function [m1,m2,m3,m4,fmin,fmax] = updateStatistics(x,m1,m2,m3,m4))
+            n = n + <span class="fl">1</span>;
+            
+            <span class="co">% GET PIXEL SAMPLE</span>
+            f = F(rowIdx,colIdx,k);
+            
+            <span class="co">% PRECOMPUTE &amp; CACHE SOME VALUES FOR SPEED</span>
+            d = single(f) - m1;
+            dk = d/n;
+            dk2 = dk^<span class="fl">2</span>;
+            s = d*dk*(n-<span class="fl">1</span>);
+            
+            <span class="co">% UPDATE CENTRAL MOMENTS</span>
+            m1 = m1 + dk;
+            m4 = m4 + s*dk2*(n.^<span class="fl">2</span>-<span class="fl">3</span>*n+<span class="fl">3</span>) + <span class="fl">6</span>*dk2*m2 - <span class="fl">4</span>*dk*m3;
+            m3 = m3 + s*dk*(n-<span class="fl">2</span>) - <span class="fl">3</span>*dk*m2;
+            m2 = m2 + s;
+            
+            <span class="co">% UPDATE MIN &amp; MAX</span>
+            fmin = min(fmin, f);
+            fmax = max(fmax, f);
+      end</code></pre></div>
+<h4 id="extract-features">Extract Features</h4>
+<div class="sourceCode"><pre class="sourceCode matlab"><code class="sourceCode matlab">
+      function [dm1,dm2,dm3,dm4] = getStatisticUpdate(x,m1,m2,m3,m4)
+            <span class="co">% COMPUTE DIFFERENTIAL UPDATE TO CENTRAL MOMENTS</span>
+            dm1 = dk;
+            m1 = m1 + dm1;
+            dm4 = s*dk2*(n^<span class="fl">2</span>-<span class="fl">3</span>*n+<span class="fl">3</span>) + <span class="fl">6</span>*dk2*m2 - <span class="fl">4</span>*dk*m3;   
+            dm3 = s*dk*(n-<span class="fl">2</span>) - <span class="fl">3</span>*dk*m2;
+            dm2 = s;
+            m2 = m2 + dm2;
+            <span class="co">% NORMALIZE BY VARIANCE &amp; SAMPLE NUMBER -&gt; CONVERSION TO dVar, dSkew, dKurt   </span>
+            dm2 = dm2/max(<span class="fl">1</span>,n-<span class="fl">1</span>);
+            dm3 = dm3*sqrt(max(<span class="fl">1</span>,n))/(m2^<span class="fl">1.5</span>);
+            dm4 = dm4*n/(m2^<span class="fl">2</span>);                 
+      end</code></pre></div>
+<p>Simple Processing on GPU</p>
+<div class="sourceCode"><pre class="sourceCode matlab"><code class="sourceCode matlab">      [dm1,dm2,dm3,dm4] = arrayfun(@getStatisticUpdate(x,m1,m2,m3,m4)
+      [dm1,dm2,dm3,dm4] = arrayfun(@getStatisticUpdate(rowidx,colidx)</code></pre></div>
+<h4 id="alternative-libraries">Alternative Libraries</h4>
+<ul>
+<li><a href="https://developer.nvidia.com/npp">NVIDIA Performance Primitives</a></li>
+<li><a href="https://developer.nvidia.com/opencv">OpenCV</a></li>
+<li><a href="http://www.vlfeat.org/">VLFeat</a></li>
+<li>OpenGL</li>
+<li>OpenCL</li>
+<li>OpenVX</li>
+<li>CLosedDoesNotExist (...?)</li>
+<li>Shader Languages</li>
+<li>GLSL</li>
+<li>HLSL</li>
+<li>WebGL</li>
+<li>Halide</li>
+<li></li>
+<li>FFmpeg</li>
+<li>GStreamer</li>
+</ul>
+<h2 id="choice-of-interface">Choice of Interface</h2>
+<h3 id="procedural-framework-pipes-streams-graphs">Procedural Framework: Pipes, Streams, &amp; Graphs</h3>
+<h4 id="concurrency-parallel-performance">Concurrency: Parallel = Performance?</h4>
+<p>Not always, no. While concurrent processing of independent tasks or sequentially arriving data elements will almost always increase performance, this is not always the case. At a lower instruction-level than we typically program, synchronous operations can often be optimized in ways that asynchronous operations cannot, typically through strategic register allocation, or by taking cache-hit performance). &quot;Globally Asynchronous Locally Synchronous&quot;</p>
+<h4 id="scheduling">Scheduling</h4>
+<h4 id="adaptive">Adaptive</h4>
+<h2 id="choice-of-operations">Choice of Operations</h2>
+<ul>
+<li>What is the goal?</li>
+<li>Is it effective?</li>
+<li>Is the computation cost worth the result?</li>
+<li>Are there side-effects or artifacts?</li>
+<li>Can they be reliably controlled or accounted for?</li>
+</ul>
+<h3 id="motion-correction">Motion Correction</h3>
+<p>In our application, the goal of a motion correction operation is to artificially suppress translation of the brain tissue parallel to the image plane. <em>Phase-Correlation</em> (also referred to as <em>normalized cross-correlation</em>) has consistent performance across a range of image sources with varying spatial noise characteristics. However, a large non-uniform change from reference frames - such as occurs when cells with low baseline fluourescence are first activated - can cause drastic errors that must be recognized and corrected by a supervisory procedure. This can induce an undesirable, unpredicatable, and specifically inopportune latency Unfortunately in all the whole pipeline.</p>
+<p>Unfortunately, &quot;Globally Asynchronous Locally Synchronous&quot;</p>
+<p>as it's In some experimental setups,</p>
+<p>The phase correlation method of #### Motion Estimation - cost: 2-10 ms/frame - Frequently unstable (depending on video content)</p>
+<h4 id="motion-compensation-interpolation">Motion Compensation &amp; Interpolation</h4>
+<ul>
+<li>cost: 400-800 us/frame</li>
+<li>Requires infill with nearby or prior pixel values if frame size is to be maintained</li>
+</ul>
+<h1 id="chapter---survey-of-alternative-strategies">Chapter - Survey of Alternative Strategies</h1>
+<h2 id="implementation">Implementation</h2>
+<h3 id="efficientcode">EfficientCode</h3>
+<ul>
+<li>Scalable - Reusable - Make it MODULAR</li>
+<li></li>
+</ul>
+<h3 id="operation">Operation</h3>
+<h1 id="chapter---compression-as-a-tool-a-goal-as-an-explanation">Chapter - Compression: as a Tool, a Goal, as an Explanation</h1>
+<h1 id="toolbox-utils">Toolbox Utils</h1>
+<p>Should I include these?... will have to think about it ## Chainable interface</p>
+<h2 id="resource-survey-packaging-inspection">Resource survey, packaging, inspection</h2>
+<ul>
+<li>Cross-toolpkglibbox identification of similar functionality
+<ul>
+<li>benchmarking comparison</li>
+<li>cost analysis</li>
+<li>abstracted package procurement</li>
+</ul></li>
+</ul>
+<h2 id="function-call-syntax-inspection">function call syntax inspection</h2>
+<ul>
+<li>cache function calls and execution profile
+<ul>
+<li>input/output sizes, types</li>
+<li>input/output variable names</li>
+<li>input/output parameter values</li>
+<li>performance-profile</li>
+<li>device and environment props</li>
+</ul></li>
+<li>'mocking' to determine usage
+<ul>
+<li></li>
+</ul></li>
+</ul>
+<h2 id="builtinundoc-exposure">Builtin/undoc exposure</h2>
+<ul>
+<li>for use with System objects
+<ul>
+<li>matlab.system.SystemProp.___
+<ul>
+<li>set/getParentGraph</li>
+<li>setInstanceName</li>
+<li>getInputNames</li>
+<li>getSystemObjectDescriptionFromH1Line</li>
+<li>sysObjNodeCloneHelper</li>
+<li>[majorV, minorV] = getVersionNumber</li>
+<li>getVersionString</li>
+<li>showSimulateUsing</li>
+<li>getPropertyGroups</li>
+</ul></li>
+<li>matlab.system.SystemImpl.___
+<ul>
+<li>getExecutionSematicsImpl</li>
+<li>[flag, sysmex] = isAccelerated(obj)</li>
+<li>profileInfo = getProfileData()</li>
+<li>getCachedInputSize</li>
+<li>getAlternateBlock</li>
+</ul></li>
+</ul></li>
+<li>mshow
+<ul>
+<li>lists packages and package contents</li>
+</ul></li>
+</ul>
+<h2 id="logging">Logging</h2>
+<p>Suggested format compatible with log4j (<a href="https://github.com/openeyes/architecture/wiki/Application-architecture">openeyes</a>)</p>
+<ul>
+<li>source -- the source of the audit log entry, this must be the fully qualified class name and method name in the format
+<ul>
+<li>CLASS_NAME.METHOD_NAME for example, uk.org.openeyes.services.PatientService.addPatient</li>
+</ul></li>
+<li>logLevel -- the severity of the log entry from the following conventions:
+<ul>
+<li>INFO - informational only, no action should be taken</li>
+<li>WARN -- warning, action is required but not immediately</li>
+<li>ERROR -- an error has occurred requiring action</li>
+<li>FATAL -- a very error has occurred and requires immediate action</li>
+<li>DEBUG -- fine-grained information used only for debugging and troubleshooting</li>
+<li>TRACE -- a lower-level than debug for intense troubleshooting</li>
+</ul></li>
+<li>message -- a string message that is written directly to a log</li>
+<li>format -- a format string which will format an indefinite number of parameters into a string message to log</li>
+</ul>
+<h3 id="common-element-component-interface-model">Common Element component interface model</h3>
+<p>(also from OpenEyes)</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp">List&lt;Element&gt; getAll(Paging paging, boolean includeDeleted = <span class="kw">false</span>)
+List&lt;Element&gt; get(ElementQuery query, Paging paging, boolean includeDeleted = <span class="kw">false</span>)
+
+Element get(UUID elementId)
+Element get(UUID elementId, Version version)
+
+<span class="dt">void</span> create(Element element)
+<span class="dt">void</span> update(Element element)
+<span class="dt">void</span> update(Element element, Version version)
+<span class="dt">void</span> <span class="kw">delete</span>(Element element)
+<span class="dt">void</span> destroy(Element element)    
+
+}
+
+<span class="co">// The base class for all elements</span>
+abstract <span class="kw">class</span> Element {
+
+    UUID id
+    String name
+    String description
+    Version version
+
+}    
+
+<span class="co">// An element composed of other elements</span>
+abstract <span class="kw">class</span> CompositeElement extends Element {
+
+    OrderedTree&lt;Element&gt; items
+
+}</code></pre></div>
+<h2 id="compatibilityextensibility">Compatibility/Extensibility</h2>
+<p>The goal is to maximize opportunities to utilize preexisting tools borrowed from sectors with similar performance and capability requirements. Often these are well developed, highly optimized, and sufficiently stable.</p>
+<p>Examples: * Video Game design * Broadcast video and television (e.g. live sports) * Machine vision * Industrial control and automation * Automotive * Surveillance/Security-monitoring * Remote sensing</p>
+<h3 id="file-formats-for-compatibility">File formats for Compatibility</h3>
+<p>from Banshee3d game engine and editor (<a href="https://www.banshee3d.com/">Banshee 3D</a>)</p>
+<table>
+<thead>
+<tr class="header">
+<th>Resource</th>
+<th>File Extension</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mesh/animation</td>
+<td>.FBX, .OBJ, .DAE</td>
+</tr>
+<tr class="even">
+<td>Texture</td>
+<td>.PNG, .PSD, .BMP, .JPG, .GIF, .TIFF, .DDS</td>
+</tr>
+<tr class="odd">
+<td>Audio</td>
+<td>.OGG, .WAV, .FLAC, .MP3</td>
+</tr>
+<tr class="even">
+<td>Fonts</td>
+<td>.OTF, .TTF</td>
+</tr>
+<tr class="odd">
+<td>Shaders</td>
+<td>HLSL, GLSL</td>
+</tr>
+</tbody>
+</table>
+<p>Shader Intermediary: SPIR-V (transpiles between HLSL, GLSL, Vulkan, OpenVX?) # Software Manifest &amp; Management Tools ## Sources * Version-Control * Github * Bitbucket * Gitlab * Sourceforge * * <a href="https://en.wikipedia.org/wiki/Comparison_of_source_code_hosting_facilities">Comparison on Wikipedia</a> * Code Repositories * Matlab File Exchange * stack overflow * <del>(Google Code)[code.google.com]</del> * Package Management &amp; Binary Distribution Sites * Bintools/JFrog * Conan.io * NPM * Nuget * VCPkg * Chocolatey (win) * Apt/yum (linux) * Pacman (msys/mingw) * Pact (babun/cygwin) * scoop * NPackd * Pypi * Research Entity Web Sites * From Laboratory Manifest * Janelia * INRIA * Schartz Center for Computational Neuroscience (SCCN) * (SCCN Homepage)[https://sccn.ucsd.edu/wiki/SCCN_Software] * (SCCN Github)[https://github.com/sccn] * EEGLAB, BCILAB,Lab-Streaming-Layer * Cohen Lab * LeverJS * NIH * NASA * Binary Utilities * gtools * exetools * nirsoft * sysinternals * unxutils * x64tools * BU EngIT (butools) * OSS Foundations * Apache * Citations in Literature * from Biblio-Manifest * SCC or Grid Utilities</p>
+<h2 id="local-filesystem">Local Filesystem</h2>
+<h3 id="shared-library-interrogation">Shared-Library Interrogation</h3>
+<ul>
+<li>DLL utilities
+<ul>
+<li>dllexp</li>
+<li>dllusage</li>
+</ul></li>
+<li>JAR Search
+<ul>
+<li>find all jars on system in drive &quot;Z:&quot;</li>
+<li><blockquote>
+<p>dir z:  /S /b | findstr /E /C:&quot;.jar&quot; &gt;&gt; Z:_zdrive.txt</p>
+</blockquote></li>
+</ul></li>
+</ul>
+<h3 id="matlab-installation-directory">MATLAB Installation Directory</h3>
+<ul>
+<li>filetypes
+<ul>
+<li>.m</li>
+<li>.p (may not be useful as contents are intended to be obscured)</li>
+<li>.h, .hpp (c/cpp headers)</li>
+<li>.c, .cpp (c/cpp sources)</li>
+<li>.lib (shared library exported functions)</li>
+<li>.def (exported function definition)</li>
+<li>.dll, .exe, .mexw64, .mexw32, .mex__, .sh, .bat</li>
+<li>.config?, .ini?</li>
+<li>.xml &amp; .xsd
+<ul>
+<li>function signatures</li>
+<li>function registry
+<ul>
+<li>e.g. dataflow.xml, dataread.xml, datetime.xml, duration.xml</li>
+<li>visiongpu.xml</li>
+<li>visionscopes.xml</li>
+</ul></li>
+</ul></li>
+<li>.m3iconfig</li>
+<li>.html
+<ul>
+<li>help content</li>
+<li>toc</li>
+<li>package/toolbox contents</li>
+<li>examples/demos,</li>
+<li>other</li>
+<li>functionlist.html</li>
+</ul></li>
+<li>.map (?)
+<ul>
+<li>helptargets.map</li>
+</ul></li>
+<li>.json
+<ul>
+<li>examples.json</li>
+</ul></li>
+<li>.js
+<ul>
+<li>docscripts.js</li>
+</ul></li>
+<li>.slx (simulink)</li>
+<li>.txt
+<ul>
+<li><strong>synonyms.txt</strong></li>
+</ul></li>
+<li>.properties</li>
+<li>.svg, .png, .gif, .jpg</li>
+<li>.csv
+<ul>
+<li>linkscores.csv</li>
+</ul></li>
+<li></li>
+<li>.class in .jar (java archive) files</li>
+</ul></li>
+<li>Release Notes</li>
+<li>metaprogramming tools: *meta.___* classes
+<ul>
+<li>.class -&gt; metaclass(obj), or ?obj, or meta.class.fromName</li>
+<li>.package -&gt; meta.package.getAllPackages, meta.package.fromName</li>
+<li>.method</li>
+<li>.property</li>
+<li>.event</li>
+<li>.DynamicProperty</li>
+<li>.EnumeratedValue</li>
+<li>.MetaData</li>
+<li>.ArrayDimension</li>
+<li>.FixedDimension</li>
+<li>.UnrestrictedDimension</li>
+<li>.Validation</li>
+</ul></li>
+<li>recursive tree traversal using <em>mshow()</em></li>
+<li>farg, fdep</li>
+<li>exploreJavaSources</li>
+<li>objection introspection
+<ul>
+<li>methods, properties, events</li>
+<li>fieldnames(struct(obj))</li>
+<li>superclasses</li>
+<li>methodsview</li>
+</ul></li>
+<li>function runtime introspection
+<ul>
+<li>nargin nargout</li>
+<li>dbstack</li>
+<li>inputnames, outputnames</li>
+<li>[I,J,V] = inmem -all</li>
+</ul></li>
+<li>package codetools
+<ul>
+<li>deprpt</li>
+<li>helpfunc</li>
+<li>getFileNameAsHyperlink</li>
+<li>contentsrpt</li>
+<li>internal.matlab.reports.___
+<ul>
+<li>matlabFiles</li>
+<li>parseDependencyInfo</li>
+</ul></li>
+</ul></li>
+<li>package internal.matlab.reports</li>
+<li>standard path survey exploration
+<ul>
+<li>what pathname</li>
+<li>which -all keyword</li>
+<li>lookfor</li>
+<li>locate?</li>
+</ul></li>
+<li>Deep/Undocumented Survey
+<ul>
+<li>Packages -&gt; metapackage</li>
+<li>M-files</li>
+<li>findMFileFoldersInTree</li>
+</ul></li>
+<li>File-Exchange API?</li>
+<li>matlab.internal.language.registry</li>
+</ul>
+<h3 id="automated-syntax-assistance">Automated Syntax Assistance</h3>
+<ul>
+<li>(general)
+<ul>
+<li>getmcode</li>
+<li>helpfunc</li>
+<li>contentsrpt</li>
+<li>internal.matlab.reports</li>
+<li>getmcode</li>
+</ul></li>
+<li>Operation dependencies
+<ul>
+<li><ul>
+<li>functions()</li>
+</ul></li>
+<li>getcallinfo</li>
+<li>getundoc()</li>
+<li>farg, fdep</li>
+<li>deprpt</li>
+<li>parseDependencyInfo</li>
+</ul></li>
+<li>Argument Numbers, Acess constraints, defaults
+<ul>
+<li>in, out, inout, static/persistent, global</li>
+<li>nargin, nargout during dbstep-tracing or nargin(<span class="citation">@fcn</span>)</li>
+</ul></li>
+<li>Argument Names &amp; (function call <em>signature</em>)
+<ul>
+<li>getString(message('MATLAB:fcnname:fcnsub'))</li>
+<li>com.mathworks.matlab.api.explorer</li>
+<li>com.mathworks.jmi.MLFileUtils</li>
+<li>codetools.___ package</li>
+<li><ul>
+<li>getArgumentInfo()</li>
+</ul></li>
+<li>getdescription()</li>
+<li>FunctionInfo()</li>
+<li>System objects
+<ul>
+<li>getInputNames(), getOutputNames()</li>
+<li>getPublicProperties</li>
+<li>getSourceDataTypeInfo</li>
+<li>in idpack.___ package: pvget(z,'InputName');</li>
+</ul></li>
+<li>getFunctionSignature()</li>
+<li>processArgs?</li>
+<li>matlab.mixin.CustomDisplay</li>
+</ul></li>
+<li>Size, Type, and other props (i.e. constrain limit [0,1])</li>
+</ul>
+<h2 id="manifest-file-format">Manifest File Format</h2>
+<h3 id="json-array-of-json-objects-for-each-resource">JSON: Array of json objects for each resource</h3>
+<div class="sourceCode"><pre class="sourceCode json"><code class="sourceCode json"><span class="fu">{</span>
+  <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;vscode-docs&quot;</span><span class="fu">,</span>
+  <span class="dt">&quot;version&quot;</span><span class="fu">:</span> <span class="st">&quot;0.10.3&quot;</span><span class="fu">,</span>
+  <span class="dt">&quot;author&quot;</span><span class="fu">:</span> <span class="fu">{</span>
+    <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;Microsoft Corporation&quot;</span>
+  <span class="fu">},</span>
+  <span class="dt">&quot;repository&quot;</span><span class="fu">:</span> <span class="fu">{</span>
+    <span class="dt">&quot;type&quot;</span><span class="fu">:</span> <span class="st">&quot;git&quot;</span><span class="fu">,</span>
+    <span class="dt">&quot;url&quot;</span><span class="fu">:</span> <span class="st">&quot;https://github.com/Microsoft/vscode-docs.git&quot;</span>
+  <span class="fu">},</span>
+  <span class="dt">&quot;devDependencies&quot;</span><span class="fu">:</span> <span class="fu">{</span>
+    <span class="dt">&quot;gulp&quot;</span><span class="fu">:</span> <span class="st">&quot;^3.9.1&quot;</span><span class="fu">,</span>
+    <span class="dt">&quot;shelljs&quot;</span><span class="fu">:</span> <span class="st">&quot;^0.7.8&quot;</span>
+  <span class="fu">}</span>
+<span class="fu">}</span></code></pre></div>
+<h3 id="pacman-msys-format">Pacman (Msys) format</h3>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span class="fu">Name            :</span><span class="at"> texinfo</span>
+<span class="fu">Version         :</span><span class="at"> 6.3-1</span>
+<span class="fu">Description     :</span><span class="at"> Utilities to work with and produce manuals, ASCII text, and on-line documentation from a single source file</span>
+<span class="fu">Architecture    :</span><span class="at"> x86_64</span>
+<span class="fu">URL             :</span><span class="at"> https://www.gnu.org/software/texinfo/</span>
+<span class="fu">Licenses        :</span><span class="at"> GPL3</span>
+<span class="fu">Groups          :</span><span class="at"> base-devel</span>
+<span class="fu">Provides        :</span><span class="at"> None</span>
+<span class="fu">Depends On      :</span><span class="at"> info  perl  sh</span>
+<span class="fu">Optional Deps   :</span><span class="at"> None</span>
+<span class="fu">Required By     :</span><span class="at"> None</span>
+<span class="fu">Optional For    :</span><span class="at"> None</span>
+<span class="fu">Conflicts With  :</span><span class="at"> None</span>
+<span class="fu">Replaces        :</span><span class="at"> None</span>
+<span class="fu">Installed Size  :</span><span class="at"> 7.63 MiB</span>
+<span class="fu">Packager        :</span><span class="at"> Alexey Pavlov &lt;alexpux@gmail.com&gt;</span>
+<span class="fu">Build Date      :</span><span class="at"> Tue, Feb 21, 2017 1:44:05 AM</span>
+<span class="fu">Install Date    :</span><span class="at"> Wed, Oct 11, 2017 4:21:20 AM</span>
+<span class="fu">Install Reason  :</span><span class="at"> Explicitly installed</span>
+<span class="fu">Install Script  :</span><span class="at"> Yes</span>
+<span class="fu">Validated By    :</span><span class="at"> Signature</span></code></pre></div>
+<h3 id="openeyes-format">OpenEyes format</h3>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">class</span> Plugin
+{
+    UUID id                     <span class="co">// unique identifier</span>
+
+    String <span class="kw">namespace</span>            <span class="co">// plugin namespace e.g. &quot;uk.org.openeyes&quot;</span>
+    String pluginId             <span class="co">// computable plugin name e.g. &quot;strabismus&quot;</span>
+    String fullyQualifiedName() { <span class="cf">return</span> <span class="kw">namespace</span> + <span class="st">&quot;.&quot;</span> + pluginId }
+
+    LocalizedValue name         <span class="co">// name</span>
+    LocalizedValue description  <span class="co">// description</span>
+    PluginAuthor author         <span class="co">// who created this plugin</span>
+    Version version             <span class="co">// version</span>
+
+    Manifest getManifest()      <span class="co">// returns the manifest of the JAR file</span>
+    String getManifestAttribute(String attributeName)
+
+    String categoryPath         <span class="co">// category e.g. &quot;clinical.ophthalmology.strabismus&quot;</span>
+    List&lt;String&gt; tags           <span class="co">// English tags for the plugin</span>
+}</code></pre></div>
+<h3 id="location-in-java-source-packages-which-are-packaged-into-jar-files">Location in Java source packages which are packaged into JAR files</h3>
+<pre><code>src/main/resources/META-INF/MANIFEST.MF</code></pre>
+<h2 id="interesting-matlab-usage">Interesting MATLAB usage</h2>
+<div class="sourceCode"><pre class="sourceCode matlab"><code class="sourceCode matlab">[attrNames, methodsData] = methodsview(<span class="st">&#39;com.mathworks.product.util.ProductIdentifier&#39;</span>, <span class="st">&#39;libfunctionsview&#39;</span>)
+[attrNames, methodsData] = methodsview(<span class="st">&#39;com.mathworks.product.util.ProductIdentifier&#39;</span>, <span class="st">&#39;noUI&#39;</span>)
+usbman = internal.deviceplugindetection.Manager.getInstance();
+getPCIInfo(slrt, <span class="st">&#39;installed&#39;</span>);
+chan = asyncio.Channel;
+stin = asyncio.InputStream;
+stout = asyncio.OutputStream;
+unlicfcn = matlab.internal.language.registry.findUnlicensedFunctions;
+help matlab.internal.language.structuredeval
+lhi = helpUtils.createMatlabLink(<span class="st">&#39;hi&#39;</span>);
+titledcmd = helpUtils.createMatlabCommandWithTitle(<span class="st">&#39;disp(&#39;&#39;CommandTitle&#39;&#39;)&#39;</span>);
+help helpUtils.makeDualCommand
+port = connector.securePort;
+wserv = connector.internal.webserver
+webeng = connector.internal.engine
+webconf = connector.internal.buildStartupConfig(<span class="st">&#39;www.bu.edu&#39;</span>)
+ulfcnreg = com.mathworks.mlwidgets.help.functionregistry.UnlicensedFunctionRegistry(<span class="st">&#39;_gpu_getMetadata&#39;</span>);
+ulfc = ulfcnreg.getClass;
+sfcn = get(ulfc);
+
+
+
+getProdList = @() com.mathworks.install.InstalledProductFactory.getInstalledProducts(matlabroot);
+getProdArray = @() toArray(getProdList());
+prod = getProdArray();
+prodinfo = arrayfun(@get, prod);
+
+getProdInfo = @(name) com.mathworks.product.util.ProductIdentifier.get(name)</code></pre></div>
+<h3 id="java-archive-jar-manifest">Java Archive (JAR) Manifest</h3>
+<p>from <a href="https://github.com/openeyes/architecture/wiki/Application-architecture">openeyes wiki</a></p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="dt">static</span> <span class="bu">String</span> <span class="fu">getManifestAttribute</span>(<span class="bu">String</span> attributeName) {
+    <span class="bu">Enumeration</span> resEnum;
+    <span class="kw">try</span> {
+        resEnum = <span class="bu">Thread</span>.<span class="fu">currentThread</span>().<span class="fu">getContextClassLoader</span>().<span class="fu">getResources</span>(<span class="bu">JarFile</span>.<span class="fu">MANIFEST_NAME</span>);
+        <span class="kw">while</span> (resEnum.<span class="fu">hasMoreElements</span>()) {
+            <span class="kw">try</span> {
+                <span class="bu">URL</span> url = (<span class="bu">URL</span>)resEnum.<span class="fu">nextElement</span>();
+                <span class="bu">InputStream</span> is = url.<span class="fu">openStream</span>();
+                <span class="kw">if</span> (is != <span class="kw">null</span>) {
+                    <span class="bu">Manifest</span> manifest = <span class="kw">new</span> <span class="bu">Manifest</span>(is);
+                    <span class="bu">Attributes</span> mainAttribs = manifest.<span class="fu">getMainAttributes</span>();
+                    <span class="kw">return</span> mainAttribs.<span class="fu">getValue</span>(attributeName);
+                }
+            }
+            <span class="kw">catch</span> (<span class="bu">Exception</span> e) {
+                <span class="co">// Silently ignore wrong manifests on classpath?</span>
+            }
+        }
+    } <span class="kw">catch</span> (<span class="bu">IOException</span> e1) {
+        <span class="co">// Silently ignore wrong manifests on classpath?</span>
+    }
+    <span class="kw">return</span> <span class="kw">null</span>; 
+}</code></pre></div>
+<h2 id="acknowledgements">Acknowledgements</h2>
+<p>The support and patience I have received from my committee has gone far beyond what should be expected of anyone. I can't thank you enough. * Xue Han, Ph.D. * Jerome Mertz, Ph.D. * Ian Davis, Ph.D. * Tom Bifano, Ph.D. * David Boas, Ph.D.</p>
+<h1 id="document-generation-tools">Document Generation Tools</h1>
+<h2 id="flow-charts-and-diagrams-from-markdown">Flow Charts and Diagrams from Markdown</h2>
+<ul>
+<li>GraphViz</li>
+<li>mermaidjs -<a href="https://mermaidjs.github.io/">github</a></li>
+<li>example</li>
+</ul>
+<h2 id="charts-and-figures">Charts and Figures</h2>
+<p>Vegajs - 'a visualization grammar' -<a href="https://github.com/vega/vega">github</a> Graphistry</p>
+<h1 id="executable">Executable</h1>
+<ul>
+<li><a href="http://johnmacfarlane.net/pandoc">Pandoc</a></li>
+<li>https://github.com/jgm/pandoc-templates.git</li>
+<li><a href="https://bookdown.org/yihui/bookdown/">Bookdown</a></li>
+<li><a href="https://asciidoctor.org/docs/asciidoctor.js/">Asciidoctor</a></li>
+<li><a href="https://www.gnu.org/software/texinfo/">TexInfo</a></li>
+</ul>
+<h2 id="latex">Latex</h2>
+<ul>
+<li>Miktex</li>
+<li>Paperist (md &amp; latex)</li>
+<li>katex</li>
+</ul>
+<h2 id="math">Math</h2>
+<ul>
+<li><a href="https://github.com/goessner/markdown-it-texmath">goessner/markdown-it-texmath</a></li>
+</ul>
+<h2 id="code-highlighting">Code Highlighting</h2>
+<ul>
+<li><a href="">highlightjs</a></li>
+<li><a href="http://pygments.appspot.com/">pygmy</a></li>
+<li><a href="http://coapp.org/reference/garrett-flavored-markdown.html">from CoApp</a></li>
+<li></li>
+</ul>
+<h2 id="image-management">Image Management</h2>
+<ul>
+<li>https://tropy.org/</li>
+</ul>
+<h1 id="literaturereference-management">Literature/Reference Management</h1>
+<h2 id="reference-database-tools">Reference Database Tools</h2>
+<ul>
+<li>Zotero</li>
+<li>Mendeley</li>
+<li>JabRef</li>
+<li><a href="https://bibbase.org/">BibBase</a></li>
+<li><a href="http://www.bibsonomy.org/">BibSonomy</a> (references and bookmarks)</li>
+<li><a href="https://www.academic-puma.de/">PUMA</a> (german, web-based)
+<ul>
+<li><a href="https://bitbucket.org/bibsonomy/puma/src/default/">bibsonomy/PUMA Bitbucket</a></li>
+</ul></li>
+</ul>
+<h2 id="reference-processing">Reference Processing</h2>
+<ul>
+<li>stdlib.io
+<ul>
+<li>citeproc</li>
+</ul></li>
+<li>Pandoc-citeproc</li>
+<li>LaTeX Distributions: include TEX, LATEX, BibTEX
+<ul>
+<li><a href="https://miktex.org/">MiKTeX</a> (windows)</li>
+<li><a href="http://tug.org/texlive/">TeX Live</a> (linux)</li>
+<li><a href="http://tug.org/mactex/">MacTeX</a> (mac)</li>
+</ul></li>
+<li>Many tools packaged individually on <a href="https://www.ctan.org/">CTAN: Comprehensive TeX Archive Network</a>
+<ul>
+<li><a href="https://ctan.org/pkg/bibclean">CTAN: Package bibclean</a></li>
+</ul></li>
+<li>Task-Specific tools on GitHub
+<ul>
+<li><a href="https://github.com/sciunto-org/python-bibtexparser">sciunto-org/python-bibtexparser</a></li>
+<li><a href="https://github.com/bibcure/bibcure">bibcure/bibcure</a></li>
+<li><a href="https://github.com/bibcure/scihub2pdf">bibcure/scihub2pdf</a></li>
+<li></li>
+</ul></li>
+</ul>
+<h2 id="raw-citation-sources">Raw Citation Sources</h2>
+<ul>
+<li>Browser
+<ul>
+<li>Bookmarks</li>
+<li>One-Tab Export lists</li>
+<li>History</li>
+<li>google Keep</li>
+<li>Pocket</li>
+</ul></li>
+<li>Printed Papers
+<ul>
+<li>OCR of DOI</li>
+</ul></li>
+<li>Books</li>
+<li>Saved PDFs</li>
+</ul>
+<h2 id="literature-surveyanalysis">Literature Survey/Analysis</h2>
+<ul>
+<li>Action Science Explorer</li>
+<li>Web of Science
+<ul>
+<li><a href="http://wokinfo.com/products_tools/specialized/">discipline specific resources</a></li>
+</ul></li>
+<li><a href="http://jcr.incites.thomsonreuters.com/JCRJournalHomeAction.action">InCite</a>
+<ul>
+<li>by Clarivate Analytics</li>
+<li>(api documentation)[https://clarivate.com/products/data-integration/]</li>
+</ul></li>
+<li><a href="https://www.openacademic.ai/oag/">Open Academic Graph | Open Academic Society</a></li>
+<li><a href="https://labs.cognitive.microsoft.com/en-us/project-academic-knowledge">Microsoft Cognitive Services Labs - Project Academic Knowledge</a></li>
+<li><a href="https://aminer.org/">AMiner</a></li>
+<li><a href="http://www.docear.org/">Docear</a></li>
+</ul>
+<h3 id="natural-language-and-text-analysis">Natural Language and Text Analysis</h3>
+<ul>
+<li><span class="citation">@stdlib/nlp</span> (nodejs)
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Latent_Dirichlet_allocation">Latent Dirichlet Allocation</a> via collapsed Gibbs Sampling</li>
+</ul></li>
+<li>node</li>
+<li><a href="https://meta-toolkit.org/">MeTA</a>: Modern Text Analysis
+<ul>
+<li>citing</li>
+<li>graph algorithms</li>
+<li>text tokenization</li>
+<li>deep semantic features</li>
+<li>classification</li>
+</ul></li>
+</ul>
+<h2 id="topic-ingestion">Topic Ingestion</h2>
+<p>./ignition/updateStatisticsGPU_wrapper.m ./ignition/updateStatisticsGPU_script.m ./ignition/updateStatisticsGPU_scrapped.m ./ignition/updateRegisteredRegionsRunGpuKernel.m ./ignition/updateFeatureProbabilityRunGpuKernel.m ./ignition/temporalStabilityRunGpuKernel.m ./ignition/temporallyAdaptiveTemporalFilterRunGpuKernel.m ./ignition/temporalGradientRunGpuKernel.m ./ignition/supressRegionPotentialRunGpuKernel.m ./ignition/structureTensorEigDecompRunGpuKernel.m ./ignition/structureTensorEigDecompRunGpuKernel_centraldiffgrad.m ./ignition/statisticUpdateRunGpuKernel.m ./ignition/statisticCollectorRunGpuKernel.m ./ignition/spatiallyAdaptiveTemporalFilterRunGpuKernel.m ./ignition/selectVersion.m ./ignition/seedMapRegisterDetectedRegionsRunGpuKernel.m ./ignition/sampleRandomRegionRunGpuKernel.m ./ignition/resampleImageBicubicRunGpuKernel.m ./ignition/pushSeedSupportRunGpuKernel.m ./ignition/propagatePixelLabelRunGpuKernel.m ./ignition/pointwiseMutualInformationRunGpuKernel.m ./ignition/pointwiseMutualInformationContinuousRunGpuKernel.m ./ignition/pleaseignite_scrap.m ./ignition/packBitsBidirectionalRunGpuKernel.m ./ignition/ongpu.m ./ignition/oncpu.m ./ignition/nonLocalStatisticUpdateRunGpuKernel.m ./ignition/neighborMutualInformationRunGpuKernel.m ./ignition/mapInformationTopologyRunGpuKernel.m ./ignition/localPeakPointer.m ./ignition/labeledRegionStatisticUpdateRunGpuKernel_old.m ./ignition/labeledRegionStatisticUpdateRunGpuKernel.m ./ignition/labeledRegionStatisticUpdateRunGpuKernel_ABBCversion_workingwell.m ./ignition/labeledRegionPropFilteredUpdateRunGpuKernel.m ./ignition/importUtilPkg.m ./ignition/hybridMedianFilterRunGpuKernel.m ./ignition/guessSeedSubscriptRunGpuKernel.m ./ignition/GpuKernelCompanionFunctionWrapper.m ./ignition/getPixelGradientRunGpuKernel.m ./ignition/getNeighborSubs.m ./ignition/getLabeledRegionPropsRunGpuKernel_old.m ./ignition/getLabeledRegionPropsRunGpuKernel.m ./ignition/getLabeledRegionPropsRunGpuKernel2.m ./ignition/getGpuArraySize.m ./ignition/generateLabelSeedRunGpuKernel.m ./ignition/gemanMcClureNormalizationRunGpuKernel.m ./ignition/gaussFiltFrameStackRunGpuKernel.m ./ignition/findPeakParallelMomentRunGpuKernel.m ./ignition/findPeakGaussianKernelDensityRunGpuKernel.m ./ignition/findLocalPeaksRunGpuKernel.m ./ignition/findLocalPeakSpreadValueRunGpuKernel.m ./ignition/findConnectedRegionPropsRunGpuKernel.m ./ignition/differentialMomentGeneratorRunGpuKernel.m ./ignition/computeSurfaceCharacterRunGpuKernel.m ./ignition/computeLayerFromRegionalComparisonRunGpuKernel.m ./ignition/blendColorCompositeRunGpuKernel.m ./ign/TimerInfo.m ./ign/TimeoutTimer.m ./ign/StringWriter.m ./ign/SetGetRenderer.m ./ign/scrap_UUID.m ./ign/scrap_pool_session_access.m ./ign/scrapping_TaskLink.m ./ign/scrapping_TaskIO.m ./ign/scrapping_rewritesimple_UniquelyIdentifiable.m ./ign/retabEOLComments.m ./ign/QueueIterator.m ./ign/queryGpu.m ./ign/PropertyDef.m ./ign/PropertyDB.m ./ign/ParfevalTaskRunner.m ./ign/ParallelPoolExecutor.m ./ign/ParallelPoolBroadcastMap.m ./ign/MethodDB.m ./ign/MatlabMethodGenerator.m ./ign/MatlabFunctionGenerator.m ./ign/MatlabClassGenerator.m ./ign/manager.m ./ign/IntervalTimer.m ./ign/InputBuffer.m ./ign/getSig.m ./ign/getJavaFutureInterruptibly.m ./ign/getInputArguments.m ./ign/getArgNames.m ./ign/formatVideoNumericArray.m ./ign/findSubClasses.m ./ign/FifoPriorityQueue.m ./ign/EventDef.m ./ign/EventDB.m ./ign/DispTable.m ./ign/DispTableExample.m ./ign/DisplayFormatter.m ./ign/DeferredTask.m ./ign/Callback.m ./scicadelic/zeroShiftedWinMat.m ./scicadelic/writeTiffFile.m ./scicadelic/writebinary.m ./scicadelic/writeBinaryData.m ./scicadelic/writeBinaryData (autoquery).m ./scicadelic/wrapUnsignedInteger.m ./scicadelic/wrapUint16.m ./scicadelic/VideoSizeReference.m ./scicadelic/VideoNavigator.m ./scicadelic/updateStatisticStructure.m ./scicadelic/uniquifyLabels.m ./scicadelic/unifyStructArray.m ./scicadelic/tryTiffPar.m ./scicadelic/tryregpropspmdgpu.m ./scicadelic/tryprop.m ./scicadelic/tryingtraining.m ./scicadelic/testnrmc.m ./scicadelic/testmc.m ./scicadelic/temporalArFilter.m ./scicadelic/switchZero2IntMax.m ./scicadelic/susiesrampage.m ./scicadelic/startuphg.m ./scicadelic/startBufferedTiffLoadScrap.m ./scicadelic/stackSurroundPixel.m ./scicadelic/stackMin.m ./scicadelic/stackMean.m ./scicadelic/stackMax.m ./scicadelic/sslog.m ./scicadelic/sparselinking.m ./scicadelic/sparkyseed.m ./scicadelic/sparkypmi.m ./scicadelic/sparkypfpsrp.m ./scicadelic/sparkyfml.m ./scicadelic/sparkybw.m ./scicadelic/sparkyagain.m ./scicadelic/showregpropexample.m ./scicadelic/showregpropexample_GREAT_PATCHY_STRIPPLOT.m ./scicadelic/showmotioncorrection.m ./scicadelic/shiftedWinMat.m ./scicadelic/setAutoProps2Manual.m ./scicadelic/selectTiffFiles.m ./scicadelic/scraptestmotion.m ./scicadelic/scrapTestMotionCorrectionSpeedup.m ./scicadelic/scrapTestLayerTransitionDist.m ./scicadelic/scrapstatisticcollect.m ./scicadelic/scrapruntempadaptfilt.m ./scicadelic/scraprunneighborMI.m ./scicadelic/scraprunadaptivetemporalfilter.m ./scicadelic/scraproi.m ./scicadelic/scraprampage_AWESOMECOLORS.m ./scicadelic/scrap_movedtoworkspace_sparkypfpsrp.m ./scicadelic/scrapMotionCorrectionScraps.m ./scicadelic/scrapLabelOverlay.m ./scicadelic/scrapGaussFilt.m ./scicadelic/scrapdiffmomentgenerator.m ./scicadelic/scicadelicROIgeneration.m ./scicadelic/scaleVid.m ./scicadelic/save2binary.m ./scicadelic/sampledSurroundBestDiff_tryspmd.m ./scicadelic/sampledSurroundBestDiff_slowercopy.m ./scicadelic/sampledSurroundBestDiff_scrapspmd.m ./scicadelic/sampledSurroundBestDiff.m ./scicadelic/sampledSurroundBestDiff_exp.m ./scicadelic/sampledSurroundBestDiff_bsxing.m ./scicadelic/runWideFieldFluorescence_demo.m ./scicadelic/runTiffAsyncOnPool.m ./scicadelic/runstriatum.m ./scicadelic/runscicsys.m ./scicadelic/runScicadelicVidGen_susie.m ./scicadelic/runScicadelicVidGen.m ./scicadelic/runScicadelicVidGenBW.m ./scicadelic/runScicadelicVidGen_bw.m ./scicadelic/runScicadelicVidGen_bg.m ./scicadelic/runscicadelic.m ./scicadelic/runsci2.m ./scicadelic/runregprop.m ./scicadelic/runObjBufferingOntoGpu.m ./scicadelic/runmotcor.m ./scicadelic/runHybridMedianFilterGpuKernel.m ./scicadelic/rungetstat.m ./scicadelic/rowsubs.m ./scicadelic/releaseWorkerBuffer.m ./scicadelic/RegionPropagation.m ./scicadelic/recoverFailedSparseCells.m ./scicadelic/readTiffAsync.m ./scicadelic/readHamamatsuTimeFromStart.m ./scicadelic/readFrameFromTiffStack.m ./scicadelic/readbinary_modified_checkfileinput.m ./scicadelic/readbinary.m ./scicadelic/readBinaryData.m ./scicadelic/readbinary_checkit.m ./scicadelic/readAllHamamatsuTimestamps.m ./scicadelic/rail.m ./scicadelic/PropagatingRegion.m ./scicadelic/profileOptions.m ./scicadelic/processFastPar.m ./scicadelic/processFast.m ./scicadelic/prebuffle.m ./scicadelic/pos.m ./scicadelic/pnz.m ./scicadelic/pnormalizeimage.m ./scicadelic/pnormalizeApprox.m ./scicadelic/plotMaxMinMeanT.m ./scicadelic/plotMaxMinMean.m ./scicadelic/pixelNeighborhoodSampler.m ./scicadelic/phasecorr.m ./scicadelic/parseHamamatsuTiffTag.m ./scicadelic/ongpu.m ./scicadelic/oncpu.m ./scicadelic/old_PixelGroupController.m ./scicadelic/neg.m ./scicadelic/nearNeighborDominanceElementWise.m ./scicadelic/nearNeighborDominanceArrayWise.m ./scicadelic/nan2zero.m ./scicadelic/motionCorrectFluoProObjData.m ./scicadelic/medmin.m ./scicadelic/medmean.m ./scicadelic/makestriatumvid.m ./scicadelic/makebasicrpspmd.m ./scicadelic/logFiltFrameStack.m ./scicadelic/localPeakPointer.m ./scicadelic/locallabelsamplerscraps.m ./scicadelic/localLabelSampler_NOTWORKING_LFSISTHEPROBLEM.m ./scicadelic/localLabelSampler.m ./scicadelic/localLabelSampler_exp.m ./scicadelic/localLabelSampler_beforeridinggradient.m ./scicadelic/loadTiffFramesAsync.m ./scicadelic/loadTiffBuffer_nodisplay.m ./scicadelic/loadTiffBuffer.m ./scicadelic/loadTiffBuffer_display.m ./scicadelic/linklm.m ./scicadelic/linkLabelMatrices.m ./scicadelic/linking.m ./scicadelic/LinkedRegion.m ./scicadelic/LinkedRegion_HandleBackup.m ./scicadelic/labmat2regpropsspmd.m ./scicadelic/labelPixelsNonConcise.m ./scicadelic/labelPixels.m ./scicadelic/labelmatrixoutputscrap.m ./scicadelic/labelgenscrap.m ./scicadelic/initializeWorkerBuffer.m ./scicadelic/initializeTiffStack.m ./scicadelic/initializeParallelTiffStackLoaderWorkers.m ./scicadelic/initializeFrameBuffer.m ./scicadelic/inf2zero.m ./scicadelic/imscplay.m ./scicadelic/imsc.m ./scicadelic/imsc_exp.m ./scicadelic/imrgbplay.m ./scicadelic/imrcplay.m ./scicadelic/imrcOverlay.m ./scicadelic/imrc.m ./scicadelic/imcomposite.m ./scicadelic/imcompare.m ./scicadelic/ImageRegion.m ./scicadelic/hybridMedianFiltFluoProObjData.m ./scicadelic/howesrampage.m ./scicadelic/getStatePredictor.m ./scicadelic/getRoiSustainedDirectionalChangeInFluorescence.m ./scicadelic/getHcTimeStamp.m ./scicadelic/getHamamatsuTimeStampSeconds.m ./scicadelic/getAndorTimeStampSeconds.m ./scicadelic/generatePropagatingRegions.m ./scicadelic/genDiffEntropyScrap.m ./scicadelic/genbw_redux.m ./scicadelic/genbw.m ./scicadelic/genbw_experimental.m ./scicadelic/gemanmcclure.m ./scicadelic/gaussFiltFrameStack.m ./scicadelic/framesubs.m ./scicadelic/FrameLinkedRegion.m ./scicadelic/findPixelForegroundElementWise.m ./scicadelic/findPixelForegroundElementWise_beforeaddingrand.m ./scicadelic/findPixelForegroundArrayWise.m ./scicadelic/findPeakMomentMethod.m ./scicadelic/findCorrPeakSubpixelOffset.m ./scicadelic/FifoPriorityQueue.m ./scicadelic/ferociousProcessor.m ./scicadelic/ferociousLoader.m ./scicadelic/fastConvolution_v2.m ./scicadelic/fastConvolution.m ./scicadelic/experimentaStaycation.m ./scicadelic/experimentalStaycation.m ./scicadelic/experimentalProcessorAugust.m ./scicadelic/experimentalNewMotCor.m ./scicadelic/experimentalNewMC.m ./scicadelic/experimentalNeedVacation.m ./scicadelic/experimentalBackFromMaine.m ./scicadelic/exampleImageFrameComparisons.m ./scicadelic/differentialEntropy.m ./scicadelic/demonsUpdateField.m ./scicadelic/CURRENTSCRAP.m ./scicadelic/currentproject.m ./scicadelic/createLabelMatrix.m ./scicadelic/correctMotionGpu_withnonfunctionalchanges.m ./scicadelic/correctMotionGpu_midchanges_beforeremovingcommendtedscraps.m ./scicadelic/correctMotionGpu.m ./scicadelic/correctMotionGpu_bicubicdysfunctional.m ./scicadelic/colsubs.m ./scicadelic/chansubs.m ./scicadelic/CellSegmenter_moved2scicadelic.m ./scicadelic/bwmorphn.m ./scicadelic/buffered_step.m ./scicadelic/approximateFrameMinimum.m ./scicadelic/approximateFrameMaximum.m ./scicadelic/approximateClim.m ./scicadelic/applySpatialLut.m ./scicadelic/applySlicedTemporalLut.m ./scicadelic/applyFunction2D.m ./scicadelic/addScicadelicToPath.m ./util/WarningCleanup.m ./util/td.m ./util/parfevalEachCell.m ./util/padSize.m ./util/neighbor2ind.m ./util/mshow.m ./util/mkconstarray.m ./util/locateFile.m ./util/isProductInstalled.m ./util/initIfEmpty.m ./util/getUniqueName.m ./util/getSharedCounter.m ./util/getSetInstanceCount.m ./util/getPaddedSize.m ./util/getIdxIterator.m ./util/getCallerImports.m ./util/generatemsgid.m ./util/generateGUID.m ./util/FunctionTransaction.m ./util/FunctionHandleHolder.m ./util/fevalNoBacktrace.m ./util/fevalAsync.m ./util/displayStruct.m ./util/Counter.m ./util/compareStruct.m ./util/cacheFcnArgNames.m ./util/bsxCellFun.m ./util/array2str.m ./util/accessNamedCacheVariable.m</p>
+<h1 id="chapter---evaluation-of-approach">Chapter - Evaluation of Approach</h1>
+<p>Video Processing Strategy Thus Far</p>
+<h2 id="choice-of-implementation">Choice of Implementation</h2>
+<h3 id="language-is-matlab-the-best-tool-for-this-job">Language: Is MATLAB the best tool for this job?</h3>
+<ul>
+<li>Standard language in many engineering programs</li>
+<li>Proprietary</li>
+<li>Performance</li>
+<li>Compatibility</li>
+<li>Need for a &quot;SandBox&quot;</li>
+<li>Lacks modularity</li>
+<li></li>
+</ul>
+<h2 id="alternatives-languages">Alternatives Languages</h2>
+<ul>
+<li>Python</li>
+<li>C/C++</li>
+<li>Java/Scala</li>
+<li>Javascript/Node</li>
+<li>GO, Haskell</li>
+</ul>
+<h2 id="databases">Databases</h2>
+<h1 id="chapter---microscopy">Chapter - Microscopy</h1>
+<h2 id="diy-widefield">DIY Widefield</h2>
+<h3 id="cameras">Cameras</h3>
+<h4 id="scientific-cmos-scmos">Scientific CMOS (sCMOS)</h4>
+<ul>
+<li>Correlated double sampling</li>
+<li>HDR</li>
+<li>On-sensor Fusion</li>
+<li>Commercial availability</li>
+<li></li>
+</ul>
+<h3 id="filters-1">Filters</h3>
+<h3 id="lenses-1">Lenses</h3>
+<h3 id="mechanics-1">Mechanics</h3>
+<h1 id="chapter---telemetry-control-1">Chapter - Telemetry &amp; Control</h1>
+<h2 id="scada-on-the-cheap-1">SCADA on the Cheap</h2>
+<h2 id="development-boards-1">Development boards</h2>
+<h2 id="development-environment-1">Development Environment</h2>
+<h1 id="chapter---contemporary-video-processing-1">Chapter - Contemporary Video Processing</h1>
+<h2 id="background-1">Background</h2>
+<h3 id="effective-and-efficient-code-1">Effective and Efficient Code</h3>
+<ul>
+<li>Background - Microscopy and Functional Imaging - Image Processing</li>
+</ul>
+<h2 id="microscopy-and-functional-imaging-two-core-innovations-in-available-1">Microscopy and Functional Imaging Two core innovations in available</h2>
+<ul>
+<li>technology
+<ol style="list-style-type: decimal">
+<li>Synthetic bio (i.e. GCaMP)</li>
+<li>Cameras</li>
+</ol></li>
+<li>scientific CMOS</li>
+</ul>
+<h2 id="image-processing-1.-computing-power-and-connectivity-1">Image Processing 1. Computing Power and Connectivity</h2>
+<ul>
+<li>Remote Clusters (AWS)</li>
+<li>Graphics Processing Units (NVIDIA GTX)</li>
+<li>Embedded Units (NVIDIA Tegra X2) 2. Well developed libraries</li>
+<li>ImageJ (so so)</li>
+<li>OpenCV (uses OpenCL)</li>
+<li>GStreamer (much better)</li>
+<li>OpenGL</li>
+<li>Shader</li>
+</ul>
+<h2 id="big-data-1">Big Data</h2>
+<ul>
+<li>not exactly...</li>
+<li>disparate simple queries across</li>
+</ul>
+<h2 id="map-reduce-1">Map-Reduce</h2>
+<ul>
+<li>Dataflow Processing</li>
+<li>Actors model</li>
+<li>Petri Nets</li>
+<li>Graph Processing
+<ul>
+<li>i.e. Tensorflow</li>
+</ul></li>
+</ul>
+<h2 id="image-processing-1">Image Processing</h2>
+<ul>
+<li>Motion Correction</li>
+<li>Image Enhancement</li>
+</ul>
+<h2 id="motion-correction-two-approaches-to-find-displacement-1">Motion Correction Two approaches to find displacement</h2>
+<h3 id="spatially-homogeneous-phase-correlation-1">Spatially Homogeneous phase correlation</h3>
+<ul>
+<li>aka normalized cross correlation - Feature Matching</li>
+<li>Detect features (i.e. corners) ### Triangulate best</li>
+</ul>
+<h2 id="image-enhancement-1">Image Enhancement</h2>
+<ol style="list-style-type: decimal">
+<li>Contrast - Linear Scaling - Lookup Tables</li>
+<li>Spatial and Temporal Filtering</li>
+<li>Feature images - Gradients</li>
+</ol>
+<h2 id="feature-extraction-1">Feature Extraction</h2>
+<ol style="list-style-type: decimal">
+<li>Feature images (temporally independent)</li>
+</ol>
+<ul>
+<li>Gradients - Surface Curvature 2. Long Term Memory - Statistics
+<ul>
+<li>changes (single pixel)</li>
+</ul></li>
+<li>Mutual information changes (inter-pixel)</li>
+</ul>
+<h1 id="chapter---acceleration-and-optimization-procedures-for-online-video-processing-1">Chapter - Acceleration and Optimization Procedures for Online Video Processing</h1>
+<h2 id="tutorial-1">Tutorial</h2>
+<h3 id="incremental-update-of-statistics-1">Incremental Update of Statistics</h3>
+<h4 id="central-moments-1">central moments</h4>
+<div class="sourceCode"><pre class="sourceCode matlab"><code class="sourceCode matlab">      function [m1,m2,m3,m4,fmin,fmax] = updateStatistics(x,m1,m2,m3,m4))
+            n = n + <span class="fl">1</span>;
+            
+            <span class="co">% GET PIXEL SAMPLE</span>
+            f = F(rowIdx,colIdx,k);
+            
+            <span class="co">% PRECOMPUTE &amp; CACHE SOME VALUES FOR SPEED</span>
+            d = single(f) - m1;
+            dk = d/n;
+            dk2 = dk^<span class="fl">2</span>;
+            s = d*dk*(n-<span class="fl">1</span>);
+            
+            <span class="co">% UPDATE CENTRAL MOMENTS</span>
+            m1 = m1 + dk;
+            m4 = m4 + s*dk2*(n.^<span class="fl">2</span>-<span class="fl">3</span>*n+<span class="fl">3</span>) + <span class="fl">6</span>*dk2*m2 - <span class="fl">4</span>*dk*m3;
+            m3 = m3 + s*dk*(n-<span class="fl">2</span>) - <span class="fl">3</span>*dk*m2;
+            m2 = m2 + s;
+            
+            <span class="co">% UPDATE MIN &amp; MAX</span>
+            fmin = min(fmin, f);
+            fmax = max(fmax, f);
+      end</code></pre></div>
+<h4 id="extract-features-1">Extract Features</h4>
+<div class="sourceCode"><pre class="sourceCode matlab"><code class="sourceCode matlab">
+      function [dm1,dm2,dm3,dm4] = getStatisticUpdate(x,m1,m2,m3,m4)
+            <span class="co">% COMPUTE DIFFERENTIAL UPDATE TO CENTRAL MOMENTS</span>
+            dm1 = dk;
+            m1 = m1 + dm1;
+            dm4 = s*dk2*(n^<span class="fl">2</span>-<span class="fl">3</span>*n+<span class="fl">3</span>) + <span class="fl">6</span>*dk2*m2 - <span class="fl">4</span>*dk*m3;   
+            dm3 = s*dk*(n-<span class="fl">2</span>) - <span class="fl">3</span>*dk*m2;
+            dm2 = s;
+            m2 = m2 + dm2;
+            <span class="co">% NORMALIZE BY VARIANCE &amp; SAMPLE NUMBER -&gt; CONVERSION TO dVar, dSkew, dKurt   </span>
+            dm2 = dm2/max(<span class="fl">1</span>,n-<span class="fl">1</span>);
+            dm3 = dm3*sqrt(max(<span class="fl">1</span>,n))/(m2^<span class="fl">1.5</span>);
+            dm4 = dm4*n/(m2^<span class="fl">2</span>);                 
+      end</code></pre></div>
+<p>Simple Processing on GPU</p>
+<div class="sourceCode"><pre class="sourceCode matlab"><code class="sourceCode matlab">      [dm1,dm2,dm3,dm4] = arrayfun(@getStatisticUpdate(x,m1,m2,m3,m4)
+      [dm1,dm2,dm3,dm4] = arrayfun(@getStatisticUpdate(rowidx,colidx)</code></pre></div>
+<h1 id="chapter---evaluation-of-approach-1">Chapter - Evaluation of Approach</h1>
+<p>Video Processing Strategy Thus Far</p>
+<h2 id="choice-of-implementation-1">Choice of Implementation</h2>
+<h3 id="language-is-matlab-the-best-tool-for-this-job-1">Language: Is MATLAB the best tool for this job?</h3>
+<ul>
+<li>Standard language in many engineering programs</li>
+<li>Proprietary</li>
+<li>Performance</li>
+<li>Compatibility</li>
+<li>Need for a &quot;SandBox&quot;</li>
+<li>Lacks modularity</li>
+<li></li>
+</ul>
+<h4 id="alternatives-languages-1">Alternatives Languages</h4>
+<ul>
+<li>Python</li>
+<li>C/C++</li>
+<li>Java/Scala</li>
+<li>Javascript/Node</li>
+<li>GO, Haskell</li>
+</ul>
+<h4 id="alternative-libraries-1">Alternative Libraries</h4>
+<ul>
+<li><a href="https://developer.nvidia.com/npp">NVIDIA Performance Primitives</a></li>
+<li><a href="https://developer.nvidia.com/opencv">OpenCV</a></li>
+<li><a href="http://www.vlfeat.org/">VLFeat</a></li>
+<li>OpenGL</li>
+<li>OpenCL</li>
+<li>OpenVX</li>
+<li>CLosedDoesNotExist (...?)</li>
+<li>Shader Languages</li>
+<li>GLSL</li>
+<li>HLSL</li>
+<li>WebGL</li>
+<li>Halide</li>
+<li></li>
+<li>FFmpeg</li>
+<li>GStreamer</li>
+</ul>
+<h2 id="choice-of-interface-1">Choice of Interface</h2>
+<h3 id="procedural-framework-pipes-streams-graphs-1">Procedural Framework: Pipes, Streams, &amp; Graphs</h3>
+<h4 id="concurrency-parallel-performance-1">Concurrency: Parallel = Performance?</h4>
+<p>Not always, no. While concurrent processing of independent tasks or sequentially arriving data elements will almost always increase performance, this is not always the case. At a lower instruction-level than we typically program, synchronous operations can often be optimized in ways that asynchronous operations cannot, typically through strategic register allocation, or by taking cache-hit performance). &quot;Globally Asynchronous Locally Synchronous&quot;</p>
+<h4 id="scheduling-1">Scheduling</h4>
+<h4 id="adaptive-1">Adaptive</h4>
+<h2 id="choice-of-operations-1">Choice of Operations</h2>
+<ul>
+<li>What is the goal?</li>
+<li>Is it effective?</li>
+<li>Is the computation cost worth the result?</li>
+<li>Are there side-effects or artifacts?</li>
+<li>Can they be reliably controlled or accounted for?</li>
+</ul>
+<h3 id="motion-correction-1">Motion Correction</h3>
+<p>In our application, the goal of a motion correction operation is to artificially suppress translation of the brain tissue parallel to the image plane. <em>Phase-Correlation</em> (also referred to as <em>normalized cross-correlation</em>) has consistent performance across a range of image sources with varying spatial noise characteristics. However, a large non-uniform change from reference frames - such as occurs when cells with low baseline fluourescence are first activated - can cause drastic errors that must be recognized and corrected by a supervisory procedure. This can induce an undesirable, unpredicatable, and specifically inopportune latency Unfortunately in all the whole pipeline.</p>
+<p>Unfortunately, &quot;Globally Asynchronous Locally Synchronous&quot;</p>
+<p>as it's In some experimental setups,</p>
+<p>The phase correlation method of #### Motion Estimation - cost: 2-10 ms/frame - Frequently unstable (depending on video content)</p>
+<h4 id="motion-compensation-interpolation-1">Motion Compensation &amp; Interpolation</h4>
+<ul>
+<li>cost: 400-800 us/frame</li>
+<li>Requires infill with nearby or prior pixel values if frame size is to be maintained</li>
+</ul>
+<h1 id="chapter---survey-of-alternative-strategies-1">Chapter - Survey of Alternative Strategies</h1>
+<h2 id="implementation-1">Implementation</h2>
+<h3 id="efficientcode-1">EfficientCode</h3>
+<ul>
+<li>Scalable - Reusable - Make it MODULAR</li>
+<li></li>
+</ul>
+<h3 id="operation-1">Operation</h3>
+<h1 id="chapter---compression-as-a-tool-a-goal-as-an-explanation-1">Chapter - Compression: as a Tool, a Goal, as an Explanation</h1>
