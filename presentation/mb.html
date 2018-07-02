@@ -1,0 +1,197 @@
+﻿<h1 id="development--application-of-a-closed-loop-continuous-optical-neural-interface">Development &amp; Application of a Closed-Loop Continuous Optical Neural Interface</h1>
+<h2 id="procedures-for-real-time-image-processingn-eural-signal-extraction-and-application-to-closed-loop-control-using-wide-field-ca2-fluorescence-with-awake-behaving-animals">Procedures for real-time image processing,n eural signal extraction, and application to closed-loop control using wide-field Ca2+ fluorescence with awake behaving animals</h2>
+<p>April 13, 2017</p>
+<p>Mark Bucklin</p>
+<hr />
+<h2 id="wide-field-fluorescence">Wide-field Fluorescence</h2>
+<ul>
+<li><p>Virus -&gt; sensor expression</p>
+</li>
+<li><p>LED -&gt; sensor excitation</p>
+<ul>
+<li>(~470nm +/-15) + excitation filter + dichroic mirror</li>
+</ul>
+</li>
+<li><p>sCMOS Camera</p>
+</li>
+<li><p>“Virtual-Reality”</p>
+<ul>
+<li>In reality -&gt; simply more stable (and fun for mouse)</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h2 id="outline">Outline</h2>
+<ol>
+<li>Background</li>
+<li>Image Processing</li>
+<li>Effective and Efficient Code</li>
+<li>Streaming</li>
+</ol>
+<hr />
+<h1 id="background">Background</h1>
+<hr />
+<h2 id="background-1">Background</h2>
+<ul>
+<li>Microscopy and Functional Imaging</li>
+<li>Image Processing</li>
+<li>&quot;Big Data&quot;</li>
+</ul>
+<hr />
+<h2 id="microscopy-and-functional-imaging">Microscopy and Functional Imaging</h2>
+<p>Two core innovations in available technology</p>
+<ol>
+<li>Synthetic bio (i.e. GCaMP)</li>
+<li>Cameras</li>
+</ol>
+<ul>
+<li>scientific CMOS</li>
+<li>inexpensive &quot;machine vision&quot; cameras</li>
+</ul>
+<hr />
+<h2 id="image-processing">Image Processing</h2>
+<ol>
+<li>Computing Power and Connectivity</li>
+</ol>
+<ul>
+<li>Remote Clusters (AWS)</li>
+<li>Graphics Processing Units (NVIDIA GTX)</li>
+<li>Embedded Units (NVIDIA Tegra X2)</li>
+</ul>
+<ol start="2">
+<li>Well developed libraries</li>
+</ol>
+<ul>
+<li>ImageJ (so so)</li>
+<li>OpenCV (uses OpenCL)</li>
+<li>GStreamer (much better)</li>
+<li>OpenGL -&gt; Shader Language extensions (GLSL, HLSL)</li>
+<li>CUDA (the best)</li>
+</ul>
+<hr />
+<h2 id="big-data">&quot;Big Data&quot;</h2>
+<ul>
+<li>not exactly...</li>
+<li>disparate simple queries across massive databases</li>
+<li>but can be applied</li>
+</ul>
+<hr />
+<h2 id="map-reduce---dataflow-processing">Map-Reduce -&gt; Dataflow Processing</h2>
+<ul>
+<li>Actors model</li>
+<li>Petri Nets</li>
+<li><strong>Graph</strong> Processing</li>
+<li>i.e. Tensorflow</li>
+</ul>
+<hr />
+<h2 id="image-processing-1">Image Processing</h2>
+<ul>
+<li>Motion Correction</li>
+<li>Image Enhancement</li>
+<li>Feature Extraction</li>
+</ul>
+<hr />
+<h2 id="motion-correction">Motion Correction</h2>
+<p>Two approaches to find displacement</p>
+<ol>
+<li>Spatialy Homogeneous</li>
+</ol>
+<ul>
+<li>phase correlation, aka normalized cross correlation</li>
+</ul>
+<ol start="2">
+<li>Feature Matching</li>
+</ol>
+<ul>
+<li>Detect features (i.e. corners)</li>
+<li>Triangulate best match</li>
+</ul>
+<hr />
+<h2 id="image-enhancement">Image Enhancement</h2>
+<ol>
+<li>Contrast</li>
+</ol>
+<ul>
+<li>Linear Scaling</li>
+<li>Lookup Tables</li>
+</ul>
+<ol start="2">
+<li>Spatial and Temporal Filtering</li>
+<li>&quot;Feature&quot; images</li>
+</ol>
+<ul>
+<li>Gradients</li>
+<li>Surface Curvature</li>
+</ul>
+<hr />
+<h2 id="feature-extraction">Feature Extraction</h2>
+<ol>
+<li>&quot;Feature&quot; images (temporally independent)</li>
+</ol>
+<ul>
+<li>Gradients</li>
+<li>Surface Curvature</li>
+</ul>
+<ol start="2">
+<li>Long Term Memory</li>
+</ol>
+<ul>
+<li>Statistics changes (single pixel)</li>
+<li>Mutual information changes (inter-pixel)</li>
+</ul>
+<hr />
+<h1 id="efficient-code">Efficient Code</h1>
+<h2 id="efficientcode">EfficientCode</h2>
+<ul>
+<li>Scalable</li>
+<li>Reusable
+** Make it MODULAR **</li>
+</ul>
+<hr />
+<h2 id="incremental-update-of-statistics">Incremental Update of Statistics</h2>
+<pre><code class="language-matlab">  function [m1,m2,m3,m4,fmin,fmax] = updateStatistics(x,m1,m2,m3,m4))
+  n = n + 1;
+  
+  % GET PIXEL SAMPLE
+  f = F(rowIdx,colIdx,k);
+  
+  % PRECOMPUTE &amp; CACHE SOME VALUES FOR SPEED
+  d = single(f) - m1;
+  dk = d/n;
+  dk2 = dk^2;
+  s = d*dk*(n-1);
+  
+  % UPDATE CENTRAL MOMENTS
+  m1 = m1 + dk;
+  m4 = m4 + s*dk2*(n.^2-3*n+3) + 6*dk2*m2 - 4*dk*m3;
+  m3 = m3 + s*dk*(n-2) - 3*dk*m2;
+  m2 = m2 + s;
+  
+  % UPDATE MIN &amp; MAX
+  fmin = min(fmin, f);
+  fmax = max(fmax, f);
+end
+</code></pre>
+<hr />
+<h2 id="incremental-update-of-statistics-1">Incremental Update of Statistics</h2>
+<h3 id="extract-feature">Extract Feature</h3>
+<pre><code class="language-matlab">  function [dm1,dm2,dm3,dm4] = getStatisticUpdate(x,m1,m2,m3,m4)
+  % COMPUTE DIFFERENTIAL UPDATE TO CENTRAL MOMENTS
+  dm1 = dk;
+  m1 = m1 + dm1;
+  dm4 = s*dk2*(n^2-3*n+3) + 6*dk2*m2 - 4*dk*m3;   
+  dm3 = s*dk*(n-2) - 3*dk*m2;
+  dm2 = s;
+  m2 = m2 + dm2;
+  % NORMALIZE BY VARIANCE &amp; SAMPLE NUMBER -&gt; CONVERSION TO dVar, dSkew, dKurt   
+  dm2 = dm2/max(1,n-1);
+  dm3 = dm3*sqrt(max(1,n))/(m2^1.5);
+  dm4 = dm4*n/(m2^2);					
+end
+</code></pre>
+<hr />
+<pre><code class="language-matlab">  [dm1,dm2,dm3,dm4] = arrayfun(@getStatisticUpdate(x,m1,m2,m3,m4)
+  
+  [dm1,dm2,dm3,dm4] = arrayfun(@getStatisticUpdate(rowidx,colidx)
+</code></pre>
+<hr />
