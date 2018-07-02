@@ -5,4 +5,7 @@
 tex2pdf*
 .image
 .video
+.staged-figures
 *.sav
+.template
+
