@@ -1,4 +1,4 @@
-.buformat 
+.buformat
 .cache
 .mergesrc
 .media
@@ -8,6 +8,6 @@ tex2pdf*
 .staged-figures
 *.sav
 .template
-
-site/
+.vscode
+.stfolder
 site/
