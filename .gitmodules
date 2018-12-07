@@ -13,3 +13,21 @@
 [submodule "templates"]
 	path = templates
 	url = git@bitbucket.org:markbucklin/templates.git
+[submodule "tools/academic-pandoc"]
+	path = tools/academic-pandoc
+	url = https://github.com/danprince/academic-pandoc.git
+[submodule "tools/scholdoc"]
+	path = tools/scholdoc
+	url = https://github.com/timtylin/scholdoc.git
+[submodule "tools/science-md"]
+	path = tools/science-md
+	url = https://github.com/mschroen/Science.md.git
+[submodule "tools/pandoc-scholar"]
+	path = tools/pandoc-scholar
+	url = https://github.com/pandoc-scholar/pandoc-scholar.git
+[submodule "tools/mhminai-pandemic"]
+	path = tools/mhminai-pandemic
+	url = https://github.com/mhminai/pandemic.git
+[submodule "tools/lionel-rigoux-pandemic"]
+	path = tools/lionel-rigoux-pandemic
+	url = https://github.com/lionel-rigoux/pandemic.git
