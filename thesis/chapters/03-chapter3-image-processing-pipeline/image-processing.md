@@ -14,6 +14,7 @@ This section borrows from AIM-1 and AIM-2 of the prospectus.
 # Predicting Activation State & Assessing Network Activity
 # Parallel Processing
 # Managing Continuity -->
+
 ## Procedures for Calcium Imaging
 
 The general goal of processing image data from functional fluorescence imaging experiments is to restructure raw image data in a way that maps pixels in each image frame to distinct individual cells or subcellular components, called 'Regions-Of-Interest' (ROI). Pixel-intensity values from mapped pixels are typically then reduced by combination to single dimensional 'trace' time-series. These traces indicate the fluorescence intensity of an individual neuron over time, and the collection approximates the distinct activity of each and every neuron in the microscope's field of view. However, this task is made difficult by motion of the brain throughout the experiment, and also by the apparent overlap of cells in the image plane captured from the camera's 2-dimensional perspective. These issues can be partially mitigated with a few image pre-processing steps -- alignment of images to correct for motion being the most critical. These options are described in the Methods & Approaches section below. Most software packages geared specifically toward functional imaging implement either of two basic classes of pixel-&gt;cell mapping algorithms. One approach is to use image-segmentation routines for computer vision, which seeks to combine adjacent pixels into distinct spatially segregated regions representing objects in the image.
@@ -58,9 +59,9 @@ The standard structure of region properties output by the MATLAB function region
 
 ### Visualization
 
-Once ROIs are established, all video data is reloaded and passed to a method in the *RegionOfInterest* class that extracts the 1-dimensional trace for each ROI representing the fluorescence intensity in that region over time. The ROIs and their traces can then be interactively visualized using another method in the *RegionOfInterest* class.
+Once ROIs are established, all video data is reloaded and passed to a method in the _RegionOfInterest_ class that extracts the 1-dimensional trace for each ROI representing the fluorescence intensity in that region over time. The ROIs and their traces can then be interactively visualized using another method in the _RegionOfInterest_ class.
 
-The *RegionOfInterest* class defines methods for rapid spatial comparison operations which can typically be viewed as an adjacency matrix using built-in image viewing commands. Visualization of the segmented cell overlay and 1D traces can be manipulated by assigning colors, removing ROIs, hiding ROIs, and more.
+The _RegionOfInterest_ class defines methods for rapid spatial comparison operations which can typically be viewed as an adjacency matrix using built-in image viewing commands. Visualization of the segmented cell overlay and 1D traces can be manipulated by assigning colors, removing ROIs, hiding ROIs, and more.
 
 ### Predicting Activation State & Assessing Network Activity
 
@@ -78,11 +79,11 @@ The gaussian mixture model employs all measures to infer periods of reliable dis
 
 Many built-in MATLAB functions are implemented using efficient multi-threaded procedures, and these are used to the extent that they can be. However, for procedures that must operate on data in irregular formats (i.e. any format other than N-dimensional arrays of primitive data types), one also has the option of performing explicitly defined parallel operations by distributing data across multiple parallel processes, each with their own memory space. Below I give examples of how implementing in a multi-threaded fashion can substantially boost performance, and also an example of a situation where multi-threaded operations aren't possible without explicit calls for parallel distribution.
 
-Standard elementwise operators like *plus* (+) and *times* (.\*), as well as comparison operators like *equals* (==) and *less-than* (&lt;) will be performed efficiently using as many processing cores as available when applied to large n-dimensional arrays of the same size. However, when operand sizes differ a simple call to the built-in operation will not work. For example, if we wish to subtract the average from each pixel over time from all frames in the series we can accomplish this with a call to MATLAB's *bsxfun* function, which stands for Binary-Singleton-eXpansion-FUNction, as shown below:
+Standard elementwise operators like _plus_ (+) and _times_ (.\*), as well as comparison operators like _equals_ (==) and _less-than_ (&lt;) will be performed efficiently using as many processing cores as available when applied to large n-dimensional arrays of the same size. However, when operand sizes differ a simple call to the built-in operation will not work. For example, if we wish to subtract the average from each pixel over time from all frames in the series we can accomplish this with a call to MATLAB's _bsxfun_ function, which stands for Binary-Singleton-eXpansion-FUNction, as shown below:
 
-''' {.matlab}
+''' .matlab
 
-      Fmeansub = bsxfun( @minus, F, mean(F,3) ); 
+      Fmeansub = bsxfun( @minus, F, mean(F,3) );
 
 '''
 
@@ -96,26 +97,26 @@ Building the set of functions for offline processing enabled application to data
 
 #### Computing Power and Connectivity
 
--   Remote Clusters (AWS)
--   Graphics Processing Units (NVIDIA GTX)
--   Embedded Units (NVIDIA Tegra X2) 2. Well developed libraries
--   ImageJ (so so)
--   OpenCV (uses OpenCL)
--   GStreamer (much better)
--   OpenGL
--   Shader
+- Remote Clusters (AWS)
+- Graphics Processing Units (NVIDIA GTX)
+- Embedded Units (NVIDIA Tegra X2) 2. Well developed libraries
+- ImageJ (so so)
+- OpenCV (uses OpenCL)
+- GStreamer (much better)
+- OpenGL
+- Shader
 
 #### Image Processing
 
--   Motion Correction
--   Image Enhancement
+- Motion Correction
+- Image Enhancement
 
 #### Motion Correction Two approaches to find displacement
 
 #### Spatially Homogeneous phase correlation
 
--   aka normalized cross correlation - Feature Matching
--   Detect features (i.e. corners) \#\#\#\# Triangulate best
+- aka normalized cross correlation - Feature Matching
+- Detect features (i.e. corners) \#\#\#\# Triangulate best
 
 #### Image Enhancement
 
@@ -127,9 +128,9 @@ Building the set of functions for offline processing enabled application to data
 
 1.  Feature images (temporally independent)
 
--   Gradients - Surface Curvature 2. Long Term Memory - Statistics
-    -   changes (single pixel)
--   Mutual information changes (inter-pixel)
+- Gradients - Surface Curvature 2. Long Term Memory - Statistics
+  - changes (single pixel)
+- Mutual information changes (inter-pixel)
 
 #### Acceleration and Optimization Procedures for Online Video Processing
 
@@ -137,25 +138,25 @@ Building the set of functions for offline processing enabled application to data
 
 ##### central moments
 
-``` {.matlab}
+```.matlab
       function [m1,m2,m3,m4,fmin,fmax] = updateStatistics(x,m1,m2,m3,m4))
             n = n + 1;
-            
+
             % GET PIXEL SAMPLE
             f = F(rowIdx,colIdx,k);
-            
+
             % PRECOMPUTE & CACHE SOME VALUES FOR SPEED
             d = single(f) - m1;
             dk = d/n;
             dk2 = dk^2;
             s = d*dk*(n-1);
-            
+
             % UPDATE CENTRAL MOMENTS
             m1 = m1 + dk;
             m4 = m4 + s*dk2*(n.^2-3*n+3) + 6*dk2*m2 - 4*dk*m3;
             m3 = m3 + s*dk*(n-2) - 3*dk*m2;
             m2 = m2 + s;
-            
+
             % UPDATE MIN & MAX
             fmin = min(fmin, f);
             fmax = max(fmax, f);
@@ -164,47 +165,47 @@ Building the set of functions for offline processing enabled application to data
 
 ##### Extract Features
 
-``` {.matlab}
+```.matlab
 
       function [dm1,dm2,dm3,dm4] = getStatisticUpdate(x,m1,m2,m3,m4)
             % COMPUTE DIFFERENTIAL UPDATE TO CENTRAL MOMENTS
             dm1 = dk;
             m1 = m1 + dm1;
-            dm4 = s*dk2*(n^2-3*n+3) + 6*dk2*m2 - 4*dk*m3;   
+            dm4 = s*dk2*(n^2-3*n+3) + 6*dk2*m2 - 4*dk*m3;
             dm3 = s*dk*(n-2) - 3*dk*m2;
             dm2 = s;
             m2 = m2 + dm2;
-            % NORMALIZE BY VARIANCE & SAMPLE NUMBER -> CONVERSION TO dVar, dSkew, dKurt   
+            % NORMALIZE BY VARIANCE & SAMPLE NUMBER -> CONVERSION TO dVar, dSkew, dKurt
             dm2 = dm2/max(1,n-1);
             dm3 = dm3*sqrt(max(1,n))/(m2^1.5);
-            dm4 = dm4*n/(m2^2);                 
+            dm4 = dm4*n/(m2^2);
       end
 ```
 
 #### Simple Processing on GPU
 
-``` {.matlab}
+```.matlab
       [dm1,dm2,dm3,dm4] = arrayfun(@getStatisticUpdate(x,m1,m2,m3,m4)
       [dm1,dm2,dm3,dm4] = arrayfun(@getStatisticUpdate(rowidx,colidx)
 ```
 
 ##### Alternative Libraries
 
--   [NVIDIA Performance Primitives](https://developer.nvidia.com/npp)
--   [OpenCV](https://developer.nvidia.com/opencv)
--   [VLFeat](http://www.vlfeat.org/)
--   OpenGL
--   OpenCL
--   OpenVX
--   CLosedDoesNotExist (...?)
--   Shader Languages
--   GLSL
--   HLSL
--   WebGL
--   Halide
--   -   FFmpeg
+- [NVIDIA Performance Primitives](https://developer.nvidia.com/npp)
+- [OpenCV](https://developer.nvidia.com/opencv)
+- [VLFeat](http://www.vlfeat.org/)
+- OpenGL
+- OpenCL
+- OpenVX
+- CLosedDoesNotExist (...?)
+- Shader Languages
+- GLSL
+- HLSL
+- WebGL
+- Halide
+- - FFmpeg
 
--   GStreamer
+- GStreamer
 
 ## Choice of Interface
 
@@ -220,15 +221,15 @@ Not always, no. While concurrent processing of independent tasks or sequentially
 
 #### Choice of Operations
 
--   What is the goal?
--   Is it effective?
--   Is the computation cost worth the result?
--   Are there side-effects or artifacts?
--   Can they be reliably controlled or accounted for?
+- What is the goal?
+- Is it effective?
+- Is the computation cost worth the result?
+- Are there side-effects or artifacts?
+- Can they be reliably controlled or accounted for?
 
 #### Motion Correction
 
-In our application, the goal of a motion correction operation is to artificially suppress translation of the brain tissue parallel to the image plane. *Phase-Correlation* (also referred to as *normalized cross-correlation*) has consistent performance across a range of image sources with varying spatial noise characteristics. However, a large non-uniform change from reference frames - such as occurs when cells with low baseline fluourescence are first activated - can cause drastic errors that must be recognized and corrected by a supervisory procedure. This can induce an undesirable, unpredicatable, and specifically inopportune latency Unfortunately in all the whole pipeline.
+In our application, the goal of a motion correction operation is to artificially suppress translation of the brain tissue parallel to the image plane. _Phase-Correlation_ (also referred to as _normalized cross-correlation_) has consistent performance across a range of image sources with varying spatial noise characteristics. However, a large non-uniform change from reference frames - such as occurs when cells with low baseline fluourescence are first activated - can cause drastic errors that must be recognized and corrected by a supervisory procedure. This can induce an undesirable, unpredicatable, and specifically inopportune latency Unfortunately in all the whole pipeline.
 
 Unfortunately, "Globally Asynchronous Locally Synchronous"
 
@@ -238,8 +239,8 @@ The phase correlation method of \#\#\#\#\# Motion Estimation - cost: 2-10 ms/fra
 
 ##### Motion Compensation & Interpolation
 
--   cost: 400-800 us/frame
--   Requires infill with nearby or prior pixel values if frame size is to be maintained
+- cost: 400-800 us/frame
+- Requires infill with nearby or prior pixel values if frame size is to be maintained
 
 #### Survey of Alternative Strategies
 
@@ -247,7 +248,7 @@ The phase correlation method of \#\#\#\#\# Motion Estimation - cost: 2-10 ms/fra
 
 #### EfficientCode
 
--   Scalable - Reusable - Make it MODULAR
--   
+- Scalable - Reusable - Make it MODULAR
+-
 
 #### Operation
