@@ -4,3 +4,12 @@
 [submodule "thesis"]
 	path = thesis
 	url = git@bitbucket.org:markbucklin/thesis.git
+[submodule "media/images"]
+	path = media/images
+	url = git@bitbucket.org:markbucklin/images.git
+[submodule "manuscripts"]
+	path = manuscripts
+	url = git@bitbucket.org:markbucklin/manuscripts.git
+[submodule "templates"]
+	path = templates
+	url = git@bitbucket.org:markbucklin/templates.git
